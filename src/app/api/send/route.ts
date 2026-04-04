@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     // 1. Send Admin Notification
     const adminEmail = await resend.emails.send({
-      from: 'AinZ Studio <onboarding@resend.dev>', // Should be updated to verified domain in production
+      from: 'AinZ Studio Leads <enquiry@ainz.space>',
       to: 'ainz.mhr@gmail.com',
       subject: `New Wedding Enquiry: ${name}`,
       html: `
@@ -34,7 +34,7 @@ export async function POST(request: Request) {
 
     // 2. Send Customer Receipt
     const customerEmail = await resend.emails.send({
-      from: 'AinZ Studio <onboarding@resend.dev>', // Should be updated to verified domain in production
+      from: 'AinZ Studio <hello@ainz.space>',
       to: email,
       subject: 'Thank you for contacting AinZ Studio',
       html: `
@@ -71,9 +71,19 @@ export async function POST(request: Request) {
       `,
     });
 
-    return NextResponse.json({ success: true, adminEmailId: adminEmail.data?.id, customerEmailId: customerEmail.data?.id });
+    console.log('Admin Email Response:', adminEmail);
+    console.log('Customer Email Response:', customerEmail);
+
+    return NextResponse.json({ 
+      success: true, 
+      adminId: adminEmail.data?.id, 
+      customerId: customerEmail.data?.id 
+    });
   } catch (error) {
-    console.error('Error sending email:', error);
-    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
+    console.error('CRITICAL Resend API Error:', error);
+    return NextResponse.json({ 
+      error: 'Failed to send email', 
+      details: error instanceof Error ? error.message : 'Unknown error' 
+    }, { status: 500 });
   }
 }
