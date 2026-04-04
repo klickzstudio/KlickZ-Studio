@@ -43,4 +43,5 @@ export interface BlogPost {
   title: string
   excerpt: string
   href: string
+  publishedAt: string
 }

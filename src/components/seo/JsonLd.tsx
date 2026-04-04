@@ -1,19 +1,24 @@
-export function JsonLd() {
-  const schema = {
+interface JsonLdProps {
+  type?: 'LocalBusiness' | 'Article' | 'ImageGallery'
+  data?: any
+}
+
+export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ainz.space'
+
+  let schema: any = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "Photographer"],
     "name": "AinZ Studio",
-    "founder": {
-      "@type": "Person",
-      "name": "Mohammed Habi bur Rahman N"
-    },
-    "description": "Professional wedding photographers in Chennai and Coimbatore. 750+ weddings, destination photography, pre-wedding shoots.",
-    "url": "https://ainz.space",
-    "telephone": ["+91-98765-43210"],
-    "email": "contact@ainz.space",
+    "image": `${baseUrl}/icon.png`,
+    "url": baseUrl,
+    "telephone": "+91-98765-43210",
+    "priceRange": "₹₹₹",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "No. 123, Sample Street",
       "addressLocality": "Chennai",
+      "postalCode": "600001",
       "addressRegion": "Tamil Nadu",
       "addressCountry": "IN"
     },
@@ -22,17 +27,50 @@ export function JsonLd() {
       "latitude": 13.0827,
       "longitude": 80.2707
     },
-    "openingHours": "Mo-Su 09:00-20:00",
-    "priceRange": "₹₹₹",
-    "image": "https://ainz.space/images/logo/ainz-studio.png",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+        "Sunday"
+      ],
+      "opens": "09:00",
+      "closes": "20:00"
+    },
     "sameAs": [
       "https://www.facebook.com/AinZStudio",
       "https://www.instagram.com/AinZStudio/"
-    ],
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "5",
-      "reviewCount": "743"
+    ]
+  }
+
+  if (type === 'Article' && data) {
+    schema = {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": data.title,
+      "image": [data.image],
+      "datePublished": data.publishedAt,
+      "dateModified": data.updatedAt || data.publishedAt,
+      "author": [{
+        "@type": "Person",
+        "name": data.author || "AinZ Studio",
+        "url": baseUrl
+      }]
+    }
+  }
+
+  if (type === 'ImageGallery' && data) {
+    schema = {
+      "@context": "https://schema.org",
+      "@type": "ImageGallery",
+      "name": data.title,
+      "description": data.description,
+      "url": `${baseUrl}/portfolio/${data.slug}`,
+      "image": data.images
     }
   }
 

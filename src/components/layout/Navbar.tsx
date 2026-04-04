@@ -128,6 +128,7 @@ export function Navbar() {
             <button
               onClick={() => setIsInfoOpen(true)}
               className="flex items-center gap-2.5 xl:gap-3 group transition-colors duration-300"
+              aria-label="Open information panel"
             >
               <span className="font-lato text-[10.5px] xl:text-[11px] uppercase tracking-[0.2em] text-white/80 group-hover:text-[#C9A96E]">
                 INFO
@@ -166,6 +167,7 @@ export function Navbar() {
               <button
                 onClick={() => setIsInfoOpen(false)}
                 className="absolute top-8 right-8 text-white/40 hover:text-[#C9A96E] transition-colors p-2"
+                aria-label="Close information panel"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2">
                   <path d="M18 6L6 18M6 6l12 12" />
