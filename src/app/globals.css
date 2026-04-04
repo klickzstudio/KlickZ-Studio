@@ -1,0 +1,140 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #1a1a1a;
+
+  --font-cormorant: var(--font-cormorant);
+  --font-lato: var(--font-lato);
+  --font-playfair: var(--font-playfair);
+
+  /* Gold palette */
+  --color-gold: #C9A96E;
+  --color-gold-light: #E8D5B0;
+  --color-gold-dark: #A07840;
+
+  /* Mystic palette */
+  --color-mystic-black: #0A0A0A;
+  --color-mystic-dark: #1A1A1A;
+  --color-mystic-gray: #555555;
+  --color-mystic-muted: #888888;
+  --color-mystic-cream: #F5F0E8;
+  --color-mystic-warm: #F9F6F2;
+
+  /* Spacing / Transitions */
+  --transition-400: 400ms;
+  --transition-600: 600ms;
+  --transition-800: 800ms;
+}
+
+:root {
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-off-white: #F8F5F0;
+  --color-cream: #F5F0E8;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #555555;
+  --color-text-muted: #888888;
+  --color-text-light: #CCCCCC;
+  --color-text-white: #FFFFFF;
+  --color-gold: #C9A96E;
+  --color-gold-light: #E8D5B0;
+  --color-gold-dark: #A07840;
+  --color-bg-dark: #0A0A0A;
+  --color-bg-section: #F9F6F2;
+  --color-bg-overlay: rgba(0,0,0,0.45);
+  --color-border-light: rgba(255,255,255,0.15);
+  --color-border-dark: rgba(0,0,0,0.10);
+  --color-border-gold: rgba(201,169,110,0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-lato), Helvetica, sans-serif;
+  color: var(--color-text-primary);
+  background: var(--color-white);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+/* Gold underline hover effect */
+.hover-gold-underline {
+  position: relative;
+}
+.hover-gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #C9A96E;
+  transition: width 0.3s ease;
+}
+.hover-gold-underline:hover::after {
+  width: 100%;
+}
+
+/* Section divider line */
+.section-divider {
+  width: 60px;
+  height: 1px;
+  background: #C9A96E;
+  margin: 1rem auto;
+}
+
+/* Hero overlay gradient */
+.hero-overlay {
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.2) 0%,
+    rgba(0,0,0,0.4) 60%,
+    rgba(0,0,0,0.65) 100%
+  );
+}
+
+/* Ticker text style */
+.ticker-text {
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-family: var(--font-lato), Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 0.75rem;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0A;
+}
+::-webkit-scrollbar-thumb {
+  background: #C9A96E;
+  border-radius: 3px;
+}
+
+/* WhatsApp pulse animation */
+@keyframes whatsapp-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+  }
+}
+
+.whatsapp-pulse {
+  animation: whatsapp-pulse 3s infinite;
+}
