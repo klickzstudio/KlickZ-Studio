@@ -69,7 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <WhatsAppCTA phoneNumber="919876543210" />
+        <WhatsAppCTA phoneNumber="919841080909" />
         <Analytics />
         <SpeedInsights />
       </body>

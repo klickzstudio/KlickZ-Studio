@@ -228,8 +228,8 @@ export default function ContactPage() {
                     <h3 className="font-lato text-[12px] uppercase tracking-[0.15em] text-[#888888] mb-2">
                       Phone
                     </h3>
-                    <a href="tel:+919876543210" className="block font-lato text-[16px] text-[#1A1A1A] hover:text-[#C9A96E] transition-colors">
-                      +91 98765 43210
+                    <a href="tel:+919841080909" className="block font-lato text-[16px] text-[#1A1A1A] hover:text-[#C9A96E] transition-colors">
+                      +91 98410 80909
                     </a>
                   </div>
 
@@ -237,8 +237,8 @@ export default function ContactPage() {
                     <h3 className="font-lato text-[12px] uppercase tracking-[0.15em] text-[#888888] mb-2">
                       Email
                     </h3>
-                    <a href="mailto:contact@ainz.space" className="font-lato text-[16px] text-[#C9A96E] hover:underline">
-                      contact@ainz.space
+                    <a href="mailto:ainz.mhr@gmail.com" className="font-lato text-[16px] text-[#C9A96E] hover:underline">
+                      ainz.mhr@gmail.com
                     </a>
                   </div>
 

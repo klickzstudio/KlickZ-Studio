@@ -209,8 +209,8 @@ export function Navbar() {
                     </div>
                     <div>
                       <span className="block font-lato text-[10px] uppercase text-white/30 mb-3 font-semibold tracking-[0.2em]">Email</span>
-                      <a href="mailto:contact@ainz.space" className="font-cormorant text-2xl text-white hover:text-[#C9A96E] transition-colors underline underline-offset-8 decoration-white/10 decoration-1 hover:decoration-[#C9A96E]">
-                        contact@ainz.space
+                      <a href="mailto:ainz.mhr@gmail.com" className="font-cormorant text-2xl text-white hover:text-[#C9A96E] transition-colors underline underline-offset-8 decoration-white/10 decoration-1 hover:decoration-[#C9A96E]">
+                        ainz.mhr@gmail.com
                       </a>
                     </div>
                   </div>

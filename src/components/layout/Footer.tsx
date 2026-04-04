@@ -26,10 +26,10 @@ export function Footer() {
             Follow Us
           </span>
           <a
-            href="mailto:contact@ainz.space"
+            href="mailto:ainz.mhr@gmail.com"
             className="font-lato text-[13px] text-[#C9A96E] hover:underline transition-colors"
           >
-            contact@ainz.space
+            ainz.mhr@gmail.com
           </a>
         </div>
       </div>
@@ -52,10 +52,10 @@ export function Footer() {
           {/* Phone numbers */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-10">
             <a
-              href="tel:+919876543210"
+              href="tel:+919841080909"
               className="font-lato text-[14px] text-white hover:text-[#C9A96E] transition-colors tracking-wider"
             >
-              +91 98765 43210
+              +91 98410 80909
             </a>
           </div>
 

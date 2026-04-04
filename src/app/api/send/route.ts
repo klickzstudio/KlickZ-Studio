@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     // 1. Send Admin Notification
     const adminEmail = await resend.emails.send({
       from: 'AinZ Studio <onboarding@resend.dev>', // Should be updated to verified domain in production
-      to: 'contact@ainz.space',
+      to: 'ainz.mhr@gmail.com',
       subject: `New Wedding Enquiry: ${name}`,
       html: `
         <div style="font-family: sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px;">
