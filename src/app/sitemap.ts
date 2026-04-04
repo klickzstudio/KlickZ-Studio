@@ -31,14 +31,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }))
 
   const portfolioRoutes = portfolioItems.map((item: any) => ({
-    url: `${baseUrl}/portfolio/${item.slug}`,
+    url: `${baseUrl}/portfolio/${item.slug.replace(/&/g, '&amp;')}`,
     lastModified: item._updatedAt ? new Date(item._updatedAt) : new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.6,
   }))
 
   const blogRoutes = blogPosts.map((post: any) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
+    url: `${baseUrl}/blog/${post.slug.replace(/&/g, '&amp;')}`,
     lastModified: post._updatedAt ? new Date(post._updatedAt) : new Date(),
     changeFrequency: 'monthly' as const,
     priority: 0.5,
