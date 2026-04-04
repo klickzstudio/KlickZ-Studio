@@ -3,6 +3,10 @@ export function JsonLd() {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "Photographer"],
     "name": "AinZ Studio",
+    "founder": {
+      "@type": "Person",
+      "name": "Mohammed Habi bur Rahman N"
+    },
     "description": "Professional wedding photographers in Chennai and Coimbatore. 750+ weddings, destination photography, pre-wedding shoots.",
     "url": "https://ainz.space",
     "telephone": ["+91-98765-43210"],

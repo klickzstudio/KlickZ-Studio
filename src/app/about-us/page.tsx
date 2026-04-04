@@ -32,7 +32,8 @@ export default function AboutUsPage() {
               </h2>
               <div className="w-[60px] h-[1px] bg-[#C9A96E] mb-6" />
               <p className="font-lato text-base font-light text-[#555555] leading-[1.8] mb-6">
-                AinZ Studio is one of India&apos;s leading wedding photography companies, founded with a
+                AinZ Studio is one of India&apos;s leading wedding photography companies, founded by
+                <strong className="font-semibold text-[#1A1A1A]"> Mohammed Habi bur Rahman N</strong> with a
                 passion for storytelling through the lens. With over 15 years of experience and 750+
                 weddings captured, we have built a reputation for creating timeless, emotive imagery
                 that celebrates love in its purest form.

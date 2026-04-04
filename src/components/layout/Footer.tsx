@@ -109,12 +109,12 @@ export function Footer() {
           <p className="font-lato text-[12px] text-white/50">
             Powered by{' '}
             <a
-              href="https://itechindia.co/"
+              href="https://ainz.space"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#C9A96E] hover:underline"
             >
-              iTech
+              AinZ
             </a>
           </p>
         </div>
