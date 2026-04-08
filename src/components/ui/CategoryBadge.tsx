@@ -9,3 +9,4 @@ export function CategoryBadge({ label }: CategoryBadgeProps) {
     </span>
   )
 }
+

@@ -3,6 +3,7 @@ import { cormorant, lato, playfair } from '@/lib/fonts'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { WhatsAppCTA } from '@/components/layout/WhatsAppCTA'
+import { ScrollToTop } from '@/components/ui/ScrollToTop'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
@@ -13,24 +14,24 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ainz.space'
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'Professional Wedding Photographers in Chennai | AinZ Studio',
-    template: '%s | AinZ Studio'
+    default: 'Professional Wedding Photographers in Chennai | KLICKZSTUDIO',
+    template: '%s | KLICKZSTUDIO'
   },
-  description: 'AinZ Studio — Award-winning wedding photographers in Chennai and Coimbatore. 750+ weddings captured. Candid, destination, pre-wedding photography.',
-  keywords: 'wedding photographer chennai, candid wedding photography, ainz studio, wedding photographer coimbatore, destination wedding india',
-  authors: [{ name: 'AinZ Studio' }],
-  creator: 'AinZ Studio',
-  publisher: 'AinZ Studio',
+  description: 'KLICKZSTUDIO — Award-winning wedding photographers in Chennai and Coimbatore. 750+ weddings captured. Candid, destination, pre-wedding photography.',
+  keywords: 'wedding photographer chennai, candid wedding photography, KLICKZSTUDIO, wedding photographer coimbatore, destination wedding india',
+  authors: [{ name: 'KLICKZSTUDIO' }],
+  creator: 'KLICKZSTUDIO',
+  publisher: 'KLICKZSTUDIO',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
   openGraph: {
-    title: 'AinZ Studio | Wedding Photographers Chennai',
+    title: 'KLICKZSTUDIO | Wedding Photographers Chennai',
     description: 'Award-winning wedding photography capturing love stories across India and the world.',
     url: baseUrl,
-    siteName: 'AinZ Studio',
+    siteName: 'KLICKZSTUDIO',
     locale: 'en_IN',
     type: 'website',
     images: [
@@ -38,13 +39,13 @@ export const metadata: Metadata = {
         url: '/icon.png',
         width: 512,
         height: 512,
-        alt: 'AinZ Studio Logo',
+        alt: 'KLICKZSTUDIO Logo',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AinZ Studio | Wedding Photographers',
+    title: 'KLICKZSTUDIO | Wedding Photographers',
     description: 'Capturing your special moments with artistic finesse.',
     images: ['/icon.png'],
   },
@@ -70,9 +71,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main>{children}</main>
         <Footer />
         <WhatsAppCTA phoneNumber="919841080909" />
+        <ScrollToTop />
         <Analytics />
         <SpeedInsights />
       </body>
     </html>
   )
 }
+

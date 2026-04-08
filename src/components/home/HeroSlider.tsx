@@ -19,3 +19,4 @@ export async function HeroSlider() {
 
   return <HeroSliderClient initialSlides={initialSlides} />
 }
+

@@ -9,7 +9,7 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
   let schema: any = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "Photographer"],
-    "name": "AinZ Studio",
+    "name": "KLICKZSTUDIO",
     "image": `${baseUrl}/icon.png`,
     "url": baseUrl,
     "telephone": "+91-98765-43210",
@@ -42,8 +42,8 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
       "closes": "20:00"
     },
     "sameAs": [
-      "https://www.facebook.com/AinZStudio",
-      "https://www.instagram.com/AinZStudio/"
+      "https://www.facebook.com/KLICKZSTUDIO",
+      "https://www.instagram.com/KLICKZSTUDIO/"
     ]
   }
 
@@ -57,7 +57,7 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
       "dateModified": data.updatedAt || data.publishedAt,
       "author": [{
         "@type": "Person",
-        "name": data.author || "AinZ Studio",
+        "name": data.author || "KLICKZSTUDIO",
         "url": baseUrl
       }]
     }
@@ -81,3 +81,4 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
     />
   )
 }
+

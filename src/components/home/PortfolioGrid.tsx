@@ -14,6 +14,21 @@ export async function PortfolioGrid() {
   }
 
   const initialItems = items && items.length > 0 ? items : staticItems
+  
+  // Filter out unwanted items
+  let filteredItems = initialItems.filter(item => {
+    const lowerTitle = item.title.toLowerCase()
+    if (lowerTitle.includes('pollachi') || lowerTitle.includes('coimbatore') || lowerTitle.includes('new jersey')) return false
+    if (lowerTitle.includes('post-wedding')) return false
+    if (item.href === '/films' || lowerTitle.includes('film')) return false
+    return true
+  })
 
-  return <PortfolioGridClient initialItems={initialItems} />
+  // Fallback to static items if everything was filtered out
+  if (filteredItems.length === 0) {
+    filteredItems = staticItems
+  }
+
+  return <PortfolioGridClient initialItems={filteredItems} />
 }
+

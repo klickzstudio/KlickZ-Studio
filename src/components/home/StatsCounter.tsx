@@ -12,30 +12,25 @@ export function StatsCounter() {
   })
 
   return (
-    <section className="py-20 md:py-28 bg-[#F9F6F2]" id="stats" ref={ref}>
+    <section className="py-24 md:py-36 bg-[#FDFCFB] border-y border-[#F9F6F2]" id="stats" ref={ref}>
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-4">
-          {stats.map((stat, idx) => (
-            <ScrollReveal key={idx} delay={idx * 0.1} className="text-center">
-              <div className="font-cormorant text-5xl md:text-6xl lg:text-[72px] font-bold text-[#C9A96E] mb-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-y-16 gap-x-8">
+          {stats.slice(0, 4).map((stat, idx) => (
+            <ScrollReveal key={idx} delay={idx * 0.1} className="text-center group">
+              <div className="font-cormorant text-5xl md:text-6xl lg:text-[72px] font-light text-[#1A1A1A] mb-4 transition-colors duration-500 group-hover:text-[#C9A96E]">
                 {inView ? (
                   <CountUp
                     end={stat.number}
-                    duration={2.5}
+                    duration={3}
                     separator=","
                     suffix={stat.suffix || ''}
-                    easingFn={(t, b, c, d) => {
-                      // easeOutCubic
-                      t /= d
-                      t--
-                      return c * (t * t * t + 1) + b
-                    }}
                   />
                 ) : (
                   '0'
                 )}
               </div>
-              <p className="font-lato text-[12px] uppercase tracking-[0.2em] text-[#888888]">
+              <div className="w-[30px] h-[1px] bg-[#C9A96E]/30 mx-auto mb-4 transition-all duration-500 group-hover:w-[50px] group-hover:bg-[#C9A96E]" />
+              <p className="font-lato text-[11px] uppercase tracking-[0.3em] text-[#888888] group-hover:text-[#555] transition-colors duration-500">
                 {stat.label}
               </p>
             </ScrollReveal>
@@ -45,3 +40,4 @@ export function StatsCounter() {
     </section>
   )
 }
+

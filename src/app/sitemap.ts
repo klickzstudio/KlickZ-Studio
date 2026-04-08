@@ -13,15 +13,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes = [
     '',
-    '/about-us',
+    '/best-wedding-photographers-in-chennai',
     '/contact',
-    '/films',
-    '/wedding',
-    '/pre-wedding-photography',
-    '/post-wedding-photography',
-    '/maternity',
-    '/fashion-photography',
-    '/poetry',
+    '/best-candid-wedding-photography-chennai',
+    '/best-pre-wedding-photographers-in-chennai',
+    '/engagement-photography-chennai',
+    '/maternity-photography-chennai',
+    '/fashion-photography-chennai',
     '/blog',
   ].map((route) => ({
     url: `${baseUrl}${route}`,
@@ -46,3 +44,4 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticRoutes, ...portfolioRoutes, ...blogRoutes]
 }
+

@@ -13,12 +13,12 @@ export function InstagramFeed() {
 
         <div className="text-center mb-10">
           <a
-            href="https://www.instagram.com/AinZStudio/"
+            href="https://www.instagram.com/KLICKZSTUDIO/"
             target="_blank"
             rel="noopener noreferrer"
             className="font-lato text-[14px] text-[#C9A96E] hover:underline transition-colors"
           >
-            @AinZStudio
+            @KLICKZSTUDIO
           </a>
         </div>
 
@@ -58,7 +58,7 @@ export function InstagramFeed() {
 
         <div className="text-center mt-10">
           <a
-            href="https://www.instagram.com/AinZStudio/"
+            href="https://www.instagram.com/KLICKZSTUDIO/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block font-lato text-[13px] uppercase tracking-[0.15em] border border-[#1A1A1A] text-[#1A1A1A] px-8 py-3.5 hover:bg-[#1A1A1A] hover:text-white transition-all duration-400"
@@ -70,3 +70,4 @@ export function InstagramFeed() {
     </section>
   )
 }
+

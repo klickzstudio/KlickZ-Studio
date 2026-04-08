@@ -22,3 +22,4 @@ export const playfair = Playfair_Display({
   variable: '--font-playfair',
   display: 'swap',
 })
+

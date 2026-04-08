@@ -40,7 +40,7 @@ export function Footer() {
           {/* Logo */}
           <div className="mb-8">
             <span className="font-cormorant text-3xl font-light tracking-[0.15em] text-white">
-              AINZ STUDIO
+              KLICKZSTUDIO
             </span>
           </div>
 
@@ -62,7 +62,7 @@ export function Footer() {
           {/* Social Icons */}
           <div className="flex items-center justify-center gap-6 mb-10">
             <a
-              href="https://www.facebook.com/AinZStudio"
+              href="https://www.facebook.com/KLICKZSTUDIO"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300"
@@ -73,7 +73,7 @@ export function Footer() {
               </svg>
             </a>
             <a
-              href="https://www.instagram.com/AinZStudio/"
+              href="https://www.instagram.com/KLICKZSTUDIO/"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300"
@@ -104,7 +104,7 @@ export function Footer() {
       <div className="border-t border-white/10 py-5">
         <div className="max-w-[1400px] mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-2">
           <p className="font-lato text-[12px] text-white/50">
-            © Copyrights AinZ Studio. All Rights Reserved.
+            © Copyrights KLICKZSTUDIO. All Rights Reserved.
           </p>
           <p className="font-lato text-[12px] text-white/50">
             Powered by{' '}
@@ -122,3 +122,4 @@ export function Footer() {
     </footer>
   )
 }
+

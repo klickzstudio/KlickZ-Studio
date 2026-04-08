@@ -10,3 +10,4 @@ export const client = createClient({
   token,
   perspective: 'published',
 })
+

@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     // 1. Send Admin Notification
     const adminEmail = await resend.emails.send({
-      from: 'AinZ Studio Leads <enquiry@ainz.space>',
+      from: 'KLICKZSTUDIO Leads <enquiry@ainz.space>',
       to: 'ainz.mhr@gmail.com',
       subject: `New Wedding Enquiry: ${name}`,
       html: `
@@ -27,20 +27,20 @@ export async function POST(request: Request) {
           <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #C9A96E;">
             ${message.replace(/\n/g, '<br>')}
           </div>
-          <p style="margin-top: 20px; font-size: 12px; color: #888;">Submitted via Ainz Studio Contact Form</p>
+          <p style="margin-top: 20px; font-size: 12px; color: #888;">Submitted via KLICKZSTUDIO Contact Form</p>
         </div>
       `,
     });
 
     // 2. Send Customer Receipt
     const customerEmail = await resend.emails.send({
-      from: 'AinZ Studio <hello@ainz.space>',
+      from: 'KLICKZSTUDIO <hello@ainz.space>',
       to: email,
-      subject: 'Thank you for contacting AinZ Studio',
+      subject: 'Thank you for contacting KLICKZSTUDIO',
       html: `
         <div style="font-family: 'Times New Roman', serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; padding: 40px; background-color: #ffffff; border: 1px solid #F5F0E8;">
           <div style="text-align: center; margin-bottom: 40px;">
-            <h1 style="font-size: 28px; font-weight: 300; letter-spacing: 0.2em; color: #1a1a1a; margin: 0;">AINZ STUDIO</h1>
+            <h1 style="font-size: 28px; font-weight: 300; letter-spacing: 0.2em; color: #1a1a1a; margin: 0;">KLICKZSTUDIO</h1>
             <div style="width: 40px; height: 1px; background-color: #C9A96E; margin: 20px auto;"></div>
             <p style="font-family: sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3em; color: #888888; margin: 0;">Wedding Photography</p>
           </div>
@@ -59,12 +59,12 @@ export async function POST(request: Request) {
             <p style="font-family: sans-serif; font-size: 14px; font-weight: 300; color: #1a1a1a; margin-bottom: 20px;">
               A member of our team will get in touch with you within 24-48 hours.
             </p>
-            <a href="https://www.instagram.com/AinZStudio/" style="display: inline-block; padding: 12px 25px; background-color: #C9A96E; color: #ffffff; text-decoration: none; font-family: sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">View Our Latest Work</a>
+            <a href="https://www.instagram.com/KLICKZSTUDIO/" style="display: inline-block; padding: 12px 25px; background-color: #C9A96E; color: #ffffff; text-decoration: none; font-family: sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;">View Our Latest Work</a>
           </div>
           
           <div style="border-top: 1px solid #F5F0E8; padding-top: 30px; margin-top: 40px; text-align: center;">
             <p style="font-family: sans-serif; font-size: 12px; font-weight: 300; color: #888888; margin: 0;">
-              AinZ Studio &bull; Chennai &bull; Coimbatore
+              KLICKZSTUDIO &bull; Chennai &bull; Coimbatore
             </p>
           </div>
         </div>
@@ -87,3 +87,4 @@ export async function POST(request: Request) {
     }, { status: 500 });
   }
 }
+

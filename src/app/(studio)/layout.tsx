@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'AinZ Studio - CMS',
+  title: 'KLICKZSTUDIO - CMS',
   description: 'Manage your photography portfolio content.',
 }
 
@@ -14,3 +14,4 @@ export default function StudioLayout({
     </html>
   )
 }
+

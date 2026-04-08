@@ -17,3 +17,4 @@ export async function TestimonialsSlider() {
 
   return <TestimonialsSliderClient initialTestimonials={initialTestimonials} />
 }
+

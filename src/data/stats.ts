@@ -7,3 +7,4 @@ export const stats: StatItem[] = [
   { number: 54, label: 'Destinations' },
   { number: 954, label: 'ceremonies' },
 ]
+

@@ -39,3 +39,4 @@ export function PageHero({ title, subtitle, backgroundImage }: PageHeroProps) {
     </section>
   )
 }
+

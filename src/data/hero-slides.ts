@@ -47,3 +47,4 @@ export const heroSlides: HeroSlide[] = [
     subheading: "let's make it last forever.",
   },
 ]
+

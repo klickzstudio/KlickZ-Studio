@@ -6,7 +6,7 @@ interface WhatsAppCTAProps {
 
 export function WhatsAppCTA({ phoneNumber }: WhatsAppCTAProps) {
   const message = encodeURIComponent(
-    'Hi AinZ Studio, I would like to enquire about your wedding photography packages.'
+    'Hi KLICKZSTUDIO, I would like to enquire about your wedding photography packages.'
   )
 
   return (
@@ -23,3 +23,4 @@ export function WhatsAppCTA({ phoneNumber }: WhatsAppCTAProps) {
     </a>
   )
 }
+

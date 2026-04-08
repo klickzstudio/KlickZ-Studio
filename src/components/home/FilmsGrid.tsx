@@ -11,11 +11,6 @@ export function FilmsGrid() {
   return (
     <section className="py-20 md:py-28 bg-[#0A0A0A]" id="films">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <SectionTitle
-          title="Redefining Wedding Films through Story Telling"
-          subtitle="Our wedding films are tailor made for your big day. We make it feel more personal and earthy to you, with real emotions and sounds captured through candid moments."
-          light
-        />
 
         <div className="columns-1 md:columns-2 gap-4 mt-12">
           {filmItems.map((film, idx) => (
@@ -55,3 +50,4 @@ export function FilmsGrid() {
     </section>
   )
 }
+

@@ -30,3 +30,4 @@ export function SectionTitle({ title, subtitle, light = false, className = '' }:
     </ScrollReveal>
   )
 }
+

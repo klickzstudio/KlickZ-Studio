@@ -12,9 +12,9 @@ export async function GET() {
   const feed = `<?xml version="1.0" encoding="UTF-8" ?>
     <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
       <channel>
-        <title>AinZ Studio Blog</title>
+        <title>KLICKZSTUDIO Blog</title>
         <link>${baseUrl}</link>
-        <description>Wedding Photography &amp; Cinematography Inspiration from AinZ Studio</description>
+        <description>Wedding Photography &amp; Cinematography Inspiration from KLICKZSTUDIO</description>
         <language>en-us</language>
         <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
         <atom:link href="${baseUrl}/feed.xml" rel="self" type="application/rss+xml" />
@@ -28,7 +28,7 @@ export async function GET() {
                 <guid isPermaLink="true">${url}</guid>
                 <pubDate>${new Date(post.publishedAt).toUTCString()}</pubDate>
                 <description><![CDATA[${post.excerpt}]]></description>
-                <author>${post.author || 'AinZ Studio'}</author>
+                <author>${post.author || 'KLICKZSTUDIO'}</author>
                 <category>${post.category}</category>
               </item>
             `
@@ -44,3 +44,4 @@ export async function GET() {
     },
   })
 }
+

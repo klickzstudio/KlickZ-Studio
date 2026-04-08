@@ -77,3 +77,4 @@ export function GalleryPage({ title, subtitle, description, images }: GalleryPag
     </>
   )
 }
+

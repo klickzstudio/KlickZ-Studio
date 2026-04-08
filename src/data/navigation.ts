@@ -3,34 +3,26 @@ import { NavLink } from '@/types'
 export const navLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   {
-    label: 'About Us', href: '/about-us',
-    children: [{ label: 'Awards', href: '/awards' }]
-  },
-  {
-    label: 'Destination', href: '#',
+    label: 'About Us', href: '/best-wedding-photographers-in-chennai',
     children: [
-      { label: 'Srilanka', href: '/wedding-photography-srilanka' },
-      { label: 'Malaysia', href: '/wedding-photography-malaysia' },
-      { label: 'Jodhpur', href: '/wedding-photography-jodhpur' },
-      { label: 'Dubai', href: '/wedding-photography-dubai' },
-      { label: 'Goa', href: '/wedding-photography-goa' },
-      { label: 'Bali', href: '/wedding-photography-bali' },
-      { label: 'Jaipur', href: '/wedding-photography-jaipur' },
-      { label: 'Singapore', href: '/wedding-photography-singapore' },
+      { label: 'Awards', href: '/awards' },
+      { label: 'FAQs', href: '/wedding-photography-faqs' }
     ]
   },
-  { label: 'Films', href: '/films' },
   {
     label: 'Photography', href: '#',
     children: [
-      { label: 'Wedding', href: '/wedding' },
-      { label: 'Pre-Wedding', href: '/pre-wedding-photography' },
-      { label: 'Post Wedding', href: '/post-wedding-photography' },
-      { label: 'Maternity', href: '/maternity' },
-      { label: 'Fashion', href: '/fashion-photography' },
+      { label: 'Wedding', href: '/best-candid-wedding-photography-chennai' },
+      { label: 'Pre-Wedding', href: '/best-pre-wedding-photographers-in-chennai' },
+      { label: 'Engagement', href: '/engagement-photography-chennai' },
+      { label: 'Sangeet', href: '/sangeet-photography-chennai' },
+      { label: 'Haldi', href: '/haldi-photography-chennai' },
+      { label: 'Mehendi', href: '/mehendi-photography-chennai' },
+      { label: 'Reception', href: '/wedding-reception-photography' },
+      { label: 'Maternity', href: '/maternity-photography-chennai' },
+      { label: 'Fashion', href: '/fashion-photography-chennai' },
     ]
   },
-  { label: 'Poetry', href: '/poetry' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Book Us', href: '/contact', isButton: true },
+  { label: 'Enquire Now', href: '/contact#book-us', isButton: true },
 ]
+
