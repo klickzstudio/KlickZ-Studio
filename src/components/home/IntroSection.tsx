@@ -3,14 +3,19 @@
 import Image from 'next/image'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
-const gridImages = [
-  'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80',
-  'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&q=80',
-  'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&q=80',
-  'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&q=80',
-]
+interface IntroSectionProps {
+  images?: string[]
+}
 
-export function IntroSection() {
+export function IntroSection({ images = [] }: IntroSectionProps) {
+  // Use provided images or fall back to empty strings to avoid crashes
+  const displayImages = images.length >= 3 ? images : [
+    images[0] || '',
+    images[1] || '',
+    images[2] || '',
+    images[3] || '',
+  ]
+
   return (
     <section className="relative py-20 md:py-32 bg-white overflow-hidden" id="intro">
       {/* Vertical Decoration */}
@@ -58,24 +63,28 @@ export function IntroSection() {
             <ScrollReveal delay={0.2} className="relative h-[500px] md:h-[650px]">
               {/* Main Image */}
               <div className="absolute top-0 right-0 w-[80%] h-[85%] overflow-hidden shadow-2xl z-10">
-                <Image
-                  src={gridImages[0]}
-                  alt="Main wedding photography"
-                  fill
-                  className="object-cover transition-transform duration-1000 hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+                {displayImages[0] && (
+                  <Image
+                    src={displayImages[0]}
+                    alt="Main wedding photography"
+                    fill
+                    className="object-cover transition-transform duration-1000 hover:scale-105"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                )}
               </div>
               
               {/* Secondary Overlapping Image */}
               <div className="absolute bottom-0 left-0 w-[50%] h-[55%] overflow-hidden shadow-2xl z-20 border-[10px] border-white">
+                {displayImages[1] && (
                 <Image
-                  src={gridImages[2]}
+                  src={displayImages[1]}
                   alt="Detail photography"
                   fill
                   className="object-cover transition-transform duration-1000 hover:scale-105"
                   sizes="(max-width: 1024px) 50vw, 25vw"
                 />
+                )}
               </div>
 
               {/* Decorative Frame */}

@@ -37,17 +37,24 @@ export function PortfolioGrid({ initialItems }: { initialItems: PortfolioItem[] 
                     whileHover={{ scale: 1 }}
                   >
                     <motion.div
-                      className="relative w-full h-full"
+                      className="relative w-full h-full bg-[#EEE]"
                       whileHover={{ scale: 1.05 }}
                       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     >
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
+                      {item.image && (
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, 50vw"
+                        />
+                      )}
+                      {!item.image && (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="font-lato text-[11px] text-[#888]">Gallery Coming Soon</span>
+                        </div>
+                      )}
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-500" />
                     </motion.div>
                   </motion.div>

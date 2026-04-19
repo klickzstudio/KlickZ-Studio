@@ -54,14 +54,20 @@ export function TestimonialsSlider({ initialTestimonials }: { initialTestimonial
 
               {/* Author */}
               <div className="flex flex-col items-center gap-3">
-                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#C9A96E]">
-                  <Image
-                    src={testimonial.photo}
-                    alt={testimonial.name}
-                    width={80}
-                    height={80}
-                    className="object-cover w-full h-full"
-                  />
+                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#C9A96E] bg-[#F9F6F2] flex items-center justify-center">
+                  {testimonial.photo ? (
+                    <Image
+                      src={testimonial.photo}
+                      alt={testimonial.name}
+                      width={80}
+                      height={80}
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <svg className="w-10 h-10 text-[#C9A96E]/40" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                    </svg>
+                  )}
                 </div>
                 <p className="font-lato text-[12px] font-bold uppercase tracking-[0.15em] text-[#C9A96E]">
                   {testimonial.name}

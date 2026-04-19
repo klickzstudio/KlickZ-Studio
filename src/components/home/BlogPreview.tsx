@@ -19,14 +19,21 @@ export function BlogPreview() {
           {blogPosts.map((post, idx) => (
             <ScrollReveal key={idx} delay={idx * 0.12}>
               <Link href={post.href} className="group block">
-                <div className="relative aspect-square overflow-hidden mb-5">
-                  <Image
-                    src={post.image}
-                    alt={post.title}
-                    fill
-                    className="object-cover transition-transform duration-600 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
+                <div className="relative aspect-square overflow-hidden mb-5 bg-[#F9F6F2]">
+                  {post.image && (
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition-transform duration-600 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  )}
+                  {!post.image && (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <span className="font-lato text-[12px] text-[#888]">Inspiration coming soon</span>
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center gap-3 mb-2">
                   <span className="font-lato text-[11px] uppercase text-[#C9A96E] tracking-[0.1em]">

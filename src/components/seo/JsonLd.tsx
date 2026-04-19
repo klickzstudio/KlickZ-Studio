@@ -12,7 +12,7 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
     "name": "KLICKZSTUDIO",
     "image": `${baseUrl}/icon.png`,
     "url": baseUrl,
-    "telephone": "+91-98765-43210",
+    "telephone": "+919710298451",
     "priceRange": "₹₹₹",
     "address": {
       "@type": "PostalAddress",
@@ -42,8 +42,9 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
       "closes": "20:00"
     },
     "sameAs": [
-      "https://www.facebook.com/KLICKZSTUDIO",
-      "https://www.instagram.com/KLICKZSTUDIO/"
+      "https://www.facebook.com/klickzstudio/",
+      "https://www.instagram.com/weddingby_klickzstudio/",
+      "https://www.youtube.com/@klickzstudio1320"
     ]
   }
 

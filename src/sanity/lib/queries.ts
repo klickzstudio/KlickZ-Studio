@@ -92,3 +92,12 @@ export const landingPageQuery = groq`
   }
 `
 
+export const instagramPostsQuery = groq`
+  *[_type == "instagramPost"] | order(sortOrder asc) {
+    title,
+    "thumbnail": thumbnail.asset->url,
+    instagramUrl,
+    isReel,
+    gridSize
+  }
+`

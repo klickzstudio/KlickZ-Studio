@@ -33,13 +33,7 @@ export function constructMetadata({
         },
       ],
     },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [image],
-      creator: '@klickzstudio',
-    },
+
     ...(noIndex && {
       robots: {
         index: false,

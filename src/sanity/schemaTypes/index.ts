@@ -8,8 +8,9 @@ import { photographyCategory } from './photographyCategory'
 import { photographyImage } from './photographyImage'
 import { sitePage } from './sitePage'
 import { landingPage } from './landingPage'
+import { instagramPost } from './instagramPost'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [blogPost, heroSlide, portfolioItem, testimonial, photographyCategory, photographyImage, sitePage, landingPage],
+  types: [blogPost, heroSlide, portfolioItem, testimonial, photographyCategory, photographyImage, sitePage, landingPage, instagramPost],
 }
 

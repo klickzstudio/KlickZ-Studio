@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { navLinks } from '@/data/navigation'
 import { NavLink } from '@/types'
@@ -50,9 +51,8 @@ export function Navbar() {
       )}
 
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[0.22, 1, 0.36, 1] ${
-          scrolled ? 'bg-white/95 backdrop-blur-md' : 'bg-transparent'
-        } ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[0.22, 1, 0.36, 1] ${scrolled ? 'bg-white/95 backdrop-blur-md' : 'bg-transparent'
+          } ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
         style={{ height: '80px' }}
       >
         <div className="mx-auto h-full flex items-center px-6 lg:px-8 xl:px-12 max-w-[1700px] relative">
@@ -112,10 +112,11 @@ export function Navbar() {
           {/* Logo Section (Centered) */}
           <div className="flex-none px-4 md:px-8">
             <Link href="/" className="inline-block group whitespace-nowrap text-center">
-              <span className={`font-cormorant text-[20px] md:text-[28px] font-light tracking-[0.2em] md:tracking-[0.4em] transform transition-all duration-500 group-hover:scale-[1.02] ${scrolled ? 'text-black' : 'text-white'}`}>
-                KLICKZSTUDIO
-              </span>
-              <span className={`block font-lato text-[7px] md:text-[8px] tracking-[0.4em] md:tracking-[0.6em] uppercase mt-1 transition-colors duration-500 ${scrolled ? 'text-black/40' : 'text-white/40'}`}>Wedding Photography</span>
+              {scrolled ? (
+                <Image src="/KlickzStudioBlack.png" alt="KLICKZSTUDIO" width={500} height={200} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
+              ) : (
+                <Image src="/KlickzStudioWhite.png" alt="KLICKZSTUDIO" width={400} height={100} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
+              )}
             </Link>
           </div>
 
@@ -131,20 +132,18 @@ export function Navbar() {
                 {link.isButton ? (
                   <Link
                     href={link.href}
-                    className={`border px-5 py-1.5 xl:px-6 xl:py-2 font-lato text-[11px] uppercase tracking-[0.1em] transition-all duration-400 font-medium whitespace-nowrap ${
-                      scrolled 
-                        ? 'border-black text-black hover:bg-black hover:text-white' 
-                        : 'border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-black'
-                    }`}
+                    className={`border px-5 py-1.5 xl:px-6 xl:py-2 font-lato text-[11px] uppercase tracking-[0.1em] transition-all duration-400 font-medium whitespace-nowrap ${scrolled
+                      ? 'border-black text-black hover:bg-black hover:text-white'
+                      : 'border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-black'
+                      }`}
                   >
                     {link.label}
                   </Link>
                 ) : (
                   <Link
                     href={link.href}
-                    className={`font-lato text-[10.5px] xl:text-[11px] uppercase tracking-[0.12em] transition-colors duration-400 font-normal hover-gold-underline whitespace-nowrap flex items-center gap-1 ${
-                      scrolled ? 'text-black/80 hover:text-black' : 'text-white/90 hover:text-[#C9A96E]'
-                    }`}
+                    className={`font-lato text-[10.5px] xl:text-[11px] uppercase tracking-[0.12em] transition-colors duration-400 font-normal hover-gold-underline whitespace-nowrap flex items-center gap-1 ${scrolled ? 'text-black/80 hover:text-black' : 'text-white/90 hover:text-[#C9A96E]'
+                      }`}
                   >
                     {link.label}
                     {link.children && (
@@ -186,8 +185,8 @@ export function Navbar() {
 
           {/* Mobile Menu Button - Elegant 2-line */}
           <div className="lg:hidden flex flex-1 justify-end pr-2">
-            <button 
-              onClick={() => setIsInfoOpen(true)} 
+            <button
+              onClick={() => setIsInfoOpen(true)}
               className={`flex flex-col gap-2 w-8 group p-3`}
               aria-label="Open mobile menu"
             >
@@ -232,7 +231,7 @@ export function Navbar() {
               <div className="space-y-16">
                 <div>
                   <h3 className="font-cormorant text-black text-3xl font-light tracking-[0.25em] mb-10">
-                    KLICKZSTUDIO
+                    <Image src="/KlickzStudioBlack.png" alt="KLICKZSTUDIO" width={300} height={80} className="w-auto h-16" />
                   </h3>
                   <p className="font-lato text-[15px] text-black/60 leading-relaxed font-light tracking-wide italic">
                     &ldquo;Founded with a passion for soulful storytelling, KLICKZSTUDIO captures the essence of love and celebration across destinations.&rdquo;
@@ -253,11 +252,10 @@ export function Navbar() {
                               <Link
                                 href={link.href}
                                 onClick={() => setIsInfoOpen(false)}
-                                className={`transition-all duration-500 hover:pl-4 ${
-                                  isEditorial 
-                                    ? "font-cormorant italic text-3xl font-light text-black/90 hover:text-[#C9A96E]" 
-                                    : "font-cormorant uppercase text-2xl tracking-[0.2em] text-black/80 hover:text-[#C9A96E]"
-                                }`}
+                                className={`transition-all duration-500 hover:pl-4 ${isEditorial
+                                  ? "font-cormorant italic text-3xl font-light text-black/90 hover:text-[#C9A96E]"
+                                  : "font-cormorant uppercase text-2xl tracking-[0.2em] text-black/80 hover:text-[#C9A96E]"
+                                  }`}
                               >
                                 {link.label}
                               </Link>
@@ -265,8 +263,8 @@ export function Navbar() {
                                 onClick={() => setActiveMobileDropdown(isOpen ? null : link.label)}
                                 className="p-4 text-black/30 hover:text-[#C9A96E] transition-colors"
                               >
-                                <motion.span 
-                                  animate={{ rotate: isOpen ? 180 : 0 }} 
+                                <motion.span
+                                  animate={{ rotate: isOpen ? 180 : 0 }}
                                   transition={{ duration: 0.3 }}
                                   className="block"
                                 >
@@ -280,11 +278,10 @@ export function Navbar() {
                             <Link
                               href={link.href}
                               onClick={() => setIsInfoOpen(false)}
-                              className={`block w-full transition-all duration-500 hover:pl-4 ${
-                                isEditorial 
-                                  ? "font-cormorant italic text-3xl font-light text-black/90 hover:text-[#C9A96E]" 
-                                  : "font-cormorant uppercase text-2xl tracking-[0.2em] text-black/80 hover:text-[#C9A96E]"
-                              }`}
+                              className={`block w-full transition-all duration-500 hover:pl-4 ${isEditorial
+                                ? "font-cormorant italic text-3xl font-light text-black/90 hover:text-[#C9A96E]"
+                                : "font-cormorant uppercase text-2xl tracking-[0.2em] text-black/80 hover:text-[#C9A96E]"
+                                }`}
                             >
                               {link.label}
                             </Link>
@@ -326,12 +323,12 @@ export function Navbar() {
                   <div className="space-y-8">
                     <div>
                       <span className="block font-lato text-[10px] uppercase text-black/40 mb-3 font-semibold tracking-[0.2em]">Our Base</span>
-                      <p className="font-cormorant text-xl text-black">Chennai & Coimbatore, India</p>
+                      <p className="font-cormorant text-xl text-black">Chennai, India</p>
                     </div>
                     <div>
                       <span className="block font-lato text-[10px] uppercase text-black/40 mb-3 font-semibold tracking-[0.2em]">Email</span>
-                      <a href="mailto:ainz.mhr@gmail.com" className="font-cormorant text-2xl text-black hover:text-[#C9A96E] transition-colors underline underline-offset-8 decoration-black/10 decoration-1 hover:decoration-[#C9A96E]">
-                        ainz.mhr@gmail.com
+                      <a href="mailto:Klickzstudio@gmail.com" className="font-cormorant text-2xl text-black hover:text-[#C9A96E] transition-colors underline underline-offset-8 decoration-black/10 decoration-1 hover:decoration-[#C9A96E]">
+                        Klickzstudio@gmail.com
                       </a>
                     </div>
                   </div>

@@ -5,7 +5,7 @@ import { photographyCategorySEOQuery, photographyImagesQuery, landingPageQuery }
 import { PhotographyGrid } from '@/components/photography/PhotographyGrid'
 import { fallbackPhotography } from '@/data/photography'
 import { constructMetadata } from '@/lib/seo'
-import { PortableText } from 'next-sanity'
+import { PortableText, groq } from 'next-sanity'
 import { EditorialHero } from '@/components/ui/EditorialHero'
 import { EditorialGallery } from '@/components/photography/EditorialGallery'
 
@@ -55,8 +55,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       associatedImages = await client.fetch(photographyImagesQuery, { slug: landingPageData.associatedCategorySlug })
     }
 
-    const heroImage = landingPageData.heroImage || landingPageData.ogImage || (associatedImages[0]?.image || fallbackPhotography[landingPageData.associatedCategorySlug || '']?.[0]?.image || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80')
-
+    const heroImage = landingPageData.heroImage || landingPageData.ogImage || associatedImages[0]?.image || fallbackPhotography[landingPageData.associatedCategorySlug || '']?.[0]?.image || '';
+    
     return (
       <>
         <EditorialHero 
@@ -93,6 +93,17 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
 
   try {
     images = await client.fetch(photographyImagesQuery, { slug: categorySlug }, { next: { revalidate: 60 } })
+    
+    // resilient fallback: if no images for a long SEO slug, try to find a base category keyword
+    if (!images || images.length === 0) {
+      const baseCategories = ['wedding', 'reception', 'birthday', 'baby-shower', 'outdoor', 'silhouette', 'bride-portrait', 'groom-portrait'];
+      const matchedBase = baseCategories.find(cat => categorySlug.includes(cat));
+      if (matchedBase) {
+        images = await client.fetch(photographyImagesQuery, { slug: matchedBase });
+        categoryTitle = matchedBase.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Portfolio';
+      }
+    }
+
     const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
     if (seoData?.title) {
        categoryTitle = seoData.title
@@ -104,16 +115,18 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     console.error(`Failed to fetch images for category ${categorySlug}:`, error)
   }
 
+  // Final absolute fallback: if still no images, show "General Portfolio" (any recent images) instead of 404
   if (!images || images.length === 0) {
-     if (validFallbackCategories.includes(categorySlug)) {
-        images = fallbackPhotography[categorySlug]
-     } else {
-        notFound()
-     }
+    images = await client.fetch(groq`*[_type == "photographyImage"] | order(_createdAt desc)[0...20] {
+      "image": image.asset->url,
+      title,
+      altText
+    }`);
+    categoryTitle = "Klickzstudio Portfolio";
   }
 
   const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
-  const catHeroImage = seoData?.heroImage || images[0]?.image || 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80'
+  const catHeroImage = seoData?.heroImage || images[0]?.image || ''
 
   return (
     <>

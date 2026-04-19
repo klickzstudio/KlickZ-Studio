@@ -43,12 +43,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'KLICKZSTUDIO | Wedding Photographers',
-    description: 'Capturing your special moments with artistic finesse.',
-    images: ['/icon.png'],
-  },
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -70,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Navbar />
         <main>{children}</main>
         <Footer />
-        <WhatsAppCTA phoneNumber="919841080909" />
+        <WhatsAppCTA phoneNumber="919710298451" />
         <ScrollToTop />
         <Analytics />
         <SpeedInsights />

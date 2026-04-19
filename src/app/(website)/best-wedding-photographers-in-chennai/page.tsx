@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function AboutUsPage() {
   const pageData = await client.fetch(pageSEOQuery, { slug: pageSlug })
   
-  const heroImage = pageData?.heroImage || 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=1920&q=80'
+  const heroImage = pageData?.heroImage || ''
   const title = pageData?.title || 'About Us'
   const subtitle = pageData?.subtitle || 'The story behind the lens'
 
@@ -79,14 +79,20 @@ export default async function AboutUsPage() {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <div className="relative aspect-[4/5] overflow-hidden group">
-                <Image
-                  src={pageData?.heroImage || 'https://images.unsplash.com/photo-1556157382-97eda2d62296?w=800&q=80'}
-                  alt="KLICKZSTUDIO brand image"
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                />
+              <div className="relative aspect-[4/5] overflow-hidden group bg-[#F9F6F2]">
+                {pageData?.heroImage ? (
+                  <Image
+                    src={pageData.heroImage}
+                    alt="KLICKZSTUDIO brand image"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span className="font-lato text-[12px] text-[#888]">Authentic Memories</span>
+                  </div>
+                )}
               </div>
             </ScrollReveal>
           </div>

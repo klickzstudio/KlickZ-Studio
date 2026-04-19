@@ -1,11 +1,21 @@
 export const instagramPosts = [
-  { image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
-  { image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
-  { image: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
-  { image: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
-  { image: 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
-  { image: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
-  { image: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
-  { image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&q=80', href: 'https://www.instagram.com/KLICKZSTUDIO/' },
+  // Reels (8 items)
+  { image: '', href: 'https://www.instagram.com/reel/DRAQzYoAW-z/', isReel: true },
+  { image: '', href: 'https://www.instagram.com/reel/CsMEnoTNg3P/', isReel: true },
+  { image: '', href: 'https://www.instagram.com/reel/DVjM01ygaB9/', isReel: true },
+  { image: '', href: 'https://www.instagram.com/reel/DVY3B00AUB9/', isReel: true },
+  { image: '', href: 'https://www.instagram.com/reel/DKevxGfSSfU/', isReel: true },
+  { image: '', href: 'https://www.instagram.com/reel/DNaOyQwy2Nc/', isReel: true },
+  { image: '', href: 'https://www.instagram.com/reel/DFcnN23yjujzhPcTMYgMjW5v-y7xCPBkQw35fw0/', isReel: true },
+  { image: '', href: 'https://www.instagram.com/reel/DVOzANhkqo4/', isReel: true },
+  
+  // Posts (7 items)
+  { image: '', href: 'https://www.instagram.com/p/DFLXEQvSPXF/?img_index=1', isReel: false },
+  { image: '', href: 'https://www.instagram.com/p/DVbi67ukkOK/?img_index=1', isReel: false },
+  { image: '', href: 'https://www.instagram.com/p/DWElQXBkmij/?img_index=1', isReel: false },
+  { image: '', href: 'https://www.instagram.com/p/DV5dPFiEt_b/?img_index=1', isReel: false },
+  { image: '', href: 'https://www.instagram.com/p/DVnZw-UkRxS/?img_index=1', isReel: false },
+  { image: '', href: 'https://www.instagram.com/p/DRPbhlfkkfy/?img_index=1', isReel: false },
+  { image: '', href: 'https://www.instagram.com/p/DJw9m8aS7AT/', isReel: false },
 ]
 

@@ -33,7 +33,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   const pageData = await client.fetch(pageSEOQuery, { slug: pageSlug })
 
-  const heroImage = pageData?.heroImage || 'https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80'
+  const heroImage = pageData?.heroImage || ''
   const title = pageData?.title || 'Book Us'
   const subtitle = pageData?.subtitle || 'Get in touch for your special day'
 
@@ -67,8 +67,8 @@ export default async function ContactPage() {
                     <h3 className="font-lato text-[12px] uppercase tracking-[0.15em] text-[#888888] mb-2">
                       Phone
                     </h3>
-                    <a href="tel:+919841080909" className="block font-lato text-[16px] text-[#1A1A1A] hover:text-[#C9A96E] transition-colors">
-                      +91 98410 80909
+                    <a href="tel:+919710298451" className="block font-lato text-[16px] text-[#1A1A1A] hover:text-[#C9A96E] transition-colors">
+                      +91 97102 98451
                     </a>
                   </div>
 
@@ -76,8 +76,8 @@ export default async function ContactPage() {
                     <h3 className="font-lato text-[12px] uppercase tracking-[0.15em] text-[#888888] mb-2">
                       Email
                     </h3>
-                    <a href="mailto:ainz.mhr@gmail.com" className="font-lato text-[16px] text-[#C9A96E] hover:underline">
-                      ainz.mhr@gmail.com
+                    <a href="mailto:Klickzstudio@gmail.com" className="font-lato text-[16px] text-[#C9A96E] hover:underline">
+                      Klickzstudio@gmail.com
                     </a>
                   </div>
 
@@ -86,12 +86,12 @@ export default async function ContactPage() {
                       Instagram
                     </h3>
                     <a
-                      href="https://www.instagram.com/KLICKZSTUDIO/"
+                      href="https://www.instagram.com/weddingby_klickzstudio/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-lato text-[16px] text-[#1A1A1A] hover:text-[#C9A96E] transition-colors"
                     >
-                      @KLICKZSTUDIO
+                      @weddingby_klickzstudio
                     </a>
                   </div>
 
@@ -100,7 +100,7 @@ export default async function ContactPage() {
                       Facebook
                     </h3>
                     <a
-                      href="https://www.facebook.com/KLICKZSTUDIO"
+                      href="https://www.facebook.com/klickzstudio/"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="font-lato text-[16px] text-[#1A1A1A] hover:text-[#C9A96E] transition-colors"
