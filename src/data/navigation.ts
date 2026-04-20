@@ -3,14 +3,14 @@ import { NavLink } from '@/types'
 export const navLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   {
-    label: 'About Us', href: '/best-wedding-photographers-in-chennai',
+    label: 'About Us', href: '/about',
     children: [
-      { label: 'Awards', href: '/awards' },
-      { label: 'FAQs', href: '/wedding-photography-faqs' }
+      { label: 'Awards', href: '/awards' }
     ]
   },
+  { label: 'Services', href: '/services' },
   {
-    label: 'Photography', href: '#',
+    label: 'Portfolio', href: '/best-candid-wedding-photographers',
     children: [
       { label: 'Wedding', href: '/best-candid-wedding-photography-chennai' },
       { label: 'Christian Wedding', href: '/christian-wedding-photography-chennai' },
@@ -23,6 +23,8 @@ export const navLinks: NavLink[] = [
       { label: 'Silhouette', href: '/silhouette-photography-chennai' },
     ]
   },
-  { label: 'Enquire Now', href: '/contact#book-us', isButton: true },
+  { label: 'Contact', href: '/contact' },
+  { label: 'FAQs', href: '/wedding-photography-faqs' },
+  { label: 'Book Us', href: '/book-us', isButton: true },
 ]
 

@@ -7,7 +7,18 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { navLinks } from '@/data/navigation'
 import { NavLink } from '@/types'
 
-export function Navbar() {
+interface NavbarProps {
+  settings?: any
+}
+
+export function Navbar({ settings }: NavbarProps) {
+  const siteTitle = settings?.title || 'KLICKZSTUDIO'
+  const sitePhone = settings?.phone || '+91 97102 98451'
+  const siteWhatsApp = settings?.whatsappPhone || '919710298451'
+  const fbLink = settings?.socials?.facebook || 'https://www.facebook.com/klickzstudio/'
+  const igLink = settings?.socials?.instagram || 'https://www.instagram.com/weddingby_klickzstudio/'
+  const ytLink = settings?.socials?.youtube || 'https://www.youtube.com/@klickzstudio1320'
+
   const [scrolled, setScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
@@ -113,9 +124,9 @@ export function Navbar() {
           <div className="flex-none px-4 md:px-8">
             <Link href="/" className="inline-block group whitespace-nowrap text-center">
               {scrolled ? (
-                <Image src="/KlickzStudioBlack.png" alt="KLICKZSTUDIO" width={500} height={200} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
+                <Image src="/KlickzStudioBlack.png" alt={siteTitle} width={500} height={200} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
               ) : (
-                <Image src="/KlickzStudioWhite.png" alt="KLICKZSTUDIO" width={400} height={100} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
+                <Image src="/KlickzStudioWhite.png" alt={siteTitle} width={400} height={100} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
               )}
             </Link>
           </div>

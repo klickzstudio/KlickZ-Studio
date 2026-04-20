@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   const resend = new Resend(process.env.RESEND_API_KEY);
   try {
-    const { name, email, phone, weddingDate, eventType, message } = await request.json();
+    const { name, email, phone, location, weddingDate, eventType, message } = await request.json();
 
     if (!email || !name) {
       return NextResponse.json({ error: 'Name and Email are required' }, { status: 400 });
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
           <p><strong>Name:</strong> ${name}</p>
           <p><strong>Email:</strong> ${email}</p>
           <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Location:</strong> ${location || 'Not specified'}</p>
           <p><strong>Event Type:</strong> ${eventType || 'Not specified'}</p>
           <p><strong>Wedding Date:</strong> ${weddingDate || 'Not specified'}</p>
           <p><strong>Message:</strong></p>

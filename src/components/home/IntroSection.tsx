@@ -8,13 +8,8 @@ interface IntroSectionProps {
 }
 
 export function IntroSection({ images = [] }: IntroSectionProps) {
-  // Use provided images or fall back to empty strings to avoid crashes
-  const displayImages = images.length >= 3 ? images : [
-    images[0] || '',
-    images[1] || '',
-    images[2] || '',
-    images[3] || '',
-  ]
+  const mainImage = images[0] || ''
+  const secondaryImage = images[1] || ''
 
   return (
     <section className="relative py-20 md:py-32 bg-white overflow-hidden" id="intro">
@@ -51,7 +46,7 @@ export function IntroSection({ images = [] }: IntroSectionProps) {
                 </div>
                 <div className="w-[1px] h-10 bg-[#EEE]" />
                 <div>
-                  <p className="font-cormorant text-3xl text-[#1A1A1A]">750+</p>
+                  <p className="font-cormorant text-3xl text-[#1A1A1A]">500+</p>
                   <p className="font-lato text-[10px] uppercase tracking-[0.1em] text-[#888]">Weddings</p>
                 </div>
               </div>
@@ -63,9 +58,9 @@ export function IntroSection({ images = [] }: IntroSectionProps) {
             <ScrollReveal delay={0.2} className="relative h-[500px] md:h-[650px]">
               {/* Main Image */}
               <div className="absolute top-0 right-0 w-[80%] h-[85%] overflow-hidden shadow-2xl z-10">
-                {displayImages[0] && (
+                {mainImage && (
                   <Image
-                    src={displayImages[0]}
+                    src={mainImage}
                     alt="Main wedding photography"
                     fill
                     className="object-cover transition-transform duration-1000 hover:scale-105"
@@ -76,9 +71,9 @@ export function IntroSection({ images = [] }: IntroSectionProps) {
               
               {/* Secondary Overlapping Image */}
               <div className="absolute bottom-0 left-0 w-[50%] h-[55%] overflow-hidden shadow-2xl z-20 border-[10px] border-white">
-                {displayImages[1] && (
+                {secondaryImage && (
                 <Image
-                  src={displayImages[1]}
+                  src={secondaryImage}
                   alt="Detail photography"
                   fill
                   className="object-cover transition-transform duration-1000 hover:scale-105"

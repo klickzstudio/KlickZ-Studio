@@ -1,26 +1,45 @@
 interface JsonLdProps {
   type?: 'LocalBusiness' | 'Article' | 'ImageGallery'
   data?: any
+  settings?: any
 }
 
-export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
+export function JsonLd({ type = 'LocalBusiness', data, settings }: JsonLdProps) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ainz.space'
+  
+  const siteName = settings?.title || "KLICKZSTUDIO"
+  const phone = settings?.phone || "+919710298451"
+  
+  // Default format: "address": { "street": "...", "city": "...", "postalCode": "...", "region": "...", "country": "..." }
+  const addr = settings?.address || {
+    street: "No. 123, Sample Street",
+    city: "Chennai",
+    postalCode: "600001",
+    region: "Tamil Nadu",
+    country: "IN"
+  }
+  
+  const socials = settings?.socials ? Object.values(settings.socials).filter(Boolean) : [
+    "https://www.facebook.com/klickzstudio/",
+    "https://www.instagram.com/weddingby_klickzstudio/",
+    "https://www.youtube.com/@klickzstudio1320"
+  ]
 
   let schema: any = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "Photographer"],
-    "name": "KLICKZSTUDIO",
+    "name": siteName,
     "image": `${baseUrl}/icon.png`,
     "url": baseUrl,
-    "telephone": "+919710298451",
+    "telephone": phone,
     "priceRange": "₹₹₹",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "No. 123, Sample Street",
-      "addressLocality": "Chennai",
-      "postalCode": "600001",
-      "addressRegion": "Tamil Nadu",
-      "addressCountry": "IN"
+      "streetAddress": addr.street,
+      "addressLocality": addr.city,
+      "postalCode": addr.postalCode,
+      "addressRegion": addr.region,
+      "addressCountry": addr.country
     },
     "geo": {
       "@type": "GeoCoordinates",
@@ -41,11 +60,7 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
       "opens": "09:00",
       "closes": "20:00"
     },
-    "sameAs": [
-      "https://www.facebook.com/klickzstudio/",
-      "https://www.instagram.com/weddingby_klickzstudio/",
-      "https://www.youtube.com/@klickzstudio1320"
-    ]
+    "sameAs": socials
   }
 
   if (type === 'Article' && data) {
@@ -58,7 +73,7 @@ export function JsonLd({ type = 'LocalBusiness', data }: JsonLdProps) {
       "dateModified": data.updatedAt || data.publishedAt,
       "author": [{
         "@type": "Person",
-        "name": data.author || "KLICKZSTUDIO",
+        "name": data.author || siteName,
         "url": baseUrl
       }]
     }

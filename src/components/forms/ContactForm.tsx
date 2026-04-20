@@ -10,6 +10,7 @@ export function ContactForm() {
     name: '',
     email: '',
     phone: '',
+    location: '',
     weddingDate: '',
     eventType: '',
     message: '',
@@ -46,6 +47,7 @@ export function ContactForm() {
         name: '',
         email: '',
         phone: '',
+        location: '',
         weddingDate: '',
         eventType: '',
         message: '',
@@ -129,6 +131,18 @@ export function ContactForm() {
               required
               disabled={status === 'loading'}
               value={formData.phone}
+              onChange={handleChange}
+              className="w-full border-b border-[#C9A96E] bg-transparent py-4 font-lato text-[15px] font-light text-[#1A1A1A] placeholder:text-[#888888] focus:outline-none focus:border-[#A07840] transition-colors disabled:opacity-50"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="location"
+              placeholder="Event Location *"
+              required
+              disabled={status === 'loading'}
+              value={formData.location}
               onChange={handleChange}
               className="w-full border-b border-[#C9A96E] bg-transparent py-4 font-lato text-[15px] font-light text-[#1A1A1A] placeholder:text-[#888888] focus:outline-none focus:border-[#A07840] transition-colors disabled:opacity-50"
             />

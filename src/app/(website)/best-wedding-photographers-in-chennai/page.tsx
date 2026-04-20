@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return constructMetadata({
     title: 'About Us - Best Wedding Photographers Chennai',
-    description: 'Learn about KLICKZSTUDIO — award-winning wedding photographers in Chennai with 15+ years of experience and 750+ weddings captured.',
+    description: 'Learn about KLICKZSTUDIO — award-winning wedding photographers in Chennai with 15+ years of experience and 500+ weddings captured.',
   })
 }
 

@@ -1,7 +1,19 @@
 import Link from 'next/link'
 import Image from 'next/image'
 
-export function Footer() {
+interface FooterProps {
+  settings?: any
+}
+
+export function Footer({ settings }: FooterProps) {
+  const siteTitle = settings?.title || 'KLICKZSTUDIO'
+  const siteEmail = settings?.email || 'Klickzstudio@gmail.com'
+  const sitePhone = settings?.phone || '+91 97102 98451'
+  const siteWhatsApp = settings?.whatsappPhone || '919710298451'
+  const fbLink = settings?.socials?.facebook || 'https://www.facebook.com/klickzstudio/'
+  const igLink = settings?.socials?.instagram || 'https://www.instagram.com/weddingby_klickzstudio/'
+  const ytLink = settings?.socials?.youtube || 'https://www.youtube.com/@klickzstudio1320'
+
   return (
     <footer className="bg-[#0A0A0A] text-white">
       {/* CTA Banner */}
@@ -27,10 +39,10 @@ export function Footer() {
             Follow Us
           </span>
           <a
-            href="mailto:Klickzstudio@gmail.com"
+            href={`mailto:${siteEmail}`}
             className="font-lato text-[13px] text-[#C9A96E] hover:underline transition-colors"
           >
-            Klickzstudio@gmail.com
+            {siteEmail}
           </a>
         </div>
       </div>
@@ -40,28 +52,23 @@ export function Footer() {
         <div className="max-w-[1400px] mx-auto px-6 text-center">
           {/* Logo */}
           <div className="mb-8 flex justify-center">
-            <Image src="/KlickzStudioWhite.png" alt="KLICKZSTUDIO" width={300} height={80} className="w-auto h-16" />
+            <Image src="/KlickzStudioWhite.png" alt={siteTitle} width={300} height={80} className="w-auto h-16" />
           </div>
 
-          {/* Ticker text */}
-          <p className="ticker-text text-white/50 mb-10 max-w-2xl mx-auto">
-            – Wedding – Pet Photography – Studio – Fashion –
-          </p>
-
           {/* Phone numbers */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-10">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-10 mt-8">
             <a
-              href="tel:+919710298451"
+              href={`tel:${sitePhone.replace(/\s+/g, '')}`}
               className="font-lato text-[14px] text-white hover:text-[#C9A96E] transition-colors tracking-wider"
             >
-              +91 97102 98451
+              {sitePhone}
             </a>
           </div>
 
           {/* Social Icons */}
           <div className="flex items-center justify-center gap-6 mb-16">
             <a
-              href="https://www.facebook.com/klickzstudio/"
+              href={fbLink}
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300"
@@ -72,7 +79,7 @@ export function Footer() {
               </svg>
             </a>
             <a
-              href="https://www.instagram.com/weddingby_klickzstudio/"
+              href={igLink}
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300"
@@ -85,7 +92,7 @@ export function Footer() {
               </svg>
             </a>
             <a
-              href="https://www.youtube.com/@klickzstudio1320"
+              href={ytLink}
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300"
@@ -96,7 +103,7 @@ export function Footer() {
               </svg>
             </a>
             <a
-              href="https://wa.me/919710298451"
+              href={`https://wa.me/${siteWhatsApp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 border border-white/20 flex items-center justify-center text-white/60 hover:text-[#C9A96E] hover:border-[#C9A96E] transition-all duration-300"

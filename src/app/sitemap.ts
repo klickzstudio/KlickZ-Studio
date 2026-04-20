@@ -13,6 +13,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticRoutes = [
     '',
+    '/about',
+    '/portfolio',
+    '/services',
+    '/awards',
     '/best-wedding-photographers-in-chennai',
     '/contact',
     '/best-candid-wedding-photography-chennai',

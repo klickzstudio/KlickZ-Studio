@@ -2,99 +2,143 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HeroSlide } from '@/types'
 
 interface HeroSliderProps {
   initialSlides: HeroSlide[]
+  settings?: any
 }
 
-export function HeroSlider({ initialSlides }: HeroSliderProps) {
+export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
   const [current, setCurrent] = useState(0)
-  const slides = initialSlides
+  const slides = initialSlides.slice(0, 5) // max 5 slides
+
+  const heroEyebrow = settings?.heroEyebrow || 'Est. 2005 · Chennai & Destination Weddings'
+  const heroHeading = settings?.heroHeading || 'Cinematic Wedding Legacies'
+  const heroSubtext = settings?.heroSubtext || '20+ years of capturing real emotions, not staged moments'
+  const fbLink = settings?.socials?.facebook || 'https://www.facebook.com/klickzstudio/'
+  const igLink = settings?.socials?.instagram || 'https://www.instagram.com/weddingby_klickzstudio/'
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length)
   }, [slides.length])
 
   useEffect(() => {
-    const timer = setInterval(next, 5000)
+    // 7 seconds per slide for slower, premium feel
+    const timer = setInterval(next, 7000)
     return () => clearInterval(timer)
   }, [next])
 
   const slide = slides[current]
 
   return (
-    <section className="relative w-full h-screen overflow-hidden" id="hero">
-      {/* Background Images */}
+    <section className="relative w-full h-screen overflow-hidden bg-black" id="hero">
+      {/* Background Images with Ken Burns Effect */}
       <AnimatePresence mode="sync">
         <motion.div
           key={current}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: 'easeInOut' }}
+          transition={{ duration: 1.2, ease: 'easeInOut' }}
           className="absolute inset-0"
         >
-          <Image
-            src={slide.image}
-            alt={slide.heading || 'KLICKZSTUDIO Wedding Photography'}
-            fill
-            className="object-cover object-center"
-            priority={current === 0}
-            sizes="100vw"
-          />
-          <div className="hero-overlay absolute inset-0" />
+          <motion.div
+            initial={{ scale: 1 }}
+            animate={{ scale: 1.08 }}
+            transition={{ duration: 8, ease: 'linear' }}
+            className="w-full h-full relative"
+          >
+            <Image
+              src={slide?.image || '/images/hero-fallback.jpg'}
+              alt={slide?.heading || 'KLICKZSTUDIO Wedding'}
+              fill
+              className="object-cover object-[50%_25%] lg:object-center"
+              priority={current === 0}
+              sizes="100vw"
+            />
+          </motion.div>
+          {/* Subtle gradient overlay to ensure text readability but not heavy dark */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/90 via-[#0A0A0A]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/50 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Text Overlay - Bottom Left Editorial Positioning */}
-      <div className="absolute inset-0 flex flex-col items-start justify-end pb-12 md:pb-24 lg:pb-32 z-10 px-8 md:px-16 lg:px-24">
-        <AnimatePresence mode="wait">
-          {slide.heading && (
-            <motion.div
-              key={`text-${current}`}
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 20 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-[70vw]"
-            >
-              <h1 className="font-cormorant text-white leading-[1.05] mb-8 tracking-tight">
-                {slide.heading.split(' ').map((word, i) => {
-                  const cleanWord = word.replace(/[,.!]/g, '').toLowerCase();
-                  const accentWords = ['the', 'of', 'in', 'to', 'and', 'is', 'a', 'by', 'your', 'with'];
-                  const isAccent = accentWords.includes(cleanWord);
-                  return (
-                    <span 
-                      key={i} 
-                      className={isAccent 
-                        ? "font-cormorant italic font-light lowercase text-[0.65em] md:text-[0.75em] mx-1 md:mx-1.5 inline-block translate-y-[-0.05em] text-white/70" 
-                        : "uppercase tracking-[0.12em] text-4xl md:text-6xl lg:text-[76px] font-light inline-block"
-                      }
-                    >
-                      {word}{' '}
-                    </span>
-                  )
-                })}
-              </h1>
-              {slide.subheading && (
-                <motion.p 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.4, duration: 0.8 }}
-                  className="font-lato text-[11px] md:text-[13px] uppercase tracking-[0.4em] text-white/50 max-w-xl"
+      {/* Fixed Text Overlay - Replaced Dynamic Copy with Fixed Brand Copy */}
+      <div className="absolute inset-0 flex flex-col justify-center lg:justify-end pb-24 md:pb-32 z-20 px-6 md:px-16 lg:px-24">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+          className="max-w-[90vw] md:max-w-[70vw] lg:max-w-4xl"
+        >
+          <span className="font-lato text-[10px] md:text-[12px] uppercase tracking-[0.4em] text-[#C9A96E] mb-6 block drop-shadow-sm">
+            {heroEyebrow}
+          </span>
+          <h1 className="font-cormorant text-white leading-[1.05] mb-6 tracking-tight">
+            {heroHeading.split(' ').map((word: string, i: number) => {
+              const cleanWord = word.replace(/[,.!]/g, '').toLowerCase()
+              const accentWords = ['the', 'of', 'in', 'to', 'and', 'is', 'a', 'by', 'your', 'with']
+              const isAccent = accentWords.includes(cleanWord)
+              return (
+                <span 
+                  key={i} 
+                  className={isAccent 
+                    ? "font-cormorant italic font-light lowercase text-[0.65em] md:text-[0.75em] mx-1 md:mx-1.5 inline-block translate-y-[-0.05em] text-white/70 drop-shadow-md" 
+                    : "uppercase tracking-[0.1em] text-4xl md:text-6xl lg:text-[76px] font-light inline-block drop-shadow-2xl"
+                  }
                 >
-                  {slide.subheading}
-                </motion.p>
-              )}
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  {word}{' '}
+                </span>
+              )
+            })}
+          </h1>
+          <p className="font-lato text-[12px] md:text-[14px] uppercase tracking-[0.2em] text-white/70 max-w-xl mb-10 leading-relaxed drop-shadow-sm">
+            {heroSubtext}
+          </p>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1 }}
+          >
+            <Link
+              href="/contact"
+              className="inline-block font-lato text-[13px] uppercase tracking-[0.2em] bg-[#C9A96E] text-[#1A1A1A] px-8 py-4 hover:bg-white transition-colors duration-400"
+            >
+              Book Your Date
+            </Link>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Progress Bar Instead of Dots */}
+      <div className="absolute bottom-8 left-6 right-6 md:left-16 md:right-16 z-20 flex gap-4 items-center">
+        {slides.map((_, idx) => (
+          <div key={idx} className="h-[2px] flex-1 bg-white/20 relative overflow-hidden hidden md:block">
+            {idx === current && (
+              <motion.div
+                initial={{ x: '-100%' }}
+                animate={{ x: '0%' }}
+                transition={{ duration: 7, ease: 'linear' }}
+                className="absolute inset-0 bg-[#C9A96E]"
+              />
+            )}
+            {idx < current && (
+              <div className="absolute inset-0 bg-[#C9A96E]" />
+            )}
+          </div>
+        ))}
+      </div>
+      
+      {/* Mobile exact pagination text instead of dots */}
+      <div className="absolute bottom-10 left-6 z-20 font-inter text-white/60 text-xs tracking-widest md:hidden">
+        {String(current + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
       </div>
 
       {/* Scroll Indicator - Right Side */}
-      <div className="absolute right-8 md:right-12 top-1/2 -translate-y-1/2 z-10 hidden md:flex flex-col items-center gap-12">
+      <div className="absolute right-8 md:right-12 top-1/2 -translate-y-1/2 z-20 hidden md:flex flex-col items-center gap-12">
         <div className="h-24 w-[1px] bg-white/20 relative overflow-hidden">
           <motion.div 
             animate={{ y: ['-100%', '100%'] }}
@@ -103,27 +147,14 @@ export function HeroSlider({ initialSlides }: HeroSliderProps) {
           />
         </div>
         <span className="font-lato text-[10px] uppercase tracking-[0.4em] text-white/40 [writing-mode:vertical-lr] rotate-0">
-          Scroll to begin
+          Scroll to explore
         </span>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex gap-2">
-        {slides.map((_, idx) => (
-          <button
-            key={idx}
-            onClick={() => setCurrent(idx)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              idx === current ? 'bg-[#C9A96E] w-6' : 'bg-white/40 hover:bg-white/60'
-            }`}
-            aria-label={`Go to slide ${idx + 1}`}
-          />
-        ))}
-      </div>
-
       {/* Social Links - Left Side */}
-      <div className="hidden md:flex absolute bottom-12 left-8 z-10 flex-col gap-4">
+      <div className="hidden md:flex absolute bottom-12 left-8 z-20 flex-col gap-4">
         <a
-          href="https://www.facebook.com/KLICKZSTUDIO"
+          href={fbLink}
           target="_blank"
           rel="noopener noreferrer"
           className="font-lato text-[11px] uppercase tracking-[0.15em] text-white/60 hover:text-[#C9A96E] transition-colors duration-300 [writing-mode:vertical-lr] rotate-180"
@@ -131,7 +162,7 @@ export function HeroSlider({ initialSlides }: HeroSliderProps) {
           Facebook
         </a>
         <a
-          href="https://www.instagram.com/KLICKZSTUDIO/"
+          href={igLink}
           target="_blank"
           rel="noopener noreferrer"
           className="font-lato text-[11px] uppercase tracking-[0.15em] text-white/60 hover:text-[#C9A96E] transition-colors duration-300 [writing-mode:vertical-lr] rotate-180"
@@ -142,4 +173,3 @@ export function HeroSlider({ initialSlides }: HeroSliderProps) {
     </section>
   )
 }
-

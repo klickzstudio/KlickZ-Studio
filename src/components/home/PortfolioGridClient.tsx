@@ -22,14 +22,12 @@ export function PortfolioGrid({ initialItems }: { initialItems: PortfolioItem[] 
           {initialItems
             .map((item, idx) => {
               // Map legacy URLs to new SEO slugs
-              let safeHref = item.href
-              if (safeHref === '/wedding') safeHref = '/best-candid-wedding-photography-chennai'
-              if (safeHref === '/pre-wedding-photography') safeHref = '/best-pre-wedding-photographers-in-chennai'
-              if (safeHref === '/post-wedding-photography') safeHref = '/best-pre-wedding-photographers-in-chennai'
+              const linkHref = item.href ? item.href : `/best-candid-wedding-photographers/${item.slug}`
+              const linkTarget = item.href ? "_blank" : "_self"
               
               return (
               <ScrollReveal key={idx} delay={idx * 0.1}>
-                <Link href={safeHref} className="group block">
+                <Link href={linkHref} target={linkTarget} className="group block">
                   <motion.div
                     className={`relative overflow-hidden mb-6 ${
                       idx % 3 === 0 ? 'aspect-[16/10]' : 'aspect-square md:aspect-[4/5]'

@@ -1,4 +1,4 @@
-import { Cormorant_Garamond, Lato, Playfair_Display } from 'next/font/google'
+import { Cormorant_Garamond, Inter, Playfair_Display } from 'next/font/google'
 
 export const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -8,10 +8,9 @@ export const cormorant = Cormorant_Garamond({
   display: 'swap',
 })
 
-export const lato = Lato({
+export const inter = Inter({
   subsets: ['latin'],
-  weight: ['100', '300', '400', '700', '900'],
-  variable: '--font-lato',
+  variable: '--font-inter',
   display: 'swap',
 })
 

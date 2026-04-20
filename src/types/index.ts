@@ -12,10 +12,13 @@ export interface HeroSlide {
 }
 
 export interface PortfolioItem {
+  _id?: string
   image: string
   title: string
+  slug?: string
   categories: string[]
   href: string
+  featured?: boolean
 }
 
 export interface FilmItem {

@@ -1,11 +1,11 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 @theme inline {
-  --color-background: #ffffff;
-  --color-foreground: #1a1a1a;
+  --color-background: #F8F4EE;
+  --color-foreground: #2B2420;
 
   --font-cormorant: var(--font-cormorant);
-  --font-lato: var(--font-lato);
+  --font-inter: var(--font-inter);
   --font-playfair: var(--font-playfair);
 
   /* Gold palette */
@@ -29,10 +29,10 @@
 
 :root {
   --color-black: #000000;
-  --color-white: #FFFFFF;
+  --color-white: #F8F4EE;
   --color-off-white: #F8F5F0;
   --color-cream: #F5F0E8;
-  --color-text-primary: #1A1A1A;
+  --color-text-primary: #2B2420;
   --color-text-secondary: #555555;
   --color-text-muted: #888888;
   --color-text-light: #CCCCCC;
@@ -41,7 +41,7 @@
   --color-gold-light: #E8D5B0;
   --color-gold-dark: #A07840;
   --color-bg-dark: #0A0A0A;
-  --color-bg-section: #F9F6F2;
+  --color-bg-section: #F8F4EE;
   --color-bg-overlay: rgba(0,0,0,0.45);
   --color-border-light: rgba(255,255,255,0.15);
   --color-border-dark: rgba(0,0,0,0.10);
@@ -55,9 +55,9 @@ html {
 }
 
 body {
-  font-family: var(--font-lato), Helvetica, sans-serif;
+  font-family: var(--font-inter), Helvetica, sans-serif;
   color: var(--color-text-primary);
-  background: var(--color-white);
+  background: var(--color-background);
   overflow-x: hidden;
   /* App Feel: Disable text selection by default */
   user-select: none;

@@ -3,7 +3,7 @@ import { HeroSlide } from '@/types'
 export const heroSlides: HeroSlide[] = [
   {
     image: '',
-    heading: '750+ Weddings, One Passion',
+    heading: '500+ Weddings, One Passion',
     subheading: 'Decades of experience capturing love stories.',
   },
   {

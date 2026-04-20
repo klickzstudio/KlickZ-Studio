@@ -1,5 +1,26 @@
 import { groq } from 'next-sanity'
 
+export const siteSettingsQuery = groq`
+  *[_type == "siteSettings"][0] {
+    title,
+    tagline,
+    heroEyebrow,
+    heroHeading,
+    heroSubtext,
+    stats,
+    phone,
+    whatsappPhone,
+    email,
+    address,
+    socials,
+    founderName,
+    "founderImage": founderImage.asset->url,
+    "introImage1": introImage1.asset->url,
+    "introImage2": introImage2.asset->url,
+    "ctaImage": ctaImage.asset->url
+  }
+`
+
 export const heroSlidesQuery = groq`
   *[_type == "heroSlide"] | order(order asc) {
     "image": image.asset->url,
@@ -8,13 +29,47 @@ export const heroSlidesQuery = groq`
   }
 `
 
+export const homePageQuery = groq`
+  *[_type == "homePage"][0] {
+    "introMainImage": introMainImage.asset->url,
+    "introSecondaryImage": introSecondaryImage.asset->url,
+    "services": services[] {
+      title,
+      description,
+      href,
+      "image": image.asset->url
+    },
+    "horizontalGallery": horizontalGallery[] {
+      "image": image.asset->url,
+      alt
+    }
+  }
+`
+
 export const portfolioQuery = groq`
-  *[_type == "portfolioItem"] {
+  *[_type == "portfolioItem"] | order(date desc) {
     "image": image.asset->url,
     title,
+    "slug": slug.current,
     categories,
+    clientName,
+    date,
     href,
     featured
+  }
+`
+
+export const portfolioCaseStudyQuery = groq`
+  *[_type == "portfolioItem" && slug.current == $slug][0] {
+    "image": image.asset->url,
+    title,
+    "slug": slug.current,
+    categories,
+    clientName,
+    date,
+    story,
+    "gallery": gallery[].asset->url,
+    href
   }
 `
 
@@ -38,6 +93,19 @@ export const blogPostsQuery = groq`
   }
 `
 
+export const blogPostQuery = groq`
+  *[_type == "blogPost" && slug.current == $slug][0] {
+    "image": image.asset->url,
+    title,
+    "slug": slug.current,
+    category,
+    author,
+    publishedAt,
+    content,
+    "seoDescription": excerpt
+  }
+`
+
 export const photographyCategorySEOQuery = groq`
   *[_type == "photographyCategory" && slug.current == $slug][0] {
     title,
@@ -57,6 +125,14 @@ export const photographyImagesQuery = groq`
     "image": image.asset->url,
     title,
     altText
+  }
+`
+
+export const portfolioImagesFallbackQuery = groq`
+  *[_type == "portfolioItem" && $slug in categories[] ] {
+    "image": image.asset->url,
+    title,
+    "altText": title
   }
 `
 

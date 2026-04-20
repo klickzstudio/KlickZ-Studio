@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
-import { photographyCategorySEOQuery, photographyImagesQuery, landingPageQuery } from '@/sanity/lib/queries'
+import { photographyCategorySEOQuery, photographyImagesQuery, landingPageQuery, portfolioImagesFallbackQuery } from '@/sanity/lib/queries'
 import { PhotographyGrid } from '@/components/photography/PhotographyGrid'
 import { fallbackPhotography } from '@/data/photography'
 import { constructMetadata } from '@/lib/seo'
@@ -96,11 +96,30 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     
     // resilient fallback: if no images for a long SEO slug, try to find a base category keyword
     if (!images || images.length === 0) {
-      const baseCategories = ['wedding', 'reception', 'birthday', 'baby-shower', 'outdoor', 'silhouette', 'bride-portrait', 'groom-portrait'];
+      const baseCategories = ['wedding', 'reception', 'birthday', 'baby-shower', 'outdoor', 'silhouette', 'bride-portrait', 'groom-portrait', 'christian-wedding'];
+      
+      const categoryMap: Record<string, string> = {
+        'wedding': 'Wedding',
+        'reception': 'Reception',
+        'birthday': 'Birthday',
+        'baby-shower': 'Baby Shower',
+        'outdoor': 'Outdoor',
+        'silhouette': 'Silhouette',
+        'bride-portrait': 'Bridal Portraits',
+        'groom-portrait': 'Groom Portraits',
+        'christian-wedding': 'Christian Wedding'
+      }
+
       const matchedBase = baseCategories.find(cat => categorySlug.includes(cat));
       if (matchedBase) {
         images = await client.fetch(photographyImagesQuery, { slug: matchedBase });
-        categoryTitle = matchedBase.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ') + ' Portfolio';
+        
+        // Final sanity fallback: grab from Portfolio uploads directly using exact Match
+        if (!images || images.length === 0) {
+          images = await client.fetch(portfolioImagesFallbackQuery, { slug: categoryMap[matchedBase] || 'Wedding' });
+        }
+
+        categoryTitle = categoryMap[matchedBase] + ' Portfolio';
       }
     }
 

@@ -1,7 +1,7 @@
 'use client'
 
 /**
- * This configuration is used to for the Sanity Studio that’s mounted on the `\src\app\studio\[[...tool]]\page.tsx` route
+ * This configuration is used to for the Sanity Studio that's mounted on the `\src\app\studio\[[...tool]]\page.tsx` route
  */
 
 import { visionTool } from '@sanity/vision'
@@ -19,7 +19,33 @@ export default defineConfig({
   // Add and edit the content types in this array
   schema,
   plugins: [
-    structureTool(),
+    structureTool({
+      structure: (S) =>
+        S.list()
+          .title('Content')
+          .items([
+            // ── Singletons ──────────────────────────────
+            S.listItem()
+              .title('🏠 Home Page')
+              .child(
+                S.document()
+                  .schemaType('homePage')
+                  .documentId('homePage')
+              ),
+            S.listItem()
+              .title('⚙️ Site Settings')
+              .child(
+                S.document()
+                  .schemaType('siteSettings')
+                  .documentId('siteSettings')
+              ),
+            S.divider(),
+            // ── Collections ─────────────────────────────
+            ...S.documentTypeListItems().filter(
+              (listItem) => !['siteSettings', 'homePage'].includes(listItem.getId() ?? '')
+            ),
+          ]),
+    }),
     // Vision is a tool that lets you query your content with GROQ in the studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
