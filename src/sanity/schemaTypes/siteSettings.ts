@@ -27,7 +27,7 @@ export const siteSettings = defineType({
       name: 'heroHeading',
       title: 'Hero Main Heading',
       type: 'string',
-      initialValue: 'Cinematic Wedding Legacies',
+      initialValue: 'Stories That Last Forever',
     }),
     defineField({
       name: 'heroSubtext',

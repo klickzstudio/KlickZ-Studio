@@ -16,7 +16,7 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
   const slides = initialSlides.slice(0, 5) // max 5 slides
 
   const heroEyebrow = settings?.heroEyebrow || 'Est. 2005 · Chennai & Destination Weddings'
-  const heroHeading = settings?.heroHeading || 'Cinematic Wedding Legacies'
+  const heroHeading = settings?.heroHeading || 'Stories That Last Forever'
   const heroSubtext = settings?.heroSubtext || '20+ years of capturing real emotions, not staged moments'
   const fbLink = settings?.socials?.facebook || 'https://www.facebook.com/klickzstudio/'
   const igLink = settings?.socials?.instagram || 'https://www.instagram.com/weddingby_klickzstudio/'
