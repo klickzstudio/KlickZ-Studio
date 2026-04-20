@@ -64,12 +64,9 @@ export function Navbar({ settings }: NavbarProps) {
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[0.22, 1, 0.36, 1] ${scrolled ? 'bg-white/95 backdrop-blur-md' : 'bg-transparent'
           } ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
-        style={{ height: '80px' }}
+        style={{ height: '100px' }}
       >
         <div className="mx-auto h-full flex items-center px-6 lg:px-8 xl:px-12 max-w-[1700px] relative">
-
-          {/* Empty left spacer for mobile to keep logo centered */}
-          <div className="lg:hidden flex flex-1"></div>
 
           {/* Navigation Section (Left) */}
           <div className="hidden lg:flex flex-1 items-center justify-start gap-4 xl:gap-8 px-4">
@@ -121,12 +118,12 @@ export function Navbar({ settings }: NavbarProps) {
           </div>
 
           {/* Logo Section (Centered) */}
-          <div className="flex-none px-4 md:px-8">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:relative lg:left-auto lg:top-auto lg:translate-x-0 lg:translate-y-0 flex-none z-10">
             <Link href="/" className="inline-block group whitespace-nowrap text-center">
               {scrolled ? (
-                <Image src="/KlickzStudioBlack.png" alt={siteTitle} width={500} height={200} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
+                <Image src="/KlickzStudioBlack.png" alt={siteTitle} width={500} height={200} priority className="h-[80px] sm:h-[92px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
               ) : (
-                <Image src="/KlickzStudioWhite.png" alt={siteTitle} width={400} height={100} priority className="h-[78px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
+                <Image src="/KlickzStudioWhite.png" alt={siteTitle} width={500} height={200} priority className="h-[80px] sm:h-[92px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
               )}
             </Link>
           </div>
@@ -194,15 +191,16 @@ export function Navbar({ settings }: NavbarProps) {
 
           </div>
 
-          {/* Mobile Menu Button - Elegant 2-line */}
+          {/* Mobile Menu Button - 3-bar design */}
           <div className="lg:hidden flex flex-1 justify-end pr-2">
             <button
               onClick={() => setIsInfoOpen(true)}
-              className={`flex flex-col gap-2 w-8 group p-3`}
+              className={`flex flex-col gap-1.5 items-end p-3 group transition-all duration-300 transform active:scale-95`}
               aria-label="Open mobile menu"
             >
-              <span className={`h-[1.5px] w-full transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'}`} />
-              <span className={`h-[1.5px] w-2/3 self-end transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'}`} />
+              <span className={`h-[2px] w-6 transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'} rounded-full`} />
+              <span className={`h-[2px] w-4 transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'} rounded-full`} />
+              <span className={`h-[2px] w-5 transition-all duration-300 ${scrolled ? 'bg-black' : 'bg-white'} rounded-full`} />
             </button>
           </div>
 
@@ -242,7 +240,7 @@ export function Navbar({ settings }: NavbarProps) {
               <div className="space-y-16">
                 <div>
                   <h3 className="font-cormorant text-black text-3xl font-light tracking-[0.25em] mb-10">
-                    <Image src="/KlickzStudioBlack.png" alt="KLICKZSTUDIO" width={300} height={80} className="w-auto h-16" />
+                    <Image src="/KlickzStudioBlack.png" alt="KLICKZSTUDIO" width={400} height={100} className="w-auto h-20" />
                   </h3>
                   <p className="font-lato text-[15px] text-black/60 leading-relaxed font-light tracking-wide italic">
                     &ldquo;Founded with a passion for soulful storytelling, KLICKZSTUDIO captures the essence of love and celebration across destinations.&rdquo;
