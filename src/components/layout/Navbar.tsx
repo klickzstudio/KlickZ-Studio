@@ -70,7 +70,7 @@ export function Navbar({ settings }: NavbarProps) {
 
           {/* Navigation Section (Left) */}
           <div className="hidden lg:flex flex-1 items-center justify-start gap-4 xl:gap-8 px-4">
-            {navLinks.slice(0, 2).map((link) => (
+            {navLinks.slice(0, 3).map((link) => (
               <div
                 key={link.label}
                 className="relative"
@@ -130,7 +130,7 @@ export function Navbar({ settings }: NavbarProps) {
 
           {/* Navigation Section (Right) + Info */}
           <div className="hidden lg:flex flex-1 items-center justify-end gap-6 xl:gap-8 px-4">
-            {navLinks.slice(2).map((link) => (
+            {navLinks.slice(3).map((link) => (
               <div
                 key={link.label}
                 className="relative"
