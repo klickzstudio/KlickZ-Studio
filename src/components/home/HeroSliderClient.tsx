@@ -80,7 +80,7 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
           <h1 className="font-cormorant text-white leading-[1.1] mb-6 flex flex-wrap items-baseline gap-x-4 md:gap-x-6 gap-y-2">
             {heroHeading.split(' ').map((word: string, i: number) => {
               const cleanWord = word.replace(/[,.!]/g, '').toLowerCase()
-              const accentWords = ['the', 'of', 'in', 'to', 'and', 'is', 'a', 'by', 'your', 'with', 'that']
+              const accentWords = ['the', 'of', 'in', 'to', 'and', 'is', 'a', 'by', 'your', 'with']
               const isAccent = accentWords.includes(cleanWord)
               return (
                 <span 
