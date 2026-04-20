@@ -77,20 +77,20 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
           <span className="font-lato text-[10px] md:text-[12px] uppercase tracking-[0.4em] text-[#C9A96E] mb-6 block drop-shadow-sm">
             {heroEyebrow}
           </span>
-          <h1 className="font-cormorant text-white leading-[1.05] mb-6 tracking-tight">
+          <h1 className="font-cormorant text-white leading-[1.1] mb-6 flex flex-wrap items-baseline gap-x-4 md:gap-x-6 gap-y-2">
             {heroHeading.split(' ').map((word: string, i: number) => {
               const cleanWord = word.replace(/[,.!]/g, '').toLowerCase()
-              const accentWords = ['the', 'of', 'in', 'to', 'and', 'is', 'a', 'by', 'your', 'with']
+              const accentWords = ['the', 'of', 'in', 'to', 'and', 'is', 'a', 'by', 'your', 'with', 'that']
               const isAccent = accentWords.includes(cleanWord)
               return (
                 <span 
                   key={i} 
                   className={isAccent 
-                    ? "font-cormorant italic font-light lowercase text-[0.65em] md:text-[0.75em] mx-1 md:mx-1.5 inline-block translate-y-[-0.05em] text-white/70 drop-shadow-md" 
-                    : "uppercase tracking-[0.1em] text-4xl md:text-6xl lg:text-[76px] font-light inline-block drop-shadow-2xl"
+                    ? "font-cormorant italic font-light lowercase text-[0.6em] md:text-[0.7em] text-white/70 drop-shadow-md translate-y-[-0.1em]" 
+                    : "uppercase tracking-[0.15em] text-4xl md:text-6xl lg:text-[76px] font-light drop-shadow-2xl"
                   }
                 >
-                  {word}{' '}
+                  {word}
                 </span>
               )
             })}
