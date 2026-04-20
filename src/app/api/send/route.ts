@@ -10,11 +10,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Name and Email are required' }, { status: 400 });
     }
 
-    // 1. Send Admin Notification
+    console.log('Attempting to send Admin notification...');
     const adminEmail = await resend.emails.send({
-      from: 'KLICKZSTUDIO Leads <enquiry@ainz.space>',
+      from: 'KLICKZSTUDIO Leads <hello@ainz.space>',
       to: 'Klickzstudio@gmail.com',
-      subject: `New Wedding Enquiry: ${name}`,
+      bcc: ['ainz.mhr@gmail.com'],
+      replyTo: email,
+      subject: `NEW ENQUIRY: ${name} | ${eventType || 'Event'}`,
       html: `
         <div style="font-family: sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px;">
           <h2 style="color: #C9A96E; border-bottom: 1px solid #C9A96E; padding-bottom: 10px;">New Lead Notification</h2>
@@ -33,7 +35,15 @@ export async function POST(request: Request) {
       `,
     });
 
+    if (adminEmail.error) {
+      console.error('Resend Admin Email Error:', adminEmail.error);
+      throw new Error(`Admin Email Error: ${adminEmail.error.message}`);
+    }
+
+    console.log('Admin Email Sent Successfully:', adminEmail.data?.id);
+
     // 2. Send Customer Receipt
+    console.log('Attempting to send Customer receipt...');
     const customerEmail = await resend.emails.send({
       from: 'KLICKZSTUDIO <hello@ainz.space>',
       to: email,
@@ -72,8 +82,14 @@ export async function POST(request: Request) {
       `,
     });
 
-    console.log('Admin Email Response:', adminEmail);
-    console.log('Customer Email Response:', customerEmail);
+    if (customerEmail.error) {
+      console.error('Resend Customer Email Error:', customerEmail.error);
+      // We don't necessarily want to fail the whole request if just the receipt fails, 
+      // but for debugging, let's throw.
+      throw new Error(`Customer Email Error: ${customerEmail.error.message}`);
+    }
+
+    console.log('Customer Email Sent Successfully:', customerEmail.data?.id);
 
     return NextResponse.json({ 
       success: true, 
@@ -81,7 +97,7 @@ export async function POST(request: Request) {
       customerId: customerEmail.data?.id 
     });
   } catch (error) {
-    console.error('CRITICAL Resend API Error:', error);
+    console.error('CRITICAL Resend API Error Details:', error);
     return NextResponse.json({ 
       error: 'Failed to send email', 
       details: error instanceof Error ? error.message : 'Unknown error' 
