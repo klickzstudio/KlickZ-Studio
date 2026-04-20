@@ -25,31 +25,32 @@ const categoryUrlMap: Record<string, string> = {
 }
 
 export default async function PortfolioPage() {
-  const [categories, pageData] = await Promise.all([
-    client.fetch(groq`
-      *[_type == "photographyCategory"] | order(title asc) { 
-        title, 
-        "slug": slug.current, 
-        "image": heroImage.asset->url,
-        "preview": *[_type == "photographyImage" && category->slug.current == ^.slug.current][0].image.asset->url
-      }
-    `, {}, { next: { revalidate: 60 } }),
-    client.fetch(pageSEOQuery, { slug: 'best-candid-wedding-photographers' }, { next: { revalidate: 60 } })
-  ])
-
-  const heroImage = pageData?.heroImage || categories[0]?.image || categories[0]?.preview || ''
-  const pageTitle = pageData?.title || 'Cinematic Gallery'
-  const pageSubtitle = pageData?.subtitle || 'Beautifully curated collections of our work across diverse photography styles. From intimate weddings to editorial portraits, discover how we capture legacies.'
+  const categories = await client.fetch(groq`
+    *[_type == "photographyCategory"] | order(title asc) { 
+      title, 
+      "slug": slug.current, 
+      "image": heroImage.asset->url,
+      "preview": *[_type == "photographyImage" && category->slug.current == ^.slug.current][0].image.asset->url
+    }
+  `, {}, { next: { revalidate: 60 } })
 
   return (
-    <main className="min-h-screen bg-[#FDFCFB]">
-      <EditorialHero 
-        title={pageTitle}
-        subtitle={pageSubtitle}
-        image={heroImage}
-      />
+    <main className="pt-32 pb-24 min-h-screen bg-[#FDFCFB]">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+        <div className="text-center mb-16 md:mb-24">
+          <span className="font-lato text-[11px] uppercase tracking-[0.4em] text-[#C9A96E] mb-4 block">
+            Our Portfolios
+          </span>
+          <h1 className="font-cormorant text-5xl md:text-7xl text-black mb-8">
+            Cinematic <span className="italic text-[#C9A96E]">Gallery</span>
+          </h1>
+          <div className="w-16 h-[1px] bg-[#C9A96E] mx-auto mb-8 opacity-50" />
+          <p className="font-lato text-[13px] md:text-[15px] text-black/60 max-w-2xl mx-auto leading-relaxed tracking-wider uppercase">
+            Beautifully curated collections of our work across diverse photography styles. 
+            From intimate weddings to editorial portraits, discover how we capture legacies.
+          </p>
+        </div>
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-x-12 md:gap-y-16">
           {categories.map((cat: any, idx: number) => {
             const linkHref = categoryUrlMap[cat.slug] || `/${cat.slug}`
