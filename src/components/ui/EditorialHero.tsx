@@ -16,9 +16,13 @@ export function EditorialHero({ title, subtitle, image, overlayGlow = true }: Ed
       {/* Cinematic Banner */}
       <div className="relative w-full aspect-[21/9] md:aspect-[3/1] max-h-[550px] overflow-hidden group">
         <motion.div
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+          animate={{ scale: [1, 1.1] }}
+          transition={{ 
+            duration: 25, 
+            repeat: Infinity, 
+            repeatType: 'reverse', 
+            ease: "linear" 
+          }}
           className="relative w-full h-full"
         >
           <Image
