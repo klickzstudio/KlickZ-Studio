@@ -163,3 +163,19 @@ h1, h2, h3, h4 {
   animation: whatsapp-pulse 3s infinite;
 }
 
+/* ── Accessibility: Respect user's motion preference ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .whatsapp-pulse {
+    animation: none;
+  }
+}
+

@@ -1,7 +1,20 @@
+import { SiteSettings } from '@/types/sanity'
+
+interface JsonLdData {
+  title?: string
+  image?: string
+  publishedAt?: string
+  updatedAt?: string
+  author?: string
+  description?: string
+  slug?: string
+  images?: string[]
+}
+
 interface JsonLdProps {
   type?: 'LocalBusiness' | 'Article' | 'ImageGallery'
-  data?: any
-  settings?: any
+  data?: JsonLdData
+  settings?: SiteSettings | null
 }
 
 export function JsonLd({ type = 'LocalBusiness', data, settings }: JsonLdProps) {
@@ -25,7 +38,7 @@ export function JsonLd({ type = 'LocalBusiness', data, settings }: JsonLdProps) 
     "https://www.youtube.com/@klickzstudio1320"
   ]
 
-  let schema: any = {
+  let schema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": ["LocalBusiness", "Photographer"],
     "name": siteName,

@@ -61,7 +61,7 @@ export function IntroSection({ images = [] }: IntroSectionProps) {
                 {mainImage && (
                   <Image
                     src={mainImage}
-                    alt="Main wedding photography"
+                    alt="KLICKZSTUDIO signature cinematic wedding photography showing couple's emotional moment"
                     fill
                     className="object-cover transition-transform duration-1000 hover:scale-105"
                     sizes="(max-width: 1024px) 100vw, 50vw"
@@ -74,7 +74,7 @@ export function IntroSection({ images = [] }: IntroSectionProps) {
                 {secondaryImage && (
                 <Image
                   src={secondaryImage}
-                  alt="Detail photography"
+                  alt="Detailed shot of Indian wedding rituals and luxury bridal elegance"
                   fill
                   className="object-cover transition-transform duration-1000 hover:scale-105"
                   sizes="(max-width: 1024px) 50vw, 25vw"

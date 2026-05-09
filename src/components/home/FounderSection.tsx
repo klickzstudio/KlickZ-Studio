@@ -1,13 +1,16 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
-import { client } from '@/sanity/lib/client'
-import { siteSettingsQuery } from '@/sanity/lib/queries'
+import { SiteSettings } from '@/types/sanity'
 
-export async function FounderSection({ image }: { image?: string }) {
-  const settings = await client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } })
+interface FounderSectionProps {
+  settings: SiteSettings | null
+  fallbackImage?: string
+}
+
+export function FounderSection({ settings, fallbackImage }: FounderSectionProps) {
   const founderName = settings?.founderName || 'Kotteswaran (Kotty)'
-  const displayImage = image || settings?.founderImage || '/images/kotty-portrait.jpg'
+  const displayImage = settings?.founderImage || fallbackImage || '/images/kotty-portrait.jpg'
   
   return (
     <section className="relative py-24 md:py-36 bg-[#F8F4EE] overflow-hidden">

@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 
 interface HorizontalGalleryProps {
-  images?: string[]
+  images?: { image: string; alt?: string }[]
 }
 
 export function HorizontalGallery({ images = [] }: HorizontalGalleryProps) {
@@ -22,11 +22,11 @@ export function HorizontalGallery({ images = [] }: HorizontalGalleryProps) {
 
   // Filter out empty images
   const displayImages = images.length > 0 ? images : [
-    '/images/gallery-1.jpg',
-    '/images/gallery-2.jpg',
-    '/images/gallery-3.jpg',
-    '/images/gallery-4.jpg',
-    '/images/gallery-5.jpg',
+    { image: '/images/gallery-1.jpg', alt: 'Candid wedding portrait in Chennai' },
+    { image: '/images/gallery-2.jpg', alt: 'Bride getting ready for Indian wedding' },
+    { image: '/images/gallery-3.jpg', alt: 'Emotional wedding ceremony moment' },
+    { image: '/images/gallery-4.jpg', alt: 'Cinematic destination wedding couple shot' },
+    { image: '/images/gallery-5.jpg', alt: 'Luxury wedding reception celebration' },
   ]
 
   return (
@@ -55,7 +55,7 @@ export function HorizontalGallery({ images = [] }: HorizontalGalleryProps) {
           style={{ x }}
           className="absolute top-0 left-0 h-full flex gap-6 md:gap-10 px-6 md:px-10"
         >
-          {displayImages.map((src, idx) => (
+          {displayImages.map((item, idx) => (
             <div 
               key={idx} 
               className={`relative h-full shrink-0 overflow-hidden ${
@@ -63,8 +63,8 @@ export function HorizontalGallery({ images = [] }: HorizontalGalleryProps) {
               }`}
             >
               <Image
-                src={src}
-                alt={`KLICKZSTUDIO Gallery Image ${idx + 1}`}
+                src={item.image}
+                alt={item.alt || `KLICKZSTUDIO Cinematic Wedding Photography ${idx + 1}`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"

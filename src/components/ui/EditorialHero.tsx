@@ -81,7 +81,7 @@ export function EditorialHero({ title, subtitle, image, overlayGlow = true }: Ed
       </div>
 
       {/* Editorial Content Below Banner */}
-      <section className="py-8 md:py-16 text-center">
+      <section className="pt-8 pb-0 md:pt-12 md:pb-0 text-center">
         <div className="max-w-[1000px] mx-auto px-6 lg:px-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -91,7 +91,7 @@ export function EditorialHero({ title, subtitle, image, overlayGlow = true }: Ed
             <h1 className="font-cormorant text-3xl md:text-[54px] font-normal text-[#1A1A1A] leading-tight mb-4 uppercase tracking-[0.25em]">
               {title}
             </h1>
-            <div className="w-16 h-[1px] bg-[#C9A96E] mx-auto mb-6" />
+            <div className={`w-16 h-[1px] bg-[#C9A96E] mx-auto ${subtitle ? 'mb-6' : 'mb-0'}`} />
             
             {subtitle && (
               <p className="font-lato text-sm md:text-[15px] font-light text-[#555555] max-w-2xl mx-auto leading-relaxed tracking-wider uppercase">

@@ -35,6 +35,13 @@ export const photographyCategory = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: 'thumbnailImage',
+      title: 'Grid Thumbnail Image',
+      description: 'The image shown on the main portfolio grid (aspect ratio 3:4). If left blank, it falls back to the Hero Image.',
+      type: 'image',
+      options: { hotspot: true },
+    }),
+    defineField({
       name: 'editorialGallery',
       title: 'Editorial Gallery',
       description: 'Photos with custom aspect ratios (3:4, 4:3, 16:9, etc.) for a dynamic layout.',

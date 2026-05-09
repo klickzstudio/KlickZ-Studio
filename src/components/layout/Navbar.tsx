@@ -6,9 +6,10 @@ import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import { navLinks } from '@/data/navigation'
 import { NavLink } from '@/types'
+import { SiteSettings } from '@/types/sanity'
 
 interface NavbarProps {
-  settings?: any
+  settings?: SiteSettings | null
 }
 
 export function Navbar({ settings }: NavbarProps) {
@@ -21,7 +22,7 @@ export function Navbar({ settings }: NavbarProps) {
 
   const [scrolled, setScrolled] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
+  const lastScrollYRef = useRef(0)
   const [isInfoOpen, setIsInfoOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [activeMobileDropdown, setActiveMobileDropdown] = useState<string | null>(null)
@@ -34,16 +35,16 @@ export function Navbar({ settings }: NavbarProps) {
       setScrolled(currentScrollY > 60)
       if (currentScrollY < 10) {
         setIsVisible(true)
-      } else if (currentScrollY > lastScrollY) {
+      } else if (currentScrollY > lastScrollYRef.current) {
         setIsVisible(false)
       } else {
         setIsVisible(true)
       }
-      setLastScrollY(currentScrollY)
+      lastScrollYRef.current = currentScrollY
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+  }, [])
 
   useEffect(() => {
     if (isInfoOpen) {

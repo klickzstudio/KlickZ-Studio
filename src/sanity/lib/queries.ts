@@ -24,6 +24,7 @@ export const siteSettingsQuery = groq`
 export const heroSlidesQuery = groq`
   *[_type == "heroSlide"] | order(order asc) {
     "image": image.asset->url,
+    "blurDataURL": image.asset->metadata.lqip,
     heading,
     subheading
   }
@@ -110,9 +111,11 @@ export const photographyCategorySEOQuery = groq`
   *[_type == "photographyCategory" && slug.current == $slug][0] {
     title,
     seoDescription,
-    "heroImage": heroImage.asset->url,
+    "heroImage": heroImage,
+    "heroImageUrl": heroImage.asset->url,
     "editorialGallery": editorialGallery[] {
-      "image": image.asset->url,
+      "image": image,
+      "imageUrl": image.asset->url,
       aspectRatio,
       alt
     },
@@ -123,6 +126,8 @@ export const photographyCategorySEOQuery = groq`
 export const photographyImagesQuery = groq`
   *[_type == "photographyImage" && category->slug.current == $slug] {
     "image": image.asset->url,
+    "imageObj": image,
+    "blurDataURL": image.asset->metadata.lqip,
     title,
     altText
   }
@@ -131,6 +136,7 @@ export const photographyImagesQuery = groq`
 export const portfolioImagesFallbackQuery = groq`
   *[_type == "portfolioItem" && $slug in categories[] ] {
     "image": image.asset->url,
+    "imageObj": image,
     title,
     "altText": title
   }
@@ -142,9 +148,11 @@ export const pageSEOQuery = groq`
     subtitle,
     content,
     seoDescription,
-    "heroImage": heroImage.asset->url,
+    "heroImage": heroImage,
+    "heroImageUrl": heroImage.asset->url,
     "editorialGallery": editorialGallery[] {
-      "image": image.asset->url,
+      "image": image,
+      "imageUrl": image.asset->url,
       aspectRatio,
       alt
     },
@@ -157,14 +165,17 @@ export const landingPageQuery = groq`
     title,
     content,
     seoDescription,
-    "heroImage": heroImage.asset->url,
+    "heroImage": heroImage,
+    "heroImageUrl": heroImage.asset->url,
     "editorialGallery": editorialGallery[] {
-      "image": image.asset->url,
+      "image": image,
+      "imageUrl": image.asset->url,
       aspectRatio,
       alt
     },
     "ogImage": ogImage.asset->url,
-    "associatedCategorySlug": associatedCategory->slug.current
+    "associatedCategorySlug": associatedCategory->slug.current,
+    "categoryHeroImage": associatedCategory->heroImage
   }
 `
 

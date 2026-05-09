@@ -19,7 +19,7 @@ export function EditorialGallery({ items }: EditorialGalleryProps) {
   if (!items || items.length === 0) return null
 
   return (
-    <section className="bg-white py-16 md:py-24">
+    <section className="bg-white py-12 md:py-16">
       <div className="max-w-[1700px] mx-auto px-6 lg:px-12">
         <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
           {items.map((item, index) => {

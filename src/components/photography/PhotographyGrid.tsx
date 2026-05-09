@@ -7,33 +7,38 @@ import type { PhotographyImage } from '@/data/photography'
 import { useState } from 'react'
 import { AnimatePresence } from 'framer-motion'
 
+import { urlForImage } from '@/sanity/lib/image'
+
 export function PhotographyGrid({ images }: { images: PhotographyImage[] }) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   return (
     <>
-      <section className="py-20 bg-white">
+      <section className="py-12 bg-white">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-10">
           <div className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-6 space-y-6">
-            {images.map((item, idx) => (
-              <ScrollReveal key={idx} delay={(idx % 4) * 0.1}>
-                <div 
-                  className="relative group cursor-pointer overflow-hidden break-inside-avoid"
-                  onClick={() => setSelectedImage(item.image)}
-                >
-                  <motion.div
-                    className="relative w-full"
-                    whileHover={{ scale: 1.02 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
+            {images.map((item, idx) => {
+              const imageUrl = item.imageObj ? urlForImage(item.imageObj)?.url() : item.image;
+              
+              return (
+                <ScrollReveal key={idx} delay={(idx % 4) * 0.1}>
+                  <div 
+                    className="relative group cursor-pointer overflow-hidden break-inside-avoid"
+                    onClick={() => setSelectedImage(item.image)}
                   >
-                    <Image
-                      src={item.image}
-                      alt={item.altText || item.title || 'Photography image'}
-                      width={800}
-                      height={1200}
-                      className="w-full h-auto object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
+                    <motion.div
+                      className="relative w-full"
+                      whileHover={{ scale: 1.02 }}
+                      transition={{ duration: 0.6, ease: 'easeOut' }}
+                    >
+                      <Image
+                        src={imageUrl as string}
+                        alt={item.altText || item.title || 'Photography image'}
+                        width={800}
+                        height={1200}
+                        className="w-full h-auto object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
                     
                     {/* Hover Overlay */}
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
@@ -44,7 +49,8 @@ export function PhotographyGrid({ images }: { images: PhotographyImage[] }) {
                   </motion.div>
                 </div>
               </ScrollReveal>
-            ))}
+            )
+          })}
           </div>
         </div>
       </section>

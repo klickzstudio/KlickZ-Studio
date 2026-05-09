@@ -1,5 +1,6 @@
 export interface PhotographyImage {
   image: string
+  imageObj?: any
   title?: string
   altText?: string
 }

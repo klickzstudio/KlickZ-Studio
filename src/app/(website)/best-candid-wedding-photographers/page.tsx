@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { groq } from 'next-sanity'
 import { pageSEOQuery } from '@/sanity/lib/queries'
 import { EditorialHero } from '@/components/ui/EditorialHero'
+import { urlForImage } from '@/sanity/lib/image'
 
 export const metadata: Metadata = {
   title: 'Portfolio | KLICKZSTUDIO',
@@ -29,8 +30,9 @@ export default async function PortfolioPage() {
     *[_type == "photographyCategory"] | order(title asc) { 
       title, 
       "slug": slug.current, 
-      "image": heroImage.asset->url,
-      "preview": *[_type == "photographyImage" && category->slug.current == ^.slug.current][0].image.asset->url
+      thumbnailImage,
+      heroImage,
+      "preview": *[_type == "photographyImage" && category->slug.current == ^.slug.current][0].image
     }
   `, {}, { next: { revalidate: 60 } })
 
@@ -54,6 +56,8 @@ export default async function PortfolioPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-x-12 md:gap-y-16">
           {categories.map((cat: any, idx: number) => {
             const linkHref = categoryUrlMap[cat.slug] || `/${cat.slug}`
+            const imageObj = cat.thumbnailImage || cat.heroImage || cat.preview;
+            const imageUrl = imageObj ? urlForImage(imageObj)?.url() : '/images/placeholder.jpg';
 
             return (
               <Link 
@@ -63,7 +67,7 @@ export default async function PortfolioPage() {
               >
                 <div className="relative aspect-[3/4] w-full overflow-hidden mb-6 bg-[#F5F5F5]">
                   <Image
-                    src={cat.image || cat.preview || '/images/placeholder.jpg'}
+                    src={imageUrl as string}
                     alt={cat.title}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"

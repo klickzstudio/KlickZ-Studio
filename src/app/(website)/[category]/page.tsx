@@ -8,6 +8,7 @@ import { constructMetadata } from '@/lib/seo'
 import { PortableText, groq } from 'next-sanity'
 import { EditorialHero } from '@/components/ui/EditorialHero'
 import { EditorialGallery } from '@/components/photography/EditorialGallery'
+import { urlForImage } from '@/sanity/lib/image'
 
 interface CategoryPageProps {
   params: Promise<{
@@ -55,13 +56,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       associatedImages = await client.fetch(photographyImagesQuery, { slug: landingPageData.associatedCategorySlug })
     }
 
-    const heroImage = landingPageData.heroImage || landingPageData.ogImage || associatedImages[0]?.image || fallbackPhotography[landingPageData.associatedCategorySlug || '']?.[0]?.image || '';
+    const heroImage = (landingPageData.heroImage ? urlForImage(landingPageData.heroImage)?.url() : null) || 
+                      (landingPageData.categoryHeroImage ? urlForImage(landingPageData.categoryHeroImage)?.url() : null) || 
+                      landingPageData.ogImage || 
+                      (associatedImages[0]?.imageObj ? urlForImage(associatedImages[0].imageObj)?.url() : associatedImages[0]?.image) || 
+                      fallbackPhotography[landingPageData.associatedCategorySlug || '']?.[0]?.image || '';
     
     return (
       <>
         <EditorialHero 
           title={landingPageData.title}
-          subtitle="Editorial Landing Page"
           image={heroImage}
         />
         
@@ -77,7 +81,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         )}
         
         {landingPageData.editorialGallery && landingPageData.editorialGallery.length > 0 && (
-          <EditorialGallery items={landingPageData.editorialGallery} />
+          <EditorialGallery items={landingPageData.editorialGallery.map((item: any) => ({
+            ...item,
+            image: item.image ? urlForImage(item.image)?.url() : item.imageUrl
+          }))} />
         )}
         
         {associatedImages.length > 0 && <PhotographyGrid images={associatedImages} />}
@@ -123,7 +130,17 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       }
     }
 
-    const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
+    let seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
+    
+    // Resilient fallback for SEO data: if not found by exact slug, try base category match
+    if (!seoData) {
+      const baseCategories = ['wedding', 'reception', 'birthday', 'baby-shower', 'outdoor', 'silhouette', 'bride-portrait', 'groom-portrait', 'christian-wedding'];
+      const matchedBase = baseCategories.find(cat => categorySlug.includes(cat));
+      if (matchedBase) {
+        seoData = await client.fetch(photographyCategorySEOQuery, { slug: matchedBase })
+      }
+    }
+
     if (seoData?.title) {
        categoryTitle = seoData.title
     }
@@ -138,6 +155,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   if (!images || images.length === 0) {
     images = await client.fetch(groq`*[_type == "photographyImage"] | order(_createdAt desc)[0...20] {
       "image": image.asset->url,
+      "imageObj": image,
       title,
       altText
     }`);
@@ -145,18 +163,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
-  const catHeroImage = seoData?.heroImage || images[0]?.image || ''
+  const catHeroImage = (seoData?.heroImage ? urlForImage(seoData.heroImage)?.url() : null) || 
+                       (images[0]?.imageObj ? urlForImage(images[0].imageObj)?.url() : images[0]?.image) || ''
 
   return (
     <>
       <EditorialHero 
         title={categoryTitle}
-        subtitle="Editorial Portfolios"
         image={catHeroImage}
       />
 
       {editorialGallery && editorialGallery.length > 0 && (
-        <EditorialGallery items={editorialGallery} />
+        <EditorialGallery items={editorialGallery.map((item: any) => ({
+          ...item,
+          image: item.image ? urlForImage(item.image)?.url() : item.imageUrl
+        }))} />
       )}
 
       <PhotographyGrid images={images} />

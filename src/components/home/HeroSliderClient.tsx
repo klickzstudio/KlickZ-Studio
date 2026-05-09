@@ -5,10 +5,11 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { HeroSlide } from '@/types'
+import { SiteSettings } from '@/types/sanity'
 
 interface HeroSliderProps {
   initialSlides: HeroSlide[]
-  settings?: any
+  settings?: SiteSettings | null
 }
 
 export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
@@ -53,11 +54,12 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
           >
             <Image
               src={slide?.image || '/images/hero-fallback.jpg'}
-              alt={slide?.heading || 'KLICKZSTUDIO Wedding'}
+              alt={slide?.heading || 'KLICKZSTUDIO Wedding Photography'}
               fill
               className="object-cover object-[50%_25%] lg:object-center"
               priority={current === 0}
               sizes="100vw"
+              {...(slide?.blurDataURL ? { placeholder: 'blur' as const, blurDataURL: slide.blurDataURL } : {})}
             />
           </motion.div>
           {/* Subtle gradient overlay to ensure text readability but not heavy dark */}

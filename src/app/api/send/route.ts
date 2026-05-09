@@ -1,14 +1,85 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
+// ── Rate limiter (in-memory, resets on cold start — fine for serverless) ──
+const rateLimit = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT_MAX = 5       // max requests
+const RATE_LIMIT_WINDOW = 60_000 // per 60 seconds
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = rateLimit.get(ip)
+  if (!entry || now > entry.resetAt) {
+    rateLimit.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW })
+    return false
+  }
+  entry.count++
+  return entry.count > RATE_LIMIT_MAX
+}
+
+// ── XSS Sanitizer ──
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+}
+
 export async function POST(request: Request) {
   const resend = new Resend(process.env.RESEND_API_KEY);
+
+  // ── 1. Origin validation ──
+  const origin = request.headers.get('origin')
+  const allowedOrigins = [
+    process.env.NEXT_PUBLIC_BASE_URL,
+    'http://localhost:3000',
+    'http://localhost:3001',
+  ].filter(Boolean)
+  if (origin && !allowedOrigins.includes(origin)) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
+  // ── 2. Rate limiting ──
+  const forwarded = request.headers.get('x-forwarded-for')
+  const ip = forwarded?.split(',')[0]?.trim() || 'unknown'
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests. Please try again later.' },
+      { status: 429 }
+    )
+  }
+
   try {
-    const { name, email, phone, location, weddingDate, eventType, message } = await request.json();
+    const body = await request.json();
+
+    // ── 3. Honeypot (hidden field bots will fill) ──
+    if (body.website || body.company) {
+      // Bots filled the hidden field — silently succeed
+      return NextResponse.json({ success: true })
+    }
+
+    const { name, email, phone, location, weddingDate, eventType, message } = body;
 
     if (!email || !name) {
       return NextResponse.json({ error: 'Name and Email are required' }, { status: 400 });
     }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
+    }
+
+    // ── 4. Sanitize all user inputs before inserting into HTML ──
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safePhone = escapeHtml(phone || '')
+    const safeLocation = escapeHtml(location || 'Not specified')
+    const safeEventType = escapeHtml(eventType || 'Not specified')
+    const safeWeddingDate = escapeHtml(weddingDate || 'Not specified')
+    const safeMessage = escapeHtml(message || 'No message provided')
 
     console.log('Attempting to send Admin notification...');
     const adminEmail = await resend.emails.send({
@@ -16,19 +87,19 @@ export async function POST(request: Request) {
       to: 'Klickzstudio@gmail.com',
       bcc: ['ainz.mhr@gmail.com'],
       replyTo: email,
-      subject: `NEW ENQUIRY: ${name} | ${eventType || 'Event'}`,
+      subject: `NEW ENQUIRY: ${safeName} | ${safeEventType}`,
       html: `
         <div style="font-family: sans-serif; line-height: 1.6; color: #1a1a1a; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px;">
           <h2 style="color: #C9A96E; border-bottom: 1px solid #C9A96E; padding-bottom: 10px;">New Lead Notification</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Phone:</strong> ${phone}</p>
-          <p><strong>Location:</strong> ${location || 'Not specified'}</p>
-          <p><strong>Event Type:</strong> ${eventType || 'Not specified'}</p>
-          <p><strong>Wedding Date:</strong> ${weddingDate || 'Not specified'}</p>
+          <p><strong>Name:</strong> ${safeName}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
+          <p><strong>Phone:</strong> ${safePhone}</p>
+          <p><strong>Location:</strong> ${safeLocation}</p>
+          <p><strong>Event Type:</strong> ${safeEventType}</p>
+          <p><strong>Wedding Date:</strong> ${safeWeddingDate}</p>
           <p><strong>Message:</strong></p>
           <div style="background: #f9f9f9; padding: 15px; border-left: 4px solid #C9A96E;">
-            ${message.replace(/\n/g, '<br>')}
+            ${safeMessage.replace(/\n/g, '<br>')}
           </div>
           <p style="margin-top: 20px; font-size: 12px; color: #888;">Submitted via KLICKZSTUDIO Contact Form</p>
         </div>
@@ -56,14 +127,14 @@ export async function POST(request: Request) {
             <p style="font-family: sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3em; color: #888888; margin: 0;">Wedding Photography</p>
           </div>
           
-          <p style="font-size: 18px; font-style: italic; color: #1a1a1a;">Dear ${name},</p>
+          <p style="font-size: 18px; font-style: italic; color: #1a1a1a;">Dear ${safeName},</p>
           
           <p style="font-family: sans-serif; font-size: 15px; font-weight: 300; color: #555555;">
             Thank you for reaching out to us. We are truly honoured to be considered for your special day.
           </p>
           
           <p style="font-family: sans-serif; font-size: 15px; font-weight: 300; color: #555555;">
-            Our team has received your enquiry regarding your <strong>${eventType || 'event'}</strong>. We take great pride in our editorial approach to wedding storytelling, and we look forward to discussing how we can capture your unique journey.
+            Our team has received your enquiry regarding your <strong>${safeEventType}</strong>. We take great pride in our editorial approach to wedding storytelling, and we look forward to discussing how we can capture your unique journey.
           </p>
           
           <div style="text-align: center; margin: 40px 0;">
@@ -84,8 +155,7 @@ export async function POST(request: Request) {
 
     if (customerEmail.error) {
       console.error('Resend Customer Email Error:', customerEmail.error);
-      // We don't necessarily want to fail the whole request if just the receipt fails, 
-      // but for debugging, let's throw.
+      // Don't fail the whole request if just the receipt fails
       throw new Error(`Customer Email Error: ${customerEmail.error.message}`);
     }
 
@@ -104,4 +174,3 @@ export async function POST(request: Request) {
     }, { status: 500 });
   }
 }
-

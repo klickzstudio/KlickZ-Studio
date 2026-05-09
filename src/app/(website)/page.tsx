@@ -16,8 +16,11 @@ import {
   instagramPostsQuery,
   siteSettingsQuery,
   homePageQuery,
+  testimonialsQuery,
 } from '@/sanity/lib/queries'
 import { constructMetadata } from '@/lib/seo'
+import { SiteSettings, HomePageData, CmsService, InstagramPostData, PhotographyImage } from '@/types/sanity'
+import { Testimonial } from '@/types'
 
 export async function generateMetadata(): Promise<Metadata> {
   let seoData = null
@@ -40,44 +43,56 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   let introImages: string[] = []
-  let cmsServices: Array<{ title: string; description: string; image: string; href: string }> | null = null
+  let cmsServices: CmsService[] | null = null
   let servicesImages: string[] = []
-  let horizontalImages: string[] = []
-  let instagramPosts: any[] = []
-  let settings: any = {}
-  let homeData: any = {}
+  let horizontalImages: { image: string; alt?: string }[] = []
+  let instagramPosts: InstagramPostData[] = []
+  let settings: SiteSettings | null = null
+  let homeData: HomePageData | null = null
+  let testimonials: Testimonial[] = []
 
   try {
-    // Fetch all data in parallel for maximum performance
-    const [fetchedSettings, fetchedHomeData, fetchedWeddingImages, fetchedInstagram] = await Promise.all([
-      client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } }),
-      client.fetch(homePageQuery, {}, { next: { revalidate: 60 } }),
-      client.fetch(photographyImagesQuery, { slug: 'wedding' }, { next: { revalidate: 60 } }),
-      client.fetch(instagramPostsQuery, {}, { next: { revalidate: 60 } }),
+    // Fetch ALL data in a single parallel batch — no duplicate calls
+    const [
+      fetchedSettings,
+      fetchedHomeData,
+      fetchedWeddingImages,
+      fetchedInstagram,
+      fetchedTestimonials,
+    ] = await Promise.all([
+      client.fetch<SiteSettings>(siteSettingsQuery, {}, { next: { revalidate: 60 } }),
+      client.fetch<HomePageData>(homePageQuery, {}, { next: { revalidate: 60 } }),
+      client.fetch<PhotographyImage[]>(photographyImagesQuery, { slug: 'wedding' }, { next: { revalidate: 60 } }),
+      client.fetch<InstagramPostData[]>(instagramPostsQuery, {}, { next: { revalidate: 60 } }),
+      client.fetch<Testimonial[]>(testimonialsQuery, {}, { next: { revalidate: 60 } }),
     ])
 
-    settings = fetchedSettings || {}
-    homeData = fetchedHomeData || {}
+    settings = fetchedSettings || null
+    homeData = fetchedHomeData || null
     instagramPosts = fetchedInstagram || []
+    testimonials = fetchedTestimonials || []
 
-    const weddingFallbacks = (fetchedWeddingImages || []).map((img: any) => img.image)
+    const weddingFallbacks = (fetchedWeddingImages || []).map((img) => ({
+      image: img.image,
+      alt: img.altText || img.title || 'Cinematic wedding photography'
+    }))
 
     // 1. Intro Images: CMS homePage → siteSettings → wedding fallbacks
     introImages = [
-      homeData.introMainImage || settings.introImage1 || weddingFallbacks[0] || '',
-      homeData.introSecondaryImage || settings.introImage2 || weddingFallbacks[1] || '',
+      homeData?.introMainImage || settings?.introImage1 || weddingFallbacks[0]?.image || '',
+      homeData?.introSecondaryImage || settings?.introImage2 || weddingFallbacks[1]?.image || '',
     ]
 
     // 2. Services: full CMS objects with title + description + image + href
-    cmsServices = homeData.services?.length > 0 ? homeData.services : null
+    cmsServices = homeData?.services?.length ? homeData.services : null
     servicesImages = cmsServices
       ? cmsServices.map((s) => s.image).filter(Boolean)
-      : weddingFallbacks.slice(0, 4)
+      : weddingFallbacks.slice(0, 4).map(f => f.image)
 
     // 3. Horizontal Gallery: CMS homePage gallery → wedding fallbacks
     horizontalImages =
-      homeData.horizontalGallery?.length > 0
-        ? homeData.horizontalGallery.map((item: any) => item.image).filter(Boolean)
+      homeData?.horizontalGallery?.length
+        ? homeData.horizontalGallery.filter(item => Boolean(item.image))
         : weddingFallbacks.slice(2, 12)
 
   } catch (error) {
@@ -86,16 +101,16 @@ export default async function HomePage() {
 
   return (
     <>
-      <HeroSlider />
+      <HeroSlider settings={settings} />
       <IntroSection images={introImages} />
       <ServicesSection images={servicesImages} services={cmsServices} />
 
       <HorizontalGallery images={horizontalImages} />
-      <FounderSection image={settings.founderImage || introImages[0]} />
-      <StatsCounter />
-      <TestimonialsSlider />
+      <FounderSection settings={settings} fallbackImage={introImages[0]} />
+      <StatsCounter stats={settings?.stats} />
+      <TestimonialsSlider initialTestimonials={testimonials} />
       <InstagramFeed posts={instagramPosts} />
-      <FinalCTA backgroundImage={settings.ctaImage} />
+      <FinalCTA backgroundImage={settings?.ctaImage} />
     </>
   )
 }

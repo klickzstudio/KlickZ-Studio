@@ -1,8 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { SiteSettings } from '@/types/sanity'
 
 interface FooterProps {
-  settings?: any
+  settings?: SiteSettings | null
 }
 
 export function Footer({ settings }: FooterProps) {

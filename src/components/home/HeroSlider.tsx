@@ -1,17 +1,19 @@
 import { client } from '@/sanity/lib/client'
 import { groq } from 'next-sanity'
-import { heroSlidesQuery, siteSettingsQuery } from '@/sanity/lib/queries'
+import { heroSlidesQuery } from '@/sanity/lib/queries'
 import { heroSlides as staticSlides } from '@/data/hero-slides'
 import { HeroSlider as HeroSliderClient } from './HeroSliderClient'
 import { HeroSlide } from '@/types'
+import { SiteSettings } from '@/types/sanity'
 
-export async function HeroSlider() {
+interface HeroSliderProps {
+  settings: SiteSettings | null
+}
+
+export async function HeroSlider({ settings }: HeroSliderProps) {
   let slides: HeroSlide[] = []
-  let settings = null
 
   try {
-    settings = await client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } })
-    
     // 1. Try to fetch explicit Hero Slides
     slides = await client.fetch(heroSlidesQuery, {}, { next: { revalidate: 60 } })
     
@@ -35,4 +37,3 @@ export async function HeroSlider() {
 
   return <HeroSliderClient initialSlides={initialSlides} settings={settings} />
 }
-
