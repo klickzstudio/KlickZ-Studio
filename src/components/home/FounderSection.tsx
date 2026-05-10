@@ -9,7 +9,7 @@ interface FounderSectionProps {
 }
 
 export function FounderSection({ settings, fallbackImage }: FounderSectionProps) {
-  const founderName = settings?.founderName || 'Kotteswaran (Kotty)'
+  const founderName = (settings?.founderName || 'Kotteswaran').replace(/\s*\(Kotty\)/gi, '')
   const displayImage = settings?.founderImage || fallbackImage || '/images/kotty-portrait.jpg'
   
   return (

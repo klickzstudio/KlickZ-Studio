@@ -18,13 +18,13 @@ export async function generateMetadata(): Promise<Metadata> {
     })
   }
 
-  return constructMetadata({ title: 'About Kotty' })
+  return constructMetadata({ title: 'About the Founder' })
 }
 
 export default async function AboutPage() {
   const pageData = await client.fetch(pageSEOQuery, { slug: 'about' }, { next: { revalidate: 60 } })
   const settings = await client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } })
-  const founderName = settings?.founderName || 'Kotteswaran (Kotty)'
+  const founderName = (settings?.founderName || 'Kotteswaran').replace(/\s*\(Kotty\)/gi, '')
   const founderImage = settings?.founderImage || '/images/kotty-portrait.jpg'
   const socials = settings?.socials
 

@@ -6,10 +6,11 @@ import { ReactNode } from 'react'
 interface ScrollRevealProps {
   children: ReactNode
   className?: string
+  style?: React.CSSProperties
   delay?: number
 }
 
-export function ScrollReveal({ children, className = '', delay = 0 }: ScrollRevealProps) {
+export function ScrollReveal({ children, className = '', style = {}, delay = 0 }: ScrollRevealProps) {
   const shouldReduceMotion = useReducedMotion()
 
   return (
@@ -19,6 +20,7 @@ export function ScrollReveal({ children, className = '', delay = 0 }: ScrollReve
       viewport={{ once: true, margin: '-80px' }}
       transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
+      style={style}
     >
       {children}
     </motion.div>

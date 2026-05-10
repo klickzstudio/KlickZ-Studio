@@ -127,6 +127,7 @@ export const photographyImagesQuery = groq`
   *[_type == "photographyImage" && category->slug.current == $slug] {
     "image": image.asset->url,
     "imageObj": image,
+    "dimensions": image.asset->metadata.dimensions,
     "blurDataURL": image.asset->metadata.lqip,
     title,
     altText

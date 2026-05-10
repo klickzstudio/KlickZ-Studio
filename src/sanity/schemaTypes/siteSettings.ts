@@ -112,7 +112,7 @@ export const siteSettings = defineType({
       name: 'founderName',
       title: 'Founder Name',
       type: 'string',
-      initialValue: 'Kotteswaran ("Kotty")',
+      initialValue: 'Kotteswaran',
     }),
     defineField({
       name: 'founderImage',

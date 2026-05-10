@@ -50,7 +50,30 @@ export const photographyCategory = defineType({
         {
           type: 'object',
           fields: [
-            { name: 'image', type: 'image', options: { hotspot: true }, title: 'Image' },
+            { 
+              name: 'image', 
+              type: 'image', 
+              options: { hotspot: true }, 
+              title: 'Image',
+              fields: [
+                {
+                  name: 'rotation',
+                  title: 'Rotation',
+                  type: 'number',
+                  options: {
+                    list: [
+                      { title: '0°', value: 0 },
+                      { title: '90° CW', value: 90 },
+                      { title: '180°', value: 180 },
+                      { title: '270° CW', value: 270 },
+                    ],
+                    layout: 'radio',
+                    direction: 'horizontal',
+                  },
+                  initialValue: 0,
+                },
+              ],
+            },
             {
               name: 'aspectRatio',
               type: 'string',
@@ -90,6 +113,24 @@ export const photographyCategory = defineType({
       description: 'Image displayed when sharing the link on social media.',
       type: 'image',
       options: { hotspot: true },
+      fields: [
+        {
+          name: 'rotation',
+          title: 'Rotation',
+          type: 'number',
+          options: {
+            list: [
+              { title: '0°', value: 0 },
+              { title: '90° CW', value: 90 },
+              { title: '180°', value: 180 },
+              { title: '270° CW', value: 270 },
+            ],
+            layout: 'radio',
+            direction: 'horizontal',
+          },
+          initialValue: 0,
+        },
+      ],
     }),
   ],
 })
