@@ -86,7 +86,7 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
       </AnimatePresence>
 
       {/* Fixed Text Overlay - Replaced Dynamic Copy with Fixed Brand Copy */}
-      <div className="absolute inset-0 flex flex-col justify-center lg:justify-end pb-24 md:pb-32 z-20 px-6 md:px-16 lg:px-24">
+      <div className="absolute inset-0 flex flex-col justify-end pb-24 md:pb-32 z-20 px-6 md:px-16 lg:px-24">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
