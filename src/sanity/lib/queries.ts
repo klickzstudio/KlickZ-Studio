@@ -23,8 +23,20 @@ export const siteSettingsQuery = groq`
 
 export const heroSlidesQuery = groq`
   *[_type == "heroSlide"] | order(order asc) {
-    "image": image.asset->url,
-    "blurDataURL": image.asset->metadata.lqip,
+    image {
+      ...,
+      asset-> {
+        ...,
+        metadata { lqip }
+      }
+    },
+    mobileImage {
+      ...,
+      asset-> {
+        ...,
+        metadata { lqip }
+      }
+    },
     heading,
     subheading
   }

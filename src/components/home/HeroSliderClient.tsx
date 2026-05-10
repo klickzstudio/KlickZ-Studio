@@ -52,14 +52,31 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
             transition={{ duration: 8, ease: 'linear' }}
             className="w-full h-full relative"
           >
+            {/* Desktop Image — hidden on mobile */}
             <Image
               src={slide?.image || '/images/hero-fallback.jpg'}
               alt={slide?.heading || 'KLICKZSTUDIO Wedding Photography'}
               fill
-              className="object-cover object-[50%_25%] lg:object-center"
+              className="object-cover object-center hidden lg:block"
               priority={current === 0}
               sizes="100vw"
               {...(slide?.blurDataURL ? { placeholder: 'blur' as const, blurDataURL: slide.blurDataURL } : {})}
+            />
+            {/* Mobile Image — shown below lg, falls back to desktop image */}
+            <Image
+              src={slide?.mobileImage || slide?.image || '/images/hero-fallback.jpg'}
+              alt={slide?.heading || 'KLICKZSTUDIO Wedding Photography'}
+              fill
+              className="object-cover object-center lg:hidden"
+              priority={current === 0}
+              sizes="100vw"
+              {...(
+                slide?.mobileBlurDataURL
+                  ? { placeholder: 'blur' as const, blurDataURL: slide.mobileBlurDataURL }
+                  : slide?.blurDataURL
+                  ? { placeholder: 'blur' as const, blurDataURL: slide.blurDataURL }
+                  : {}
+              )}
             />
           </motion.div>
           {/* Subtle gradient overlay to ensure text readability but not heavy dark */}

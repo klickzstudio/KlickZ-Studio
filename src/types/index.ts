@@ -8,6 +8,8 @@ export interface NavLink {
 export interface HeroSlide {
   image: string
   blurDataURL?: string
+  mobileImage?: string
+  mobileBlurDataURL?: string
   heading: string
   subheading: string
 }

@@ -3,6 +3,7 @@
 @theme inline {
   --color-background: #F8F4EE;
   --color-foreground: #2B2420;
+  --color-white: #F8F4EE;
 
   --font-cormorant: var(--font-cormorant);
   --font-inter: var(--font-inter);

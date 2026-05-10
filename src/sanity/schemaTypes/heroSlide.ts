@@ -7,10 +7,17 @@ export const heroSlide = defineType({
   fields: [
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Desktop Image',
       type: 'image',
       options: { hotspot: true },
       validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'mobileImage',
+      title: 'Mobile Image (Portrait Crop)',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Optional. Upload a tighter, portrait-oriented crop of the same image for mobile screens. If not set, the desktop image will be used with centered positioning.',
     }),
     defineField({
       name: 'heading',

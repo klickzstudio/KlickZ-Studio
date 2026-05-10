@@ -226,7 +226,7 @@ export function Navbar({ settings }: NavbarProps) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-              className="fixed top-0 right-0 h-full w-full md:w-[500px] bg-[#FDFCFB] z-[101] overflow-y-auto px-10 py-16 md:px-16 md:py-24 shadow-[-20px_0_60px_rgba(0,0,0,0.05)] border-l border-black/5"
+              className="fixed top-0 right-0 h-full w-full md:w-[500px] bg-[#F5F0E8] z-[101] overflow-y-auto px-10 pt-12 pb-16 md:px-16 md:py-24 shadow-[-20px_0_60px_rgba(0,0,0,0.05)] border-l border-black/5"
             >
               <button
                 onClick={() => setIsInfoOpen(false)}
@@ -238,9 +238,9 @@ export function Navbar({ settings }: NavbarProps) {
                 </svg>
               </button>
 
-              <div className="space-y-16">
+              <div className="space-y-10">
                 <div>
-                  <h3 className="font-cormorant text-black text-3xl font-light tracking-[0.25em] mb-10">
+                  <h3 className="font-cormorant text-black text-3xl font-light tracking-[0.25em] mb-6">
                     <Image src="/KlickzStudioBlack.png" alt="KLICKZSTUDIO" width={400} height={100} className="w-auto h-20" />
                   </h3>
                   <p className="font-lato text-[15px] text-black/60 leading-relaxed font-light tracking-wide italic">
