@@ -34,10 +34,17 @@ export async function POST(request: Request) {
   const origin = request.headers.get('origin')
   const allowedOrigins = [
     process.env.NEXT_PUBLIC_SITE_URL,
+    'https://klickzstudio.in',
+    'https://www.klickzstudio.in',
     'http://localhost:3000',
     'http://localhost:3001',
   ].filter(Boolean)
-  if (origin && !allowedOrigins.includes(origin)) {
+
+  // Also allow Vercel preview deployments
+  const isVercelPreview = origin?.includes('.vercel.app')
+
+  if (origin && !allowedOrigins.includes(origin) && !isVercelPreview) {
+    console.error('Origin blocked:', origin)
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
