@@ -33,7 +33,7 @@ export async function POST(request: Request) {
   // ── 1. Origin validation ──
   const origin = request.headers.get('origin')
   const allowedOrigins = [
-    process.env.NEXT_PUBLIC_BASE_URL,
+    process.env.NEXT_PUBLIC_SITE_URL,
     'http://localhost:3000',
     'http://localhost:3001',
   ].filter(Boolean)
