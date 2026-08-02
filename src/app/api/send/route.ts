@@ -83,9 +83,8 @@ export async function POST(request: Request) {
 
     console.log('Attempting to send Admin notification...');
     const adminEmail = await resend.emails.send({
-      from: 'KLICKZSTUDIO Leads <hello@ainz.space>',
+      from: 'KLICKZSTUDIO Leads <hello@klickzstudio.in>',
       to: 'Klickzstudio@gmail.com',
-      bcc: ['ainz.mhr@gmail.com'],
       replyTo: email,
       subject: `NEW ENQUIRY: ${safeName} | ${safeEventType}`,
       html: `
@@ -116,7 +115,7 @@ export async function POST(request: Request) {
     // 2. Send Customer Receipt
     console.log('Attempting to send Customer receipt...');
     const customerEmail = await resend.emails.send({
-      from: 'KLICKZSTUDIO <hello@ainz.space>',
+      from: 'KLICKZSTUDIO <hello@klickzstudio.in>',
       to: email,
       subject: 'Thank you for contacting KLICKZSTUDIO',
       html: `
