@@ -25,7 +25,9 @@ export function Navbar({ settings }: NavbarProps) {
   const lastScrollYRef = useRef(0)
   const [isInfoOpen, setIsInfoOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
+  const [activeSubDropdown, setActiveSubDropdown] = useState<string | null>(null)
   const [activeMobileDropdown, setActiveMobileDropdown] = useState<string | null>(null)
+  const [activeMobileSubDropdown, setActiveMobileSubDropdown] = useState<string | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Handle Scroll (Scrolled State + Show/Hide logic)
@@ -71,28 +73,33 @@ export function Navbar({ settings }: NavbarProps) {
 
           {/* Navigation Section (Left) */}
           <div className="hidden lg:flex flex-1 items-center justify-start gap-4 xl:gap-8 px-4">
-            {navLinks.slice(0, 3).map((link) => (
+            {navLinks.slice(0, 4).map((link) => (
               <div
                 key={link.label}
                 className="relative"
-                onMouseEnter={() => link.children && setActiveDropdown(link.label)}
-                onMouseLeave={() => setActiveDropdown(null)}
+                onMouseEnter={() => {
+                  if (link.children) setActiveDropdown(link.label)
+                }}
+                onMouseLeave={() => {
+                  setActiveDropdown(null)
+                  setActiveSubDropdown(null)
+                }}
               >
                 <Link
                   href={link.href}
-                  className={`font-lato text-[10.5px] xl:text-[11px] uppercase tracking-[0.12em] transition-colors duration-400 font-normal hover-gold-underline whitespace-nowrap flex items-center gap-1 ${scrolled ? 'text-black/80 hover:text-black' : 'text-white/90 hover:text-[#C9A96E]'}`}
+                  className={`font-lato text-[12px] xl:text-[13px] uppercase tracking-[0.1em] transition-colors duration-400 font-bold hover-gold-underline whitespace-nowrap flex items-center gap-1.5 ${scrolled ? 'text-black hover:text-[#C9A96E]' : 'text-white hover:text-[#C9A96E]'}`}
                 >
                   {link.label}
                   {link.children && (
-                    <span className={`${scrolled ? 'opacity-20' : 'opacity-30'}`}>
+                    <span className={`${scrolled ? 'opacity-30' : 'opacity-40'}`}>
                       <svg width="6" height="4" viewBox="0 0 7 4" fill="none">
-                        <path d="M1 1L3.5 3L6 1" stroke="currentColor" strokeWidth="1" />
+                        <path d="M1 1L3.5 3L6 1" stroke="currentColor" strokeWidth="1.2" />
                       </svg>
                     </span>
                   )}
                 </Link>
 
-                {/* Dropdown */}
+                {/* Dropdown - Single Column */}
                 <AnimatePresence>
                   {link.children && activeDropdown === link.label && (
                     <motion.div
@@ -100,16 +107,70 @@ export function Navbar({ settings }: NavbarProps) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.25 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#111111] border border-white/5 min-w-[200px] py-4 shadow-2xl"
+                      className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 shadow-2xl rounded-lg py-3 z-50 min-w-[240px] px-2 flex flex-col gap-0.5 transition-colors duration-300 ${
+                        scrolled
+                          ? 'bg-white/98 border border-black/10 backdrop-blur-md'
+                          : 'bg-[#111111] border border-white/10'
+                      }`}
                     >
                       {link.children.map((child: NavLink) => (
-                        <Link
+                        <div
                           key={child.label}
-                          href={child.href}
-                          className="block px-6 py-2.5 font-lato text-[10.5px] font-light text-white/60 hover:text-[#C9A96E] hover:bg-white/[0.03] transition-all duration-300 tracking-[0.1em]"
+                          className="relative group/sub"
+                          onMouseEnter={() => child.children && setActiveSubDropdown(child.label)}
+                          onMouseLeave={() => setActiveSubDropdown(null)}
                         >
-                          {child.label}
-                        </Link>
+                          <Link
+                            href={child.href}
+                            className={`flex items-center justify-between px-4 py-2 font-lato text-[12px] xl:text-[12.5px] font-semibold rounded-md transition-all duration-300 tracking-[0.06em] whitespace-nowrap ${
+                              scrolled
+                                ? 'text-[#2B2420] hover:text-[#C9A96E] hover:bg-black/[0.04]'
+                                : 'text-white/90 hover:text-[#C9A96E] hover:bg-white/[0.06]'
+                            }`}
+                          >
+                            <span>{child.label}</span>
+                            {child.children && (
+                              <span className={`transition-colors ml-2 ${
+                                scrolled ? 'text-black/30 group-hover/sub:text-[#C9A96E]' : 'text-white/40 group-hover/sub:text-[#C9A96E]'
+                              }`}>
+                                <svg width="5" height="8" viewBox="0 0 5 8" fill="none">
+                                  <path d="M1 1L4 4L1 7" stroke="currentColor" strokeWidth="1.2" />
+                                </svg>
+                              </span>
+                            )}
+                          </Link>
+
+                          {/* Level 2 Sub-dropdown - Single Column */}
+                          <AnimatePresence>
+                            {child.children && activeSubDropdown === child.label && (
+                              <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className={`absolute left-full top-0 ml-1.5 shadow-2xl rounded-lg py-3 z-50 min-w-[230px] px-2 flex flex-col gap-0.5 transition-colors duration-300 ${
+                                  scrolled
+                                    ? 'bg-white/98 border border-black/10 backdrop-blur-md'
+                                    : 'bg-[#111111] border border-white/10'
+                                }`}
+                              >
+                                {child.children.map((subChild: NavLink) => (
+                                  <Link
+                                    key={subChild.label}
+                                    href={subChild.href}
+                                    className={`block px-4 py-2 font-lato text-[11.5px] font-semibold rounded-md transition-all duration-300 tracking-[0.06em] whitespace-nowrap ${
+                                      scrolled
+                                        ? 'text-[#2B2420] hover:text-[#C9A96E] hover:bg-black/[0.04]'
+                                        : 'text-white/85 hover:text-[#C9A96E] hover:bg-white/[0.06]'
+                                    }`}
+                                  >
+                                    {subChild.label}
+                                  </Link>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
                       ))}
                     </motion.div>
                   )}
@@ -134,17 +195,22 @@ export function Navbar({ settings }: NavbarProps) {
 
           {/* Navigation Section (Right) + Info */}
           <div className="hidden lg:flex flex-1 items-center justify-end gap-6 xl:gap-8 px-4">
-            {navLinks.slice(3).map((link) => (
+            {navLinks.slice(4).map((link) => (
               <div
                 key={link.label}
                 className="relative"
-                onMouseEnter={() => link.children && setActiveDropdown(link.label)}
-                onMouseLeave={() => setActiveDropdown(null)}
+                onMouseEnter={() => {
+                  if (link.children) setActiveDropdown(link.label)
+                }}
+                onMouseLeave={() => {
+                  setActiveDropdown(null)
+                  setActiveSubDropdown(null)
+                }}
               >
                 {link.isButton ? (
                   <Link
                     href={link.href}
-                    className={`border px-5 py-1.5 xl:px-6 xl:py-2 font-lato text-[11px] uppercase tracking-[0.1em] transition-all duration-400 font-medium whitespace-nowrap ${scrolled
+                    className={`border px-5 py-2 xl:px-6 xl:py-2 font-lato text-[12px] xl:text-[13px] uppercase tracking-[0.1em] transition-all duration-400 font-bold whitespace-nowrap ${scrolled
                       ? 'border-black text-black hover:bg-black hover:text-white'
                       : 'border-[#C9A96E] text-[#C9A96E] hover:bg-[#C9A96E] hover:text-black'
                       }`}
@@ -154,21 +220,21 @@ export function Navbar({ settings }: NavbarProps) {
                 ) : (
                   <Link
                     href={link.href}
-                    className={`font-lato text-[10.5px] xl:text-[11px] uppercase tracking-[0.12em] transition-colors duration-400 font-normal hover-gold-underline whitespace-nowrap flex items-center gap-1 ${scrolled ? 'text-black/80 hover:text-black' : 'text-white/90 hover:text-[#C9A96E]'
+                    className={`font-lato text-[12px] xl:text-[13px] uppercase tracking-[0.1em] transition-colors duration-400 font-bold hover-gold-underline whitespace-nowrap flex items-center gap-1.5 ${scrolled ? 'text-black hover:text-[#C9A96E]' : 'text-white hover:text-[#C9A96E]'
                       }`}
                   >
                     {link.label}
                     {link.children && (
-                      <span className={`${scrolled ? 'opacity-20' : 'opacity-30'}`}>
+                      <span className={`${scrolled ? 'opacity-30' : 'opacity-40'}`}>
                         <svg width="6" height="4" viewBox="0 0 7 4" fill="none">
-                          <path d="M1 1L3.5 3L6 1" stroke="currentColor" strokeWidth="1" />
+                          <path d="M1 1L3.5 3L6 1" stroke="currentColor" strokeWidth="1.2" />
                         </svg>
                       </span>
                     )}
                   </Link>
                 )}
 
-                {/* Dropdown */}
+                {/* Dropdown - Single Column */}
                 <AnimatePresence>
                   {link.children && activeDropdown === link.label && (
                     <motion.div
@@ -176,25 +242,76 @@ export function Navbar({ settings }: NavbarProps) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.25 }}
-                      className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#111111] border border-white/10 shadow-2xl rounded-lg py-3 z-50 ${
-                        link.children.length > 8 ? 'w-[380px] grid grid-cols-2 px-2 gap-y-0.5' : 'min-w-[210px]'
+                      className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 shadow-2xl rounded-lg py-3 z-50 min-w-[240px] px-2 flex flex-col gap-0.5 transition-colors duration-300 ${
+                        scrolled
+                          ? 'bg-white/98 border border-black/10 backdrop-blur-md'
+                          : 'bg-[#111111] border border-white/10'
                       }`}
                     >
                       {link.children.map((child: NavLink) => (
-                        <Link
+                        <div
                           key={child.label}
-                          href={child.href}
-                          className="block px-4 py-2 font-lato text-[10.5px] font-light text-white/70 hover:text-[#C9A96E] hover:bg-white/[0.04] rounded-md transition-all duration-300 tracking-[0.08em] whitespace-nowrap"
+                          className="relative group/sub"
+                          onMouseEnter={() => child.children && setActiveSubDropdown(child.label)}
+                          onMouseLeave={() => setActiveSubDropdown(null)}
                         >
-                          {child.label}
-                        </Link>
+                          <Link
+                            href={child.href}
+                            className={`flex items-center justify-between px-4 py-2 font-lato text-[12px] xl:text-[12.5px] font-semibold rounded-md transition-all duration-300 tracking-[0.06em] whitespace-nowrap ${
+                              scrolled
+                                ? 'text-[#2B2420] hover:text-[#C9A96E] hover:bg-black/[0.04]'
+                                : 'text-white/90 hover:text-[#C9A96E] hover:bg-white/[0.06]'
+                            }`}
+                          >
+                            <span>{child.label}</span>
+                            {child.children && (
+                              <span className={`transition-colors ml-2 ${
+                                scrolled ? 'text-black/30 group-hover/sub:text-[#C9A96E]' : 'text-white/40 group-hover/sub:text-[#C9A96E]'
+                              }`}>
+                                <svg width="5" height="8" viewBox="0 0 5 8" fill="none">
+                                  <path d="M1 1L4 4L1 7" stroke="currentColor" strokeWidth="1.2" />
+                                </svg>
+                              </span>
+                            )}
+                          </Link>
+
+                          {/* Level 2 Sub-dropdown - Single Column */}
+                          <AnimatePresence>
+                            {child.children && activeSubDropdown === child.label && (
+                              <motion.div
+                                initial={{ opacity: 0, x: -10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={{ duration: 0.2 }}
+                                className={`absolute left-full top-0 ml-1.5 shadow-2xl rounded-lg py-3 z-50 min-w-[230px] px-2 flex flex-col gap-0.5 transition-colors duration-300 ${
+                                  scrolled
+                                    ? 'bg-white/98 border border-black/10 backdrop-blur-md'
+                                    : 'bg-[#111111] border border-white/10'
+                                }`}
+                              >
+                                {child.children.map((subChild: NavLink) => (
+                                  <Link
+                                    key={subChild.label}
+                                    href={subChild.href}
+                                    className={`block px-4 py-2 font-lato text-[11.5px] font-semibold rounded-md transition-all duration-300 tracking-[0.06em] whitespace-nowrap ${
+                                      scrolled
+                                        ? 'text-[#2B2420] hover:text-[#C9A96E] hover:bg-black/[0.04]'
+                                        : 'text-white/85 hover:text-[#C9A96E] hover:bg-white/[0.06]'
+                                    }`}
+                                  >
+                                    {subChild.label}
+                                  </Link>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
                       ))}
                     </motion.div>
                   )}
                 </AnimatePresence>
               </div>
             ))}
-
           </div>
 
           {/* Mobile Menu Button - 3-bar design */}
@@ -257,7 +374,7 @@ export function Navbar({ settings }: NavbarProps) {
                   <h4 className="font-lato text-[10px] uppercase tracking-[0.3em] text-[#C9A96E] opacity-60">Explore Work</h4>
                   <div className="grid grid-cols-1 gap-6">
                     {navLinks.map((link) => {
-                      const isEditorial = link.label.toLowerCase().includes('about') || link.label.toLowerCase().includes('wedding') || link.label.toLowerCase().includes('contact') || link.label.toLowerCase().includes('poetry');
+                      const isEditorial = link.label.toLowerCase().includes('about') || link.label.toLowerCase().includes('wedding') || link.label.toLowerCase().includes('contact') || link.label.toLowerCase().includes('services');
                       const isOpen = activeMobileDropdown === link.label;
 
                       return (
@@ -302,7 +419,7 @@ export function Navbar({ settings }: NavbarProps) {
                             </Link>
                           )}
 
-                          {/* Dropdown Content */}
+                          {/* Level 1 Dropdown Content */}
                           <AnimatePresence>
                             {link.children && isOpen && (
                               <motion.div
@@ -312,17 +429,74 @@ export function Navbar({ settings }: NavbarProps) {
                                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                                 className="overflow-hidden"
                               >
-                                <div className="flex flex-col gap-4 pt-6 pb-2 pl-4 border-l border-black/10 ml-4">
-                                  {link.children.map((child) => (
-                                    <Link
-                                      key={child.label}
-                                      href={child.href}
-                                      onClick={() => setIsInfoOpen(false)}
-                                      className="font-lato text-[11px] tracking-[0.15em] uppercase text-black/60 hover:text-[#C9A96E] transition-colors"
-                                    >
-                                      {child.label}
-                                    </Link>
-                                  ))}
+                                <div className="flex flex-col gap-3 pt-4 pb-2 pl-4 border-l border-black/10 ml-4">
+                                  {link.children.map((child) => {
+                                    const isSubOpen = activeMobileSubDropdown === child.label;
+
+                                    return (
+                                      <div key={child.label} className="w-full">
+                                        {child.children ? (
+                                          <div className="flex items-center justify-between group">
+                                            <Link
+                                              href={child.href}
+                                              onClick={() => setIsInfoOpen(false)}
+                                              className="font-lato text-[11px] tracking-[0.15em] uppercase text-black/80 font-medium hover:text-[#C9A96E] transition-colors"
+                                            >
+                                              {child.label}
+                                            </Link>
+                                            <button
+                                              onClick={() => setActiveMobileSubDropdown(isSubOpen ? null : child.label)}
+                                              className="px-3 py-1 text-black/40 hover:text-[#C9A96E] transition-colors"
+                                            >
+                                              <motion.span
+                                                animate={{ rotate: isSubOpen ? 180 : 0 }}
+                                                transition={{ duration: 0.3 }}
+                                                className="block"
+                                              >
+                                                <svg width="10" height="6" viewBox="0 0 12 7" fill="none">
+                                                  <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.2" />
+                                                </svg>
+                                              </motion.span>
+                                            </button>
+                                          </div>
+                                        ) : (
+                                          <Link
+                                            href={child.href}
+                                            onClick={() => setIsInfoOpen(false)}
+                                            className="font-lato text-[11px] tracking-[0.15em] uppercase text-black/60 hover:text-[#C9A96E] transition-colors block"
+                                          >
+                                            {child.label}
+                                          </Link>
+                                        )}
+
+                                        {/* Level 2 Sub-dropdown */}
+                                        <AnimatePresence>
+                                          {child.children && isSubOpen && (
+                                            <motion.div
+                                              initial={{ height: 0, opacity: 0 }}
+                                              animate={{ height: 'auto', opacity: 1 }}
+                                              exit={{ height: 0, opacity: 0 }}
+                                              transition={{ duration: 0.25, ease: 'easeInOut' }}
+                                              className="overflow-hidden"
+                                            >
+                                              <div className="flex flex-col gap-2.5 pt-3 pb-1 pl-4 border-l border-[#C9A96E]/40 ml-2">
+                                                {child.children.map((subChild) => (
+                                                  <Link
+                                                    key={subChild.label}
+                                                    href={subChild.href}
+                                                    onClick={() => setIsInfoOpen(false)}
+                                                    className="font-lato text-[10px] tracking-[0.12em] uppercase text-black/50 hover:text-[#C9A96E] transition-colors"
+                                                  >
+                                                    {subChild.label}
+                                                  </Link>
+                                                ))}
+                                              </div>
+                                            </motion.div>
+                                          )}
+                                        </AnimatePresence>
+                                      </div>
+                                    )
+                                  })}
                                 </div>
                               </motion.div>
                             )}
