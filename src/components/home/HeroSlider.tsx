@@ -23,9 +23,9 @@ export async function HeroSlider({ settings }: HeroSliderProps) {
     if (rawSlides && rawSlides.length > 0) {
       slides = rawSlides.map((slide: any) => ({
         ...slide,
-        image: urlForImage(slide.image).url(),
+        image: urlForImage(slide.image)?.url(),
         blurDataURL: slide.image?.asset?.metadata?.lqip,
-        mobileImage: slide.mobileImage ? urlForImage(slide.mobileImage).url() : undefined,
+        mobileImage: slide.mobileImage ? urlForImage(slide.mobileImage)?.url() : undefined,
         mobileBlurDataURL: slide.mobileImage?.asset?.metadata?.lqip
       }))
     }
@@ -47,7 +47,7 @@ export async function HeroSlider({ settings }: HeroSliderProps) {
       `)
       slides = fallbackImages.map((img: any) => ({
         ...img,
-        image: urlForImage(img.image).url(),
+        image: urlForImage(img.image)?.url(),
         blurDataURL: img.image?.asset?.metadata?.lqip,
       }))
     }

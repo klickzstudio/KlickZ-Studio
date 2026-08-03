@@ -25,29 +25,33 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   const { category: categorySlug } = await params
   const canonicalPath = `/${categorySlug}`
 
-  // 1. Check if it's an SEO Landing Page
-  const landingPageData = await client.fetch(landingPageQuery, { slug: categorySlug })
-  if (landingPageData) {
-    return constructMetadata({
-      title: landingPageData.title,
-      description: landingPageData.seoDescription,
-      image: landingPageData.ogImage,
-      canonicalPath,
-    })
+  try {
+    // 1. Check if it's an SEO Landing Page
+    const landingPageData = await client.fetch(landingPageQuery, { slug: categorySlug })
+    if (landingPageData) {
+      return constructMetadata({
+        title: landingPageData.title,
+        description: landingPageData.seoDescription,
+        image: landingPageData.ogImage,
+        canonicalPath,
+      })
+    }
+
+    // 2. Check Photography Category
+    const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
+    if (seoData) {
+      return constructMetadata({
+        title: seoData.title,
+        description: seoData.seoDescription,
+        image: seoData.ogImage,
+        canonicalPath,
+      })
+    }
+  } catch (error) {
+    console.error(`Metadata fetch failed for ${categorySlug}:`, error)
   }
 
-  // 2. Check Photography Category
-  const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
-  if (seoData) {
-    return constructMetadata({
-      title: seoData.title,
-      description: seoData.seoDescription,
-      image: seoData.ogImage,
-      canonicalPath,
-    })
-  }
-
-  // 3. If registered dynamic slug, construct SEO metadata for empty template
+  // 3. Fallback metadata for valid registered dynamic route
   const validSlugs = getValidDynamicSlugs()
   if (validSlugs.has(categorySlug)) {
     const formattedTitle = formatSlugToTitle(categorySlug)
@@ -65,24 +69,32 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category: categorySlug } = await params
   
   // 1. Try finding as an SEO Landing Page first
-  const landingPageData = await client.fetch(
-    landingPageQuery,
-    { slug: categorySlug },
-    { next: { revalidate: 60 } }
-  )
+  let landingPageData = null
+  try {
+    landingPageData = await client.fetch(
+      landingPageQuery,
+      { slug: categorySlug },
+      { next: { revalidate: 60 } }
+    )
+  } catch (error) {
+    console.error(`Failed to fetch landing page for ${categorySlug}:`, error)
+  }
 
   if (landingPageData) {
-    let associatedImages = []
+    let associatedImages: any[] = []
     if (landingPageData.associatedCategorySlug) {
-      associatedImages = await client.fetch(photographyImagesQuery, {
-        slug: landingPageData.associatedCategorySlug,
-      })
+      try {
+        associatedImages = await client.fetch(photographyImagesQuery, {
+          slug: landingPageData.associatedCategorySlug,
+        })
+      } catch (err) {
+        console.error('Failed to fetch associated images:', err)
+      }
     }
 
     const heroImage =
       (landingPageData.heroImage ? urlForImage(landingPageData.heroImage)?.url() : null) ||
       (landingPageData.categoryHeroImage ? urlForImage(landingPageData.categoryHeroImage)?.url() : null) ||
-      landingPageData.ogImage ||
       (associatedImages[0]?.imageObj ? urlForImage(associatedImages[0].imageObj)?.url() : associatedImages[0]?.image) ||
       '/KlickzStudio_Logo_last_final.png'
 
@@ -115,7 +127,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     )
   }
 
-  // 2. Fetch standard Photography Category data & images (exact slug match only)
+  // 2. Fetch standard Photography Category data & images
   let images: any[] = []
   let seoData: any = null
 
@@ -126,7 +138,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       { next: { revalidate: 60 } }
     )
     
-    // Fallback to main wedding category images if sub-wedding category has no specific images uploaded yet
+    // Fallback to main 'wedding' category images if sub-wedding category has no specific images uploaded yet
     const weddingSubSlugs = new Set([
       'hindu-wedding-photography',
       'muslim-wedding-photography',
@@ -159,8 +171,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     console.error(`Failed to fetch category data for ${categorySlug}:`, error)
   }
 
-  // If exact category SEO data or images exist, render category layout
-  if ((images && images.length > 0) || seoData) {
+  // Render category layout if images exist
+  if (images && images.length > 0) {
     const categoryTitle = seoData?.title || formatSlugToTitle(categorySlug)
     const editorialGallery = seoData?.editorialGallery || []
     const catHeroImage =
@@ -181,25 +193,26 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           />
         )}
 
-        {images && images.length > 0 ? (
-          <PhotographyGrid images={images} />
-        ) : (
-          <EmptyPageTemplate
-            slug={categorySlug}
-            title={categoryTitle}
-            description={seoData?.seoDescription}
-          />
-        )}
+        <PhotographyGrid images={images} />
       </>
     )
   }
 
-  // 3. Check if slug is a valid registered route in src/config/routes.ts
+  // Render clean Empty Page Template for registered routes or empty category documents
   const validSlugs = getValidDynamicSlugs()
-  if (validSlugs.has(categorySlug)) {
-    return <EmptyPageTemplate slug={categorySlug} />
+  if (validSlugs.has(categorySlug) || seoData) {
+    const title = seoData?.title || formatSlugToTitle(categorySlug)
+    const heroImage = seoData?.heroImage ? urlForImage(seoData.heroImage)?.url() : undefined
+    return (
+      <EmptyPageTemplate
+        slug={categorySlug}
+        title={title}
+        description={seoData?.seoDescription}
+        heroImage={heroImage || undefined}
+      />
+    )
   }
 
-  // 4. If neither Sanity content nor registered dynamic route: return 404
+  // 4. Unregistered route -> 404
   notFound()
 }
