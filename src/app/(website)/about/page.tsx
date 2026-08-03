@@ -25,7 +25,7 @@ export default async function AboutPage() {
   const pageData = await client.fetch(pageSEOQuery, { slug: 'about' }, { next: { revalidate: 60 } })
   const settings = await client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } })
   const founderName = (settings?.founderName || 'Kotteswaran').replace(/\s*\(Kotty\)/gi, '')
-  const founderImage = settings?.founderImage || '/images/client_owner.png'
+  const founderImage = '/images/client_owner.png'
   const socials = settings?.socials
 
   return (

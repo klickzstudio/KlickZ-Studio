@@ -10,7 +10,7 @@ interface FounderSectionProps {
 
 export function FounderSection({ settings, fallbackImage }: FounderSectionProps) {
   const founderName = (settings?.founderName || 'Kotteswaran').replace(/\s*\(Kotty\)/gi, '')
-  const displayImage = settings?.founderImage || fallbackImage || '/images/client_owner.png'
+  const displayImage = '/images/client_owner.png'
   
   return (
     <section className="relative py-24 md:py-36 bg-[#F8F4EE] overflow-hidden">
