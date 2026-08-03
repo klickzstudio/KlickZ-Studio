@@ -1,14 +1,19 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { client } from '@/sanity/lib/client'
-import { photographyCategorySEOQuery, photographyImagesQuery, landingPageQuery, portfolioImagesFallbackQuery } from '@/sanity/lib/queries'
+import {
+  photographyCategorySEOQuery,
+  photographyImagesQuery,
+  landingPageQuery,
+} from '@/sanity/lib/queries'
 import { PhotographyGrid } from '@/components/photography/PhotographyGrid'
-import { fallbackPhotography } from '@/data/photography'
 import { constructMetadata } from '@/lib/seo'
-import { PortableText, groq } from 'next-sanity'
+import { PortableText } from 'next-sanity'
 import { EditorialHero } from '@/components/ui/EditorialHero'
 import { EditorialGallery } from '@/components/photography/EditorialGallery'
 import { urlForImage } from '@/sanity/lib/image'
+import { getValidDynamicSlugs } from '@/config/routes'
+import { EmptyPageTemplate, formatSlugToTitle } from '@/components/ui/EmptyPageTemplate'
 
 interface CategoryPageProps {
   params: Promise<{
@@ -29,7 +34,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     })
   }
 
-  // 2. Fallback to Photography Category
+  // 2. Check Photography Category
   const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
   if (seoData) {
     return constructMetadata({
@@ -39,52 +44,66 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     })
   }
 
-  const formattedTitle = categorySlug.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-  return constructMetadata({ title: formattedTitle })
+  // 3. If registered dynamic slug, construct SEO metadata for empty template
+  const validSlugs = getValidDynamicSlugs()
+  if (validSlugs.has(categorySlug)) {
+    const formattedTitle = formatSlugToTitle(categorySlug)
+    return constructMetadata({
+      title: `${formattedTitle} | KLICKZSTUDIO`,
+      description: `Explore premium ${formattedTitle} photography by KLICKZSTUDIO Chennai. Award-winning visual storytellers.`,
+    })
+  }
+
+  return constructMetadata({ title: formatSlugToTitle(categorySlug) })
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category: categorySlug } = await params
   
-  // Try finding as an SEO Landing Page first
-  const landingPageData = await client.fetch(landingPageQuery, { slug: categorySlug }, { next: { revalidate: 60 } })
+  // 1. Try finding as an SEO Landing Page first
+  const landingPageData = await client.fetch(
+    landingPageQuery,
+    { slug: categorySlug },
+    { next: { revalidate: 60 } }
+  )
 
   if (landingPageData) {
-    // It's a programmatic SEO Landing Page
     let associatedImages = []
     if (landingPageData.associatedCategorySlug) {
-      associatedImages = await client.fetch(photographyImagesQuery, { slug: landingPageData.associatedCategorySlug })
+      associatedImages = await client.fetch(photographyImagesQuery, {
+        slug: landingPageData.associatedCategorySlug,
+      })
     }
 
-    const heroImage = (landingPageData.heroImage ? urlForImage(landingPageData.heroImage)?.url() : null) || 
-                      (landingPageData.categoryHeroImage ? urlForImage(landingPageData.categoryHeroImage)?.url() : null) || 
-                      landingPageData.ogImage || 
-                      (associatedImages[0]?.imageObj ? urlForImage(associatedImages[0].imageObj)?.url() : associatedImages[0]?.image) || 
-                      fallbackPhotography[landingPageData.associatedCategorySlug || '']?.[0]?.image || '';
-    
+    const heroImage =
+      (landingPageData.heroImage ? urlForImage(landingPageData.heroImage)?.url() : null) ||
+      (landingPageData.categoryHeroImage ? urlForImage(landingPageData.categoryHeroImage)?.url() : null) ||
+      landingPageData.ogImage ||
+      (associatedImages[0]?.imageObj ? urlForImage(associatedImages[0].imageObj)?.url() : associatedImages[0]?.image) ||
+      '/KlickzStudio_Logo_last_final.png'
+
     return (
       <>
-        <EditorialHero 
-          title={landingPageData.title}
-          image={heroImage}
-        />
+        <EditorialHero title={landingPageData.title} image={heroImage} />
         
         {landingPageData.content && (
           <section className="pb-20 md:pb-28 bg-white border-t border-[#F9F6F2]">
-             <div className="max-w-[800px] mx-auto px-6 lg:px-10 py-16">
-               <div className="prose prose-lg prose-headings:font-cormorant prose-p:font-lato prose-p:font-light prose-p:text-[#555] mx-auto text-center">
-                 <PortableText value={landingPageData.content} />
-               </div>
-               <div className="w-16 h-[1px] bg-[#C9A96E] mx-auto mt-16" />
-             </div>
+            <div className="max-w-[800px] mx-auto px-6 lg:px-10 py-16">
+              <div className="prose prose-lg prose-headings:font-cormorant prose-p:font-lato prose-p:font-light prose-p:text-[#555] mx-auto text-center">
+                <PortableText value={landingPageData.content} />
+              </div>
+              <div className="w-16 h-[1px] bg-[#C9A96E] mx-auto mt-16" />
+            </div>
           </section>
         )}
         
         {landingPageData.editorialGallery && landingPageData.editorialGallery.length > 0 && (
-          <EditorialGallery items={landingPageData.editorialGallery.map((item: any) => ({
-            ...item,
-            image: item.image ? urlForImage(item.image)?.url() : item.imageUrl
-          }))} />
+          <EditorialGallery
+            items={landingPageData.editorialGallery.map((item: any) => ({
+              ...item,
+              image: item.image ? urlForImage(item.image)?.url() : item.imageUrl,
+            }))}
+          />
         )}
         
         {associatedImages.length > 0 && <PhotographyGrid images={associatedImages} />}
@@ -92,95 +111,66 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     )
   }
 
-  // Fallback to standard Photography Category behavior
-  const validFallbackCategories = Object.keys(fallbackPhotography)
-  let images = []
-  let categoryTitle = categorySlug.split('-').map((word: string) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')
-  let editorialGallery = []
+  // 2. Fetch standard Photography Category data & images (exact slug match only)
+  let images: any[] = []
+  let seoData: any = null
 
   try {
-    images = await client.fetch(photographyImagesQuery, { slug: categorySlug }, { next: { revalidate: 60 } })
-    
-    // resilient fallback: if no images for a long SEO slug, try to find a base category keyword
-    if (!images || images.length === 0) {
-      const baseCategories = ['wedding', 'reception', 'birthday', 'baby-shower', 'outdoor', 'silhouette', 'bride-portrait', 'groom-portrait', 'christian-wedding'];
-      
-      const categoryMap: Record<string, string> = {
-        'wedding': 'Wedding',
-        'reception': 'Reception',
-        'birthday': 'Birthday',
-        'baby-shower': 'Baby Shower',
-        'outdoor': 'Outdoor',
-        'silhouette': 'Silhouette',
-        'bride-portrait': 'Bridal Portraits',
-        'groom-portrait': 'Groom Portraits',
-        'christian-wedding': 'Christian Wedding'
-      }
-
-      const matchedBase = baseCategories.find(cat => categorySlug.includes(cat));
-      if (matchedBase) {
-        images = await client.fetch(photographyImagesQuery, { slug: matchedBase });
-        
-        // Final sanity fallback: grab from Portfolio uploads directly using exact Match
-        if (!images || images.length === 0) {
-          images = await client.fetch(portfolioImagesFallbackQuery, { slug: categoryMap[matchedBase] || 'Wedding' });
-        }
-
-        categoryTitle = categoryMap[matchedBase] + ' Portfolio';
-      }
-    }
-
-    let seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
-    
-    // Resilient fallback for SEO data: if not found by exact slug, try base category match
-    if (!seoData) {
-      const baseCategories = ['wedding', 'reception', 'birthday', 'baby-shower', 'outdoor', 'silhouette', 'bride-portrait', 'groom-portrait', 'christian-wedding'];
-      const matchedBase = baseCategories.find(cat => categorySlug.includes(cat));
-      if (matchedBase) {
-        seoData = await client.fetch(photographyCategorySEOQuery, { slug: matchedBase })
-      }
-    }
-
-    if (seoData?.title) {
-       categoryTitle = seoData.title
-    }
-    if (seoData?.editorialGallery) {
-      editorialGallery = seoData.editorialGallery
-    }
+    images = await client.fetch(
+      photographyImagesQuery,
+      { slug: categorySlug },
+      { next: { revalidate: 60 } }
+    )
+    seoData = await client.fetch(
+      photographyCategorySEOQuery,
+      { slug: categorySlug },
+      { next: { revalidate: 60 } }
+    )
   } catch (error) {
-    console.error(`Failed to fetch images for category ${categorySlug}:`, error)
+    console.error(`Failed to fetch category data for ${categorySlug}:`, error)
   }
 
-  // Final absolute fallback: if still no images, show "General Portfolio" (any recent images) instead of 404
-  if (!images || images.length === 0) {
-    images = await client.fetch(groq`*[_type == "photographyImage"] | order(_createdAt desc)[0...20] {
-      "image": image.asset->url,
-      "imageObj": image,
-      title,
-      altText
-    }`);
-    categoryTitle = "Klickzstudio Portfolio";
+  // If exact category SEO data or images exist, render category layout
+  if ((images && images.length > 0) || seoData) {
+    const categoryTitle = seoData?.title || formatSlugToTitle(categorySlug)
+    const editorialGallery = seoData?.editorialGallery || []
+    const catHeroImage =
+      (seoData?.heroImage ? urlForImage(seoData.heroImage)?.url() : null) ||
+      (images[0]?.imageObj ? urlForImage(images[0].imageObj)?.url() : images[0]?.image) ||
+      '/KlickzStudio_Logo_last_final.png'
+
+    return (
+      <>
+        <EditorialHero title={categoryTitle} image={catHeroImage} />
+
+        {editorialGallery && editorialGallery.length > 0 && (
+          <EditorialGallery
+            items={editorialGallery.map((item: any) => ({
+              ...item,
+              image: item.image ? urlForImage(item.image)?.url() : item.imageUrl,
+            }))}
+          />
+        )}
+
+        {images && images.length > 0 ? (
+          <PhotographyGrid images={images} />
+        ) : (
+          <EmptyPageTemplate
+            slug={categorySlug}
+            title={categoryTitle}
+            description={seoData?.seoDescription}
+          />
+        )}
+      </>
+    )
   }
 
-  const seoData = await client.fetch(photographyCategorySEOQuery, { slug: categorySlug })
-  const catHeroImage = (seoData?.heroImage ? urlForImage(seoData.heroImage)?.url() : null) || 
-                       (images[0]?.imageObj ? urlForImage(images[0].imageObj)?.url() : images[0]?.image) || ''
+  // 3. Check if slug is a valid registered route in src/config/routes.ts
+  const validSlugs = getValidDynamicSlugs()
+  if (validSlugs.has(categorySlug)) {
+    return <EmptyPageTemplate slug={categorySlug} />
+  }
 
-  return (
-    <>
-      <EditorialHero 
-        title={categoryTitle}
-        image={catHeroImage}
-      />
-
-      {editorialGallery && editorialGallery.length > 0 && (
-        <EditorialGallery items={editorialGallery.map((item: any) => ({
-          ...item,
-          image: item.image ? urlForImage(item.image)?.url() : item.imageUrl
-        }))} />
-      )}
-
-      <PhotographyGrid images={images} />
-    </>
-  )
+  // 4. If neither Sanity content nor registered dynamic route: return 404
+  notFound()
 }

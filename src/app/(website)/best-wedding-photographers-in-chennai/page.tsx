@@ -7,6 +7,7 @@ import { groq } from 'next-sanity'
 import { constructMetadata } from '@/lib/seo'
 import { PhotographyGrid } from '@/components/photography/PhotographyGrid'
 import { urlForImage } from '@/sanity/lib/image'
+import { ROUTES } from '@/config/routes'
 
 const pageSlug = 'best-wedding-photographers-in-chennai'
 
@@ -33,17 +34,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const weddingLists = [
-  { label: 'Outdoor Wedding', href: '/outdoor-wedding-photography', slug: 'outdoor-wedding-photography', catSlug: 'outdoor' },
-  { label: 'Muslim Wedding', href: '/muslim-wedding-photography', slug: 'muslim-wedding-photography', catSlug: 'wedding' },
-  { label: 'Christian Wedding', href: '/christian-wedding-photography-chennai', slug: 'christian-wedding-photography-chennai', catSlug: 'christian-wedding' },
-  { label: 'Brahmin Wedding', href: '/brahmin-wedding-photography', slug: 'brahmin-wedding-photography', catSlug: 'wedding' },
-  { label: 'Telugu Wedding', href: '/telugu-wedding-photography', slug: 'telugu-wedding-photography', catSlug: 'wedding' },
-  { label: 'Hindu Wedding', href: '/hindu-wedding-photography', slug: 'hindu-wedding-photography', catSlug: 'wedding' },
-  { label: 'Engagement Photography', href: '/engagement-photography', slug: 'engagement-photography', catSlug: 'wedding' },
-  { label: 'Malayali Wedding', href: '/malayali-wedding-photography', slug: 'malayali-wedding-photography', catSlug: 'wedding' },
-  { label: 'Punjabi Wedding', href: '/punjabi-wedding-photography', slug: 'punjabi-wedding-photography', catSlug: 'wedding' },
-  { label: 'Sangeet Ceremony', href: '/sangeet-photography', slug: 'sangeet-photography', catSlug: 'wedding' },
-  { label: 'Haldi Ceremony', href: '/haldi-ceremony-photography', slug: 'haldi-ceremony-photography', catSlug: 'wedding' },
+  { label: 'Outdoor Wedding', href: ROUTES.SERVICES.OUTDOOR_WEDDING, slug: 'outdoor-photography-chennai', catSlug: 'outdoor' },
+  { label: 'Muslim Wedding', href: ROUTES.SERVICES.MUSLIM_WEDDING, slug: 'muslim-wedding-photography', catSlug: 'wedding' },
+  { label: 'Christian Wedding', href: ROUTES.SERVICES.CHRISTIAN_WEDDING, slug: 'christian-wedding-photography-chennai', catSlug: 'christian-wedding' },
+  { label: 'Brahmin Wedding', href: ROUTES.SERVICES.BRAHMIN_WEDDING, slug: 'brahmin-wedding-photography', catSlug: 'wedding' },
+  { label: 'Telugu Wedding', href: ROUTES.SERVICES.TELUGU_WEDDING, slug: 'telugu-wedding-photography', catSlug: 'wedding' },
+  { label: 'Hindu Wedding', href: ROUTES.SERVICES.HINDU_WEDDING, slug: 'hindu-wedding-photography', catSlug: 'wedding' },
+  { label: 'Engagement Photography', href: ROUTES.SERVICES.ENGAGEMENT, slug: 'engagement-photography', catSlug: 'wedding' },
+  { label: 'Malayali Wedding', href: ROUTES.SERVICES.MALAYALI_WEDDING, slug: 'malayali-wedding-photography', catSlug: 'wedding' },
+  { label: 'Punjabi Wedding', href: ROUTES.SERVICES.PUNJABI_WEDDING, slug: 'punjabi-wedding-photography', catSlug: 'wedding' },
+  { label: 'Sangeet Ceremony', href: ROUTES.SERVICES.SANGEET, slug: 'sangeet-photography', catSlug: 'wedding' },
+  { label: 'Haldi Ceremony', href: ROUTES.SERVICES.HALDI, slug: 'haldi-ceremony-photography', catSlug: 'wedding' },
 ]
 
 export default async function WeddingPhotographersPage() {

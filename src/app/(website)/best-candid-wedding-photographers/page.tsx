@@ -6,6 +6,7 @@ import { groq } from 'next-sanity'
 import { pageSEOQuery } from '@/sanity/lib/queries'
 import { EditorialHero } from '@/components/ui/EditorialHero'
 import { urlForImage } from '@/sanity/lib/image'
+import { ROUTES } from '@/config/routes'
 
 export const metadata: Metadata = {
   title: 'Portfolio | KLICKZSTUDIO',
@@ -14,15 +15,15 @@ export const metadata: Metadata = {
 
 // Map slugs to the correct SEO-friendly URLs from navigation menu
 const categoryUrlMap: Record<string, string> = {
-  'wedding': '/best-candid-wedding-photography-chennai',
-  'christian-wedding': '/christian-wedding-photography-chennai',
+  'wedding': ROUTES.GALLERY.CANDID_WEDDING_CHENNAI,
+  'christian-wedding': ROUTES.SERVICES.CHRISTIAN_WEDDING,
   'outdoor': '/outdoor-photography-chennai',
-  'reception': '/wedding-reception-photography',
-  'baby-shower': '/baby-shower-photography-chennai',
-  'birthday': '/birthday-celebration-photography-chennai',
-  'bride-portrait': '/bridal-portrait-photography-chennai',
-  'groom-portrait': '/groom-portrait-photography-chennai',
-  'silhouette': '/silhouette-photography-chennai'
+  'reception': ROUTES.GALLERY.RECEPTION,
+  'baby-shower': ROUTES.GALLERY.BABY_SHOWER,
+  'birthday': ROUTES.GALLERY.BIRTHDAY,
+  'bride-portrait': ROUTES.GALLERY.BRIDAL_PORTRAITS,
+  'groom-portrait': ROUTES.GALLERY.GROOM_PORTRAITS,
+  'silhouette': ROUTES.GALLERY.SILHOUETTE
 }
 
 export default async function PortfolioPage() {
