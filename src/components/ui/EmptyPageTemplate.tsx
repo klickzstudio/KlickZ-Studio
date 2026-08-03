@@ -3,20 +3,13 @@
 import Link from 'next/link'
 import { EditorialHero } from '@/components/ui/EditorialHero'
 import { ROUTES } from '@/config/routes'
+import { formatSlugToTitle } from '@/lib/utils'
 
 interface EmptyPageTemplateProps {
   slug: string
   title?: string
   description?: string
   heroImage?: string
-}
-
-export function formatSlugToTitle(slug: string): string {
-  if (!slug) return 'Portfolio Collection'
-  return slug
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
 }
 
 export function EmptyPageTemplate({

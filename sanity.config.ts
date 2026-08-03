@@ -10,6 +10,7 @@ import { structureTool } from 'sanity/structure'
 
 import { apiVersion, dataset, projectId } from './src/sanity/env'
 import { schema } from './src/sanity/schemaTypes'
+import { BulkImageUploader } from './src/sanity/components/BulkImageUploader'
 
 export default defineConfig({
   basePath: '/studio',
@@ -63,16 +64,22 @@ export default defineConfig({
                   .title('Portfolio Content')
                   .items([
                     S.listItem()
-                      .title('📁 Category Galleries')
+                      .title('📤 Bulk Upload Images')
                       .child(
-                        S.documentTypeList('photographyCategory')
-                          .title('Photography Categories')
+                        S.component(BulkImageUploader)
+                          .title('Bulk Image Uploader')
                       ),
                     S.listItem()
                       .title('📸 Uploaded Photos')
                       .child(
                         S.documentTypeList('photographyImage')
                           .title('Individual Photos')
+                      ),
+                    S.listItem()
+                      .title('📁 Category Galleries')
+                      .child(
+                        S.documentTypeList('photographyCategory')
+                          .title('Photography Categories')
                       ),
                     S.listItem()
                       .title('💼 Featured Case Studies')
