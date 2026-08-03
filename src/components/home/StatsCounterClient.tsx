@@ -42,14 +42,14 @@ export function StatsCounterClient({ stats }: StatsCounterClientProps) {
   // 3 prominent counters like the reference screenshot
   const displayStats = [
     { number: 500, suffix: '+', label: 'Happy Clients' },
-    { number: 15, suffix: '+', label: 'Years Experience' },
+    { number: 20, suffix: '+', label: 'Years Experience' },
     { number: 99, suffix: '%', label: 'Client Satisfaction' },
   ]
 
   return (
     <section className="py-20 md:py-28 bg-[#FAFAFA] text-[#1A1A1A]" ref={ref}>
       <div className="max-w-[1280px] mx-auto px-6">
-        
+
         {/* Section Header */}
         <ScrollReveal className="text-center mb-14">
           <h2 className="font-cormorant text-3xl md:text-5xl font-bold text-[#1A1A1A] tracking-tight">

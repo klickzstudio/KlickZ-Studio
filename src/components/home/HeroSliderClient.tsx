@@ -12,13 +12,48 @@ interface HeroSliderProps {
   settings?: SiteSettings | null
 }
 
+const defaultSlideData = [
+  {
+    eyebrow: 'KLICKZSTUDIO • WEDDINGS & STORIES',
+    heading: 'Stories That Last Forever',
+    subtext: '20+ years of capturing real emotions, not staged moments',
+    ctaText: 'Book Your Session Now',
+    ctaHref: '/contact',
+  },
+  {
+    eyebrow: 'CANDID & CINEMATIC',
+    heading: 'Freeze Time with Stunning Photography',
+    subtext: 'Crafting luxury wedding memories with artistic finesse and emotion',
+    ctaText: 'Explore Our Gallery',
+    ctaHref: '/best-candid-wedding-photographers',
+  },
+  {
+    eyebrow: 'DESTINATION & LUXURY',
+    heading: 'Grand Celebrations & Intimate Vows',
+    subtext: 'Over 500+ couples across Chennai and destination venues worldwide',
+    ctaText: 'Consult with Team KlickZ',
+    ctaHref: '/book-us',
+  },
+  {
+    eyebrow: 'FINE ART WEDDING FILMS',
+    heading: 'Every Emotion, Beautifully Preserved',
+    subtext: 'Documentary-style candid wedding & pre-wedding cinema',
+    ctaText: 'Get in Touch Today',
+    ctaHref: '/contact',
+  },
+  {
+    eyebrow: 'TIMELESS ELEGANCE',
+    heading: 'Unforgettable Moments, Masterfully Told',
+    subtext: 'High-resolution heirloom imagery for your most cherished day',
+    ctaText: 'Check Available Dates',
+    ctaHref: '/contact',
+  },
+]
+
 export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
   const [current, setCurrent] = useState(0)
   const slides = initialSlides.slice(0, 5) // max 5 slides
 
-  const heroEyebrow = settings?.heroEyebrow || 'Est. 2005 · Chennai & Destination Weddings'
-  const heroHeading = settings?.heroHeading || 'Stories That Last Forever'
-  const heroSubtext = settings?.heroSubtext || '20+ years of capturing real emotions, not staged moments'
   const fbLink = settings?.socials?.facebook || 'https://www.facebook.com/klickzstudio/'
   const igLink = settings?.socials?.instagram || 'https://www.instagram.com/weddingby_klickzstudio/'
 
@@ -33,6 +68,13 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
   }, [next])
 
   const slide = slides[current]
+  const currentTextData = defaultSlideData[current % defaultSlideData.length]
+
+  const activeEyebrow = currentTextData.eyebrow
+  const activeHeading = currentTextData.heading
+  const activeSubtext = currentTextData.subtext
+  const activeCtaText = currentTextData.ctaText
+  const activeCtaHref = currentTextData.ctaHref
 
   return (
     <section className="relative w-full h-screen overflow-hidden bg-black" id="hero">
@@ -55,7 +97,7 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
             {/* Desktop Image — hidden on mobile */}
             <Image
               src={slide?.image || '/images/hero-fallback.jpg'}
-              alt={slide?.heading || 'KLICKZSTUDIO Wedding Photography'}
+              alt={activeHeading || 'KLICKZSTUDIO Wedding Photography'}
               fill
               className="object-cover object-center hidden lg:block"
               priority={current === 0}
@@ -65,7 +107,7 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
             {/* Mobile Image — shown below lg, falls back to desktop image */}
             <Image
               src={slide?.mobileImage || slide?.image || '/images/hero-fallback.jpg'}
-              alt={slide?.heading || 'KLICKZSTUDIO Wedding Photography'}
+              alt={activeHeading || 'KLICKZSTUDIO Wedding Photography'}
               fill
               className="object-cover object-center lg:hidden"
               priority={current === 0}
@@ -78,76 +120,74 @@ export function HeroSlider({ initialSlides, settings }: HeroSliderProps) {
                   : {}
               )}
             />
+            {/* Soft left-to-right gradient shadow overlay exclusively behind the text area */}
+            <div className="absolute inset-y-0 left-0 w-full max-w-3xl lg:max-w-4xl bg-gradient-to-r from-black/90 via-black/55 via-65% to-transparent pointer-events-none" />
           </motion.div>
-          {/* Subtle gradient overlay to ensure text readability but not heavy dark */}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A]/90 via-[#0A0A0A]/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0A0A0A]/50 to-transparent" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Fixed Text Overlay - Replaced Dynamic Copy with Fixed Brand Copy */}
-      <div className="absolute inset-0 flex flex-col justify-end pb-24 md:pb-32 z-20 px-6 md:px-16 lg:px-24">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="max-w-[90vw] md:max-w-[70vw] lg:max-w-4xl"
-        >
-          <span className="font-lato text-[10px] md:text-[12px] uppercase tracking-[0.4em] text-[#C9A96E] mb-6 block drop-shadow-sm">
-            {heroEyebrow}
-          </span>
-          <h1 className="font-cormorant text-white leading-[1.1] mb-6 flex flex-wrap items-baseline gap-x-4 md:gap-x-6 gap-y-2">
-            {heroHeading.split(' ').map((word: string, i: number) => {
-              const cleanWord = word.replace(/[,.!]/g, '').toLowerCase()
-              const accentWords = ['the', 'of', 'in', 'to', 'and', 'is', 'a', 'by', 'your', 'with']
-              const isAccent = accentWords.includes(cleanWord)
-              return (
-                <span 
-                  key={i} 
-                  className={isAccent 
-                    ? "font-cormorant italic font-light lowercase text-[0.6em] md:text-[0.7em] text-white/70 drop-shadow-md translate-y-[-0.1em]" 
-                    : "uppercase tracking-[0.15em] text-4xl md:text-6xl lg:text-[76px] font-light drop-shadow-2xl"
-                  }
-                >
-                  {word}
-                </span>
-              )
-            })}
-          </h1>
-          <p className="font-lato text-[12px] md:text-[14px] uppercase tracking-[0.2em] text-white/70 max-w-xl mb-10 leading-relaxed drop-shadow-sm">
-            {heroSubtext}
-          </p>
+      {/* Hero Text Content — Animates dynamically with each slide change */}
+      <div className="absolute inset-0 z-20 flex flex-col justify-center px-6 md:px-16 lg:px-24 max-w-full lg:max-w-3xl pointer-events-none">
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 1 }}
+            key={current}
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            className="pointer-events-auto"
           >
-            <Link
-              href="/contact"
-              className="inline-block font-lato text-[13px] uppercase tracking-[0.2em] bg-[#C9A96E] text-[#1A1A1A] px-8 py-4 hover:bg-white transition-colors duration-400"
-            >
-              Book Your Date
-            </Link>
+            {/* Eyebrow */}
+            <div className="font-inter text-xs md:text-sm uppercase tracking-[0.18em] mb-4 flex items-center gap-2">
+              <span className="font-extrabold text-[#C9A96E]">{activeEyebrow}</span>
+            </div>
+
+            {/* Main Heading — Clean, Bolder Sans-Serif Font */}
+            <h1 className="font-inter text-3xl sm:text-5xl lg:text-[62px] font-extrabold text-white leading-[1.12] mb-5 tracking-tight drop-shadow-md">
+              {activeHeading}
+            </h1>
+
+            {/* Subtext */}
+            <p className="font-inter text-xs md:text-sm uppercase tracking-[0.15em] text-white/90 font-medium leading-relaxed mb-8 max-w-lg drop-shadow-sm">
+              {activeSubtext}
+            </p>
+
+            {/* CTA Button */}
+            <div>
+              <Link
+                href={activeCtaHref}
+                className="inline-flex items-center justify-center font-inter text-sm md:text-base font-bold bg-[#C9A96E] hover:bg-white text-[#1A1A1A] hover:text-black px-8 py-3.5 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02]"
+              >
+                {activeCtaText}
+              </Link>
+            </div>
           </motion.div>
-        </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* Progress Bar Instead of Dots */}
-      <div className="absolute bottom-8 left-6 right-6 md:left-16 md:right-16 z-20 flex gap-4 items-center">
+      {/* Interactive Progress Indicators (Clickable) */}
+      <div className="absolute bottom-8 left-6 right-6 md:left-16 md:right-16 z-30 flex gap-4 items-center">
         {slides.map((_, idx) => (
-          <div key={idx} className="h-[2px] flex-1 bg-white/20 relative overflow-hidden hidden md:block">
-            {idx === current && (
-              <motion.div
-                initial={{ x: '-100%' }}
-                animate={{ x: '0%' }}
-                transition={{ duration: 7, ease: 'linear' }}
-                className="absolute inset-0 bg-[#C9A96E]"
-              />
-            )}
-            {idx < current && (
-              <div className="absolute inset-0 bg-[#C9A96E]" />
-            )}
-          </div>
+          <button
+            key={idx}
+            onClick={() => setCurrent(idx)}
+            className="h-3 flex-1 relative flex items-center group cursor-pointer border-0 bg-transparent p-0"
+            aria-label={`Go to slide ${idx + 1}`}
+          >
+            <div className="w-full h-[2px] bg-white/20 relative overflow-hidden group-hover:bg-white/40 transition-colors">
+              {idx === current && (
+                <motion.div
+                  initial={{ x: '-100%' }}
+                  animate={{ x: '0%' }}
+                  transition={{ duration: 7, ease: 'linear' }}
+                  className="absolute inset-0 bg-[#C9A96E]"
+                />
+              )}
+              {idx < current && (
+                <div className="absolute inset-0 bg-[#C9A96E]" />
+              )}
+            </div>
+          </button>
         ))}
       </div>
       

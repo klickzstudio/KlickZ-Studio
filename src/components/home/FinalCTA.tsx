@@ -25,7 +25,7 @@ export function FinalCTA({ backgroundImage }: FinalCTAProps) {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/contact"
-                className="w-full sm:w-auto font-lato text-sm font-semibold text-[#1A1A1A] bg-[#EAB308] hover:bg-[#D97706] hover:text-white px-8 py-3.5 rounded-lg transition-all duration-300 shadow-sm flex items-center justify-center gap-2 group"
+                className="w-full sm:w-auto font-lato text-sm font-semibold text-[#1A1A1A] bg-[#C9A96E] hover:bg-black hover:text-white px-8 py-3.5 rounded-lg transition-all duration-300 shadow-sm flex items-center justify-center gap-2 group"
               >
                 <span>Get in Touch</span>
                 <svg
@@ -41,10 +41,10 @@ export function FinalCTA({ backgroundImage }: FinalCTAProps) {
               
               <Link
                 href="/book-us"
-                className="w-full sm:w-auto font-lato text-sm font-medium text-[#1A1A1A] bg-white border border-[#D1D5DB] hover:border-[#D97706] hover:bg-[#FFFDF5] px-7 py-3.5 rounded-lg transition-all duration-300 shadow-sm flex items-center justify-center gap-2.5"
+                className="w-full sm:w-auto font-lato text-sm font-medium text-[#1A1A1A] bg-white border border-[#D1D5DB] hover:border-[#C9A96E] hover:bg-[#FFFDF5] px-7 py-3.5 rounded-lg transition-all duration-300 shadow-sm flex items-center justify-center gap-2.5"
               >
                 <svg
-                  className="w-4 h-4 text-[#D97706]"
+                  className="w-4 h-4 text-[#C9A96E]"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.8"

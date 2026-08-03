@@ -3,28 +3,49 @@ import { NavLink } from '@/types'
 export const navLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   {
-    label: 'About Us', href: '/about',
+    label: 'Weddings',
+    href: '/best-wedding-photographers-in-chennai',
     children: [
-      { label: 'Awards', href: '/awards' }
-    ]
+      { label: 'Outdoor', href: '/outdoor-wedding-photography' },
+      { label: 'Muslim', href: '/muslim-wedding-photography' },
+      { label: 'Christian', href: '/christian-wedding-photography-chennai' },
+      { label: 'Brahmin', href: '/brahmin-wedding-photography' },
+      { label: 'Telugu', href: '/telugu-wedding-photography' },
+      { label: 'Hindu', href: '/hindu-wedding-photography' },
+      { label: 'Engagement', href: '/engagement-photography' },
+      { label: 'Malayali', href: '/malayali-wedding-photography' },
+      { label: 'Punjabi', href: '/punjabi-wedding-photography' },
+      { label: 'Sangeet', href: '/sangeet-photography' },
+      { label: 'Haldi', href: '/haldi-ceremony-photography' },
+    ],
+  },
+  {
+    label: 'Gallery',
+    href: '/best-candid-wedding-photographers',
+    children: [
+      { label: 'Bridal Portraits', href: '/bridal-portrait-photography-chennai' },
+      { label: 'Couple Portraits', href: '/couple-portrait-photography' },
+      { label: 'Groom Portraits', href: '/groom-portrait-photography-chennai' },
+      { label: 'Birthday', href: '/birthday-celebration-photography-chennai' },
+      { label: 'Baby Shower', href: '/baby-shower-photography-chennai' },
+      { label: 'Silhouette', href: '/silhouette-photography-chennai' },
+      { label: 'Jewellery', href: '/jewellery-photography' },
+      { label: 'Rituals', href: '/wedding-rituals-photography' },
+      { label: 'Candid Moments', href: '/candid-moments-photography' },
+      { label: 'Pre-Wedding Photography', href: '/pre-wedding-photography' },
+      { label: 'Post-Wedding Photography', href: '/post-wedding-photography' },
+      { label: 'Candid Wedding Films', href: '/candid-wedding-films' },
+      { label: 'Outdoor Cinema', href: '/outdoor-films' },
+    ],
+  },
+  {
+    label: 'About Us',
+    href: '/about',
+    children: [{ label: 'Awards', href: '/awards' }],
   },
   { label: 'Services', href: '/services' },
-  {
-    label: 'Portfolio', href: '/best-candid-wedding-photographers',
-    children: [
-      { label: 'Wedding', href: '/best-candid-wedding-photography-chennai' },
-      { label: 'Christian Wedding', href: '/christian-wedding-photography-chennai' },
-      { label: 'Outdoor', href: '/outdoor-photography-chennai' },
-      { label: 'Reception', href: '/wedding-reception-photography' },
-      { label: 'Baby Shower', href: '/baby-shower-photography-chennai' },
-      { label: 'Birthday', href: '/birthday-celebration-photography-chennai' },
-      { label: 'Bridal Portraits', href: '/bridal-portrait-photography-chennai' },
-      { label: 'Groom Portraits', href: '/groom-portrait-photography-chennai' },
-      { label: 'Silhouette', href: '/silhouette-photography-chennai' },
-    ]
-  },
+  { label: 'Pricing', href: '/pricing' },
   { label: 'Contact', href: '/contact' },
   { label: 'FAQs', href: '/wedding-photography-faqs' },
   { label: 'Book Us', href: '/book-us', isButton: true },
 ]
-

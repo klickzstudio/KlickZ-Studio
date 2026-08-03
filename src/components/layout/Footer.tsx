@@ -106,7 +106,7 @@ export function Footer({ settings }: FooterProps) {
               </li>
               <li>
                 <Link href="/services" className="hover:text-[#D97706] transition-colors">
-                  Celebrity &amp; Portfolio
+                  Celebrity &amp; Gallery
                 </Link>
               </li>
               <li>
@@ -115,13 +115,8 @@ export function Footer({ settings }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-[#D97706] transition-colors">
+                <Link href="/pricing" className="hover:text-[#C9A96E] transition-colors">
                   Pricing
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="hover:text-[#D97706] transition-colors">
-                  Journal
                 </Link>
               </li>
             </ul>

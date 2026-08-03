@@ -176,13 +176,15 @@ export function Navbar({ settings }: NavbarProps) {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.25 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#111111] border border-white/5 min-w-[200px] py-4 shadow-2xl"
+                      className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#111111] border border-white/10 shadow-2xl rounded-lg py-3 z-50 ${
+                        link.children.length > 8 ? 'w-[380px] grid grid-cols-2 px-2 gap-y-0.5' : 'min-w-[210px]'
+                      }`}
                     >
                       {link.children.map((child: NavLink) => (
                         <Link
                           key={child.label}
                           href={child.href}
-                          className="block px-6 py-2.5 font-lato text-[10.5px] font-light text-white/60 hover:text-[#C9A96E] hover:bg-white/[0.03] transition-all duration-300 tracking-[0.1em]"
+                          className="block px-4 py-2 font-lato text-[10.5px] font-light text-white/70 hover:text-[#C9A96E] hover:bg-white/[0.04] rounded-md transition-all duration-300 tracking-[0.08em] whitespace-nowrap"
                         >
                           {child.label}
                         </Link>
