@@ -2,6 +2,7 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { constructMetadata } from '@/lib/seo'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { ROUTES } from '@/config/routes'
 
 export const metadata: Metadata = constructMetadata({
   title: 'Pricing & Packages | KLICKZSTUDIO Photography Chennai',
@@ -15,31 +16,31 @@ const priceRangeCategories = [
     title: 'Weddings',
     priceRange: '₹80,000 – ₹7,00,000',
     description: 'Full-day cinematic wedding coverage: bridal portraits, ceremony, reception, and beyond.',
-    href: '/best-candid-wedding-photographers',
+    href: ROUTES.GALLERY.ROOT,
   },
   {
     title: 'Lifestyle & Events',
     priceRange: '₹45,000 – ₹2,50,000',
     description: 'Candid lifestyle shoots, birthday celebrations, corporate events, and milestone moments.',
-    href: '/services',
+    href: ROUTES.SERVICES.ROOT,
   },
   {
     title: 'Baby Shower, Toddler & Maternity',
     priceRange: '₹35,000 – ₹2,50,000',
     description: 'Tender, timeless sessions capturing the magic of new life and growing families.',
-    href: '/services',
+    href: ROUTES.SERVICES.ROOT,
   },
   {
     title: 'Celebrity & Portfolio',
     priceRange: '₹35,000 – ₹4,50,000',
     description: 'High-end editorial and portfolio shoots for actors, artists, models, and public figures.',
-    href: '/services',
+    href: ROUTES.SERVICES.ROOT,
   },
   {
     title: 'Product & Corporate',
     priceRange: '₹35,000 – ₹4,50,000',
     description: 'Brand photography and videography for products, campaigns, and corporate identity.',
-    href: '/services',
+    href: ROUTES.SERVICES.ROOT,
   },
 ]
 
@@ -327,13 +328,13 @@ export default function PricingPage() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              href="/contact"
+              href={ROUTES.CONTACT}
               className="w-full sm:w-auto font-lato text-xs uppercase tracking-[0.18em] font-bold bg-[#C9A96E] hover:bg-black text-[#1A1A1A] hover:text-white px-7 py-3.5 rounded-full transition-all duration-300 shadow-2xs"
             >
               Get a Custom Quote
             </Link>
             <Link
-              href="/book-us"
+              href={ROUTES.BOOK_US}
               className="w-full sm:w-auto font-lato text-xs uppercase tracking-[0.15em] font-semibold text-[#1A1A1A] bg-white border border-[#D1D5DB] hover:border-[#C9A96E] px-7 py-3.5 rounded-full transition-all duration-300 shadow-2xs flex items-center justify-center gap-2"
             >
               <span>Consult with Team KlickZ</span>

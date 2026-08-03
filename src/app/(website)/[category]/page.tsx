@@ -23,6 +23,7 @@ interface CategoryPageProps {
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { category: categorySlug } = await params
+  const canonicalPath = `/${categorySlug}`
 
   // 1. Check if it's an SEO Landing Page
   const landingPageData = await client.fetch(landingPageQuery, { slug: categorySlug })
@@ -31,6 +32,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       title: landingPageData.title,
       description: landingPageData.seoDescription,
       image: landingPageData.ogImage,
+      canonicalPath,
     })
   }
 
@@ -41,6 +43,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       title: seoData.title,
       description: seoData.seoDescription,
       image: seoData.ogImage,
+      canonicalPath,
     })
   }
 
@@ -51,10 +54,11 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     return constructMetadata({
       title: `${formattedTitle} | KLICKZSTUDIO`,
       description: `Explore premium ${formattedTitle} photography by KLICKZSTUDIO Chennai. Award-winning visual storytellers.`,
+      canonicalPath,
     })
   }
 
-  return constructMetadata({ title: formatSlugToTitle(categorySlug) })
+  return constructMetadata({ title: formatSlugToTitle(categorySlug), canonicalPath })
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {

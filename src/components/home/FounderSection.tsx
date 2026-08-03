@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
 import { SiteSettings } from '@/types/sanity'
+import { ROUTES } from '@/config/routes'
 
 interface FounderSectionProps {
   settings: SiteSettings | null
@@ -52,7 +53,7 @@ export function FounderSection({ settings, fallbackImage }: FounderSectionProps)
               </div>
 
               <Link
-                href="/about"
+                href={ROUTES.ABOUT}
                 className="inline-flex items-center gap-4 font-lato text-[12px] uppercase tracking-[0.2em] text-[#2B2420] group"
               >
                 <span className="hover-gold-underline">Read Our Story</span>

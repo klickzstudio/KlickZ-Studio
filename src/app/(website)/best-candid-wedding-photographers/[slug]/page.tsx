@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import Link from 'next/link'
 import { JsonLd } from '@/components/seo/JsonLd'
+import { ROUTES } from '@/config/routes'
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const caseStudy = await client.fetch(portfolioCaseStudyQuery, { slug: params.slug })
@@ -114,7 +115,7 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
       {/* Final CTA Back to Portfolio */}
       <section className="text-center pb-32">
         <Link
-          href="/best-candid-wedding-photographers"
+          href={ROUTES.GALLERY.ROOT}
           className="inline-block font-lato text-[12px] uppercase tracking-[0.2em] border-b border-[#C9A96E] text-[#2B2420] pb-1 hover:text-[#C9A96E] transition-colors"
         >
           Back to Portfolio

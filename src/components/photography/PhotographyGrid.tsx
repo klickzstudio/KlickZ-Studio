@@ -10,6 +10,7 @@ import { useState, useEffect } from 'react'
 import { AnimatePresence } from 'framer-motion'
 
 import { urlForImage } from '@/sanity/lib/image'
+import { ROUTES } from '@/config/routes'
 
 export function PhotographyGrid({ images }: { images: PhotographyImage[] }) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
@@ -135,7 +136,7 @@ export function PhotographyGrid({ images }: { images: PhotographyImage[] }) {
                 Ready to Capture Your <span className="italic">Legacy?</span>
               </h3>
               <Link 
-              href="/book-us/"
+              href={ROUTES.BOOK_US}
               className="inline-block font-lato text-[11px] uppercase tracking-[0.2em] bg-white text-black px-10 py-4 hover:bg-[#C9A96E] hover:text-white transition-colors duration-400"
             >
               Book Your Date

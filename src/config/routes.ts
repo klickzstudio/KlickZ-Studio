@@ -38,13 +38,9 @@ export const ROUTES = {
   },
   PRICING: '/pricing',
   ABOUT: '/about',
-  AWARDS: '/awards',
   CONTACT: '/contact',
   FAQS: '/wedding-photography-faqs',
   BOOK_US: '/book-us',
-  BLOG: {
-    ROOT: '/blog',
-  },
 } as const;
 
 // Flatten all routes to extract dynamic slugs (single segment routes under /[category])
@@ -53,16 +49,19 @@ const STATIC_PAGE_ROUTES = new Set([
   '/services',
   '/pricing',
   '/about',
-  '/awards',
   '/contact',
   '/wedding-photography-faqs',
   '/book-us',
-  '/blog',
   '/best-candid-wedding-photographers',
   '/best-wedding-photographers-in-chennai',
 ]);
 
+let cachedAllRoutes: string[] | null = null;
+let cachedDynamicSlugs: Set<string> | null = null;
+
 export function getAllDefinedRoutes(): string[] {
+  if (cachedAllRoutes) return cachedAllRoutes;
+
   const routes: string[] = [];
 
   function traverse(obj: any) {
@@ -76,10 +75,13 @@ export function getAllDefinedRoutes(): string[] {
   }
 
   traverse(ROUTES);
-  return Array.from(new Set(routes));
+  cachedAllRoutes = Array.from(new Set(routes));
+  return cachedAllRoutes;
 }
 
 export function getValidDynamicSlugs(): Set<string> {
+  if (cachedDynamicSlugs) return cachedDynamicSlugs;
+
   const allRoutes = getAllDefinedRoutes();
   const dynamicSlugs = new Set<string>();
 
@@ -89,5 +91,6 @@ export function getValidDynamicSlugs(): Set<string> {
     }
   }
 
-  return dynamicSlugs;
+  cachedDynamicSlugs = dynamicSlugs;
+  return cachedDynamicSlugs;
 }

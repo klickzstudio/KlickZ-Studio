@@ -1,27 +1,28 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { ROUTES } from '@/config/routes'
 
 const defaultServices = [
   {
     title: 'Candid Wedding',
     description: 'Authentic, unposed moments that capture the true essence and raw emotion of your celebration.',
-    href: '/best-candid-wedding-photography-chennai',
+    href: ROUTES.GALLERY.CANDID_WEDDING_CHENNAI,
   },
   {
     title: 'Cinematic Films',
     description: 'Story-driven cinematic wedding films that let you relive your special day as a masterpiece.',
-    href: '/wedding-photography-faqs',
+    href: ROUTES.SERVICES.VIDEOGRAPHY,
   },
   {
     title: 'Destination Weddings',
     description: 'Traveling across the globe to frame your love story against breathtaking landscapes and heritage venues.',
-    href: '/outdoor-photography-chennai',
+    href: ROUTES.SERVICES.OUTDOOR_WEDDING,
   },
   {
     title: 'Pre-Wedding',
     description: 'Intimate storytelling sessions before the big day, focusing entirely on your chemistry and connection.',
-    href: '/outdoor-photography-chennai',
+    href: ROUTES.GALLERY.PRE_WEDDING,
   },
 ]
 

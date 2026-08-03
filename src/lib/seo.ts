@@ -14,11 +14,13 @@ export function constructMetadata({
   title = defaultSEO.title,
   description = defaultSEO.description,
   image = defaultSEO.openGraph.images[0],
+  canonicalPath,
   noIndex = false,
 }: {
   title?: string
   description?: string
   image?: string
+  canonicalPath?: string
   noIndex?: boolean
 } = {}): Metadata {
   return {
@@ -33,7 +35,11 @@ export function constructMetadata({
         },
       ],
     },
-
+    ...(canonicalPath && {
+      alternates: {
+        canonical: canonicalPath,
+      },
+    }),
     ...(noIndex && {
       robots: {
         index: false,

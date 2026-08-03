@@ -60,11 +60,7 @@ export const navLinks: NavLink[] = [
     ],
   },
   { label: 'Pricing', href: ROUTES.PRICING },
-  {
-    label: 'About Us',
-    href: ROUTES.ABOUT,
-    children: [{ label: 'Awards', href: ROUTES.AWARDS }],
-  },
+  { label: 'About Us', href: ROUTES.ABOUT },
   { label: 'Contact', href: ROUTES.CONTACT },
   { label: 'FAQs', href: ROUTES.FAQS },
   { label: 'Book Us', href: ROUTES.BOOK_US, isButton: true },

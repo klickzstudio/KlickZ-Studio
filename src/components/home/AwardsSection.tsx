@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
+import { ROUTES } from '@/config/routes'
 
 export function AwardsSection() {
   const awards = [
@@ -33,7 +34,7 @@ export function AwardsSection() {
                 FujiFilm X-series camera, competing with top photographers around the world to capture the extraordinary.
               </p>
               <Link
-                href="/awards"
+                href={ROUTES.ABOUT}
                 className="group inline-flex items-center gap-4 font-lato text-[12px] uppercase tracking-[0.2em] text-[#C9A96E]"
               >
                 <span>Discover All Accolades</span>
