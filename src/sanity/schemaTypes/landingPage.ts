@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity'
+import { GalleryImageSelector } from '../components/GalleryImageSelector'
 
 export const landingPage = defineType({
   name: 'landingPage',
@@ -131,6 +132,9 @@ export const landingPage = defineType({
       ],
       options: {
         layout: 'grid',
+      },
+      components: {
+        input: GalleryImageSelector,
       },
     }),
     defineField({
