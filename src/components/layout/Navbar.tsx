@@ -61,7 +61,7 @@ export function Navbar({ settings }: NavbarProps) {
     <>
       {/* Top Gradient Overlay for readability on white images */}
       {!scrolled && (
-        <div className="fixed top-0 left-0 w-full h-[140px] bg-gradient-to-b from-black/70 via-black/30 to-transparent z-[49] pointer-events-none" />
+        <div className="fixed top-0 left-0 w-full h-[70px] sm:h-[90px] lg:h-[110px] bg-gradient-to-b from-black/40 via-black/15 to-transparent z-[49] pointer-events-none transition-all duration-500" />
       )}
 
       <nav
