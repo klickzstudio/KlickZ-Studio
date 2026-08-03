@@ -186,6 +186,14 @@ export const landingPageQuery = groq`
       aspectRatio,
       alt
     },
+    "galleryImages": galleryImages[]-> {
+      "image": image.asset->url,
+      "imageObj": image,
+      "dimensions": image.asset->metadata.dimensions,
+      "blurDataURL": image.asset->metadata.lqip,
+      title,
+      altText
+    },
     "ogImage": ogImage.asset->url,
     "associatedCategorySlug": associatedCategory->slug.current,
     "categoryHeroImage": associatedCategory->heroImage

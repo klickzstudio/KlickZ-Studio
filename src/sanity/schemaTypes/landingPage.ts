@@ -118,9 +118,25 @@ export const landingPage = defineType({
       ],
     }),
     defineField({
+      name: 'galleryImages',
+      title: 'Curated Gallery Images',
+      description: 'Select existing uploaded photos for this landing page. These images override the category gallery. If no images are selected, the page automatically uses images from the Associated Category.',
+      type: 'array',
+      group: 'gallery',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'photographyImage' }],
+        },
+      ],
+      options: {
+        layout: 'grid',
+      },
+    }),
+    defineField({
       name: 'associatedCategory',
-      title: 'Auto-Linked Photo Category',
-      description: 'Optionally link a Photography Category (e.g. Wedding) to automatically render all tagged photos at the bottom of this page.',
+      title: 'Auto-Linked Photo Category (Fallback)',
+      description: 'Optionally link a Photography Category (e.g. Wedding) to automatically render all tagged photos if Curated Gallery Images is left empty.',
       type: 'reference',
       group: 'gallery',
       to: [{ type: 'photographyCategory' }],

@@ -13,7 +13,8 @@ import { EditorialHero } from '@/components/ui/EditorialHero'
 import { EditorialGallery } from '@/components/photography/EditorialGallery'
 import { urlForImage } from '@/sanity/lib/image'
 import { getValidDynamicSlugs } from '@/config/routes'
-import { EmptyPageTemplate, formatSlugToTitle } from '@/components/ui/EmptyPageTemplate'
+import { EmptyPageTemplate } from '@/components/ui/EmptyPageTemplate'
+import { formatSlugToTitle } from '@/lib/utils'
 
 interface CategoryPageProps {
   params: Promise<{
@@ -81,21 +82,28 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
   }
 
   if (landingPageData) {
-    let associatedImages: any[] = []
-    if (landingPageData.associatedCategorySlug) {
+    // Priority 1: Direct referenced galleryImages on Landing Page document
+    const curatedGalleryImages = (landingPageData.galleryImages || []).filter((img: any) => Boolean(img && img.image))
+
+    // Priority 2: Fallback to associatedCategory images if no curated galleryImages selected
+    let associatedCategoryImages: any[] = []
+    if (curatedGalleryImages.length === 0 && landingPageData.associatedCategorySlug) {
       try {
-        associatedImages = await client.fetch(photographyImagesQuery, {
+        associatedCategoryImages = await client.fetch(photographyImagesQuery, {
           slug: landingPageData.associatedCategorySlug,
         })
       } catch (err) {
-        console.error('Failed to fetch associated images:', err)
+        console.error('Failed to fetch associated category images:', err)
       }
     }
+
+    // Resolved gallery images list
+    const galleryImages = curatedGalleryImages.length > 0 ? curatedGalleryImages : associatedCategoryImages
 
     const heroImage =
       (landingPageData.heroImage ? urlForImage(landingPageData.heroImage)?.url() : null) ||
       (landingPageData.categoryHeroImage ? urlForImage(landingPageData.categoryHeroImage)?.url() : null) ||
-      (associatedImages[0]?.imageObj ? urlForImage(associatedImages[0].imageObj)?.url() : associatedImages[0]?.image) ||
+      (galleryImages[0]?.imageObj ? urlForImage(galleryImages[0].imageObj)?.url() : galleryImages[0]?.image) ||
       '/KlickzStudio_Logo_last_final.png'
 
     return (
@@ -122,12 +130,21 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           />
         )}
         
-        {associatedImages.length > 0 && <PhotographyGrid images={associatedImages} />}
+        {galleryImages.length > 0 ? (
+          <PhotographyGrid images={galleryImages} />
+        ) : (
+          <EmptyPageTemplate
+            slug={categorySlug}
+            title={landingPageData.title}
+            description={landingPageData.seoDescription}
+            heroImage={heroImage}
+          />
+        )}
       </>
     )
   }
 
-  // 2. Fetch standard Photography Category data & images
+  // 2. Fetch standard Photography Category data & images (exact category match)
   let images: any[] = []
   let seoData: any = null
 
@@ -137,31 +154,6 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       { slug: categorySlug },
       { next: { revalidate: 60 } }
     )
-    
-    // Fallback to main 'wedding' category images if sub-wedding category has no specific images uploaded yet
-    const weddingSubSlugs = new Set([
-      'hindu-wedding-photography',
-      'muslim-wedding-photography',
-      'christian-wedding-photography-chennai',
-      'brahmin-wedding-photography',
-      'telugu-wedding-photography',
-      'malayali-wedding-photography',
-      'punjabi-wedding-photography',
-      'sangeet-photography',
-      'haldi-ceremony-photography',
-      'wedding-rituals-photography',
-      'wedding-reception-photography',
-      'best-candid-wedding-photography-chennai',
-    ])
-
-    if ((!images || images.length === 0) && weddingSubSlugs.has(categorySlug)) {
-      images = await client.fetch(
-        photographyImagesQuery,
-        { slug: 'wedding' },
-        { next: { revalidate: 60 } }
-      )
-    }
-
     seoData = await client.fetch(
       photographyCategorySEOQuery,
       { slug: categorySlug },
@@ -171,7 +163,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     console.error(`Failed to fetch category data for ${categorySlug}:`, error)
   }
 
-  // Render category layout if images exist
+  // Render category layout if images or category document exist
   if (images && images.length > 0) {
     const categoryTitle = seoData?.title || formatSlugToTitle(categorySlug)
     const editorialGallery = seoData?.editorialGallery || []
@@ -198,7 +190,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     )
   }
 
-  // Render clean Empty Page Template for registered routes or empty category documents
+  // Priority 3: Render clean Empty Page Template for registered routes or empty category documents
   const validSlugs = getValidDynamicSlugs()
   if (validSlugs.has(categorySlug) || seoData) {
     const title = seoData?.title || formatSlugToTitle(categorySlug)
