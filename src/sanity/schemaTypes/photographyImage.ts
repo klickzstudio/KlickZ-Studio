@@ -4,32 +4,42 @@ export const photographyImage = defineType({
   name: 'photographyImage',
   title: 'Photography Image',
   type: 'document',
+  groups: [
+    { name: 'media', title: '📸 Photo File & Category', default: true },
+    { name: 'seo', title: '🔍 SEO & Details' },
+  ],
   fields: [
     defineField({
-      name: 'title',
-      title: 'Title (Optional)',
-      description: 'An optional internal title to help identify this image.',
-      type: 'string',
-    }),
-    defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Image File',
+      description: 'Upload high quality wedding or portfolio image.',
       type: 'image',
+      group: 'media',
       options: { hotspot: true },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'altText',
-      title: 'Alt Text',
-      description: 'Alternative text for screen readers (good for SEO).',
-      type: 'string',
+      validation: (Rule) => Rule.required().error('An image file is required.'),
     }),
     defineField({
       name: 'category',
-      title: 'Category',
+      title: 'Associated Category',
+      description: 'Select the primary gallery category for this image.',
       type: 'reference',
+      group: 'media',
       to: [{ type: 'photographyCategory' }],
-      validation: (Rule) => Rule.required(),
+      validation: (Rule) => Rule.required().error('Category assignment is required for gallery filtering.'),
+    }),
+    defineField({
+      name: 'title',
+      title: 'Title / Caption (Optional)',
+      description: 'An optional title or caption to identify this photo.',
+      type: 'string',
+      group: 'seo',
+    }),
+    defineField({
+      name: 'altText',
+      title: 'Alt Text (SEO)',
+      description: 'Alternative text describing the image for screen readers and Google Image search.',
+      type: 'string',
+      group: 'seo',
     }),
   ],
   preview: {
@@ -39,11 +49,10 @@ export const photographyImage = defineType({
       media: 'image',
       categoryTitle: 'category.title',
     },
-    prepare(selection) {
-      const { title, alt, media, categoryTitle } = selection
+    prepare({ title, alt, media, categoryTitle }) {
       return {
-        title: title || alt || 'Untitled Image',
-        subtitle: categoryTitle ? `Category: ${categoryTitle}` : 'No category',
+        title: title || alt || 'Portfolio Photo',
+        subtitle: categoryTitle ? `Category: ${categoryTitle}` : 'No category assigned',
         media,
       }
     },

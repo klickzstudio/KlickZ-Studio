@@ -2,125 +2,163 @@ import { defineField, defineType } from 'sanity'
 
 export const landingPage = defineType({
   name: 'landingPage',
-  title: 'SEO Landing Page',
+  title: 'SEO & Service Landing Page',
   type: 'document',
+  groups: [
+    { name: 'hero', title: '🎯 Hero & Title', default: true },
+    { name: 'content', title: '📝 Main Content' },
+    { name: 'gallery', title: '🖼️ Gallery & Images' },
+    { name: 'seo', title: '🔍 SEO & Social Media' },
+  ],
   fields: [
+    // ── HERO GROUP ────────────────────────────────────────────────────────
     defineField({
       name: 'title',
-      title: 'H1 Title',
-      description: 'The primary main heading for this SEO landing page.',
+      title: 'Page Title (H1 Heading)',
+      description: 'The primary headline displayed at the top of the page. Example: "Muslim Wedding Photography Chennai"',
       type: 'string',
-      validation: (Rule) => Rule.required(),
+      group: 'hero',
+      validation: (Rule) =>
+        Rule.required()
+          .max(70)
+          .warning('Titles under 70 characters look best on search engines and mobile screens.'),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
-      description: 'The keyword-targeted URL (e.g., "south-indian-wedding-photography")',
+      title: 'URL Slug',
+      description: 'The exact web address path for this page (e.g., "muslim-wedding-photography" resolves to "/muslim-wedding-photography").',
       type: 'slug',
-      options: { source: 'title' },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      type: 'text',
-      validation: (Rule) => Rule.max(160),
+      group: 'hero',
+      options: {
+        source: 'title',
+        maxLength: 96,
+      },
+      validation: (Rule) =>
+        Rule.required().custom((slug) => {
+          if (!slug || !slug.current) return 'URL Slug is required.'
+          if (slug.current.startsWith('/')) return 'Do not start the slug with a slash "/"'
+          if (/[A-Z]/.test(slug.current)) return 'Slugs should be lowercase only.'
+          return true
+        }),
     }),
     defineField({
       name: 'heroImage',
       title: 'Banner Hero Image',
-      description: 'Hand-picked image for the top banner. Fallback to Open Graph image if empty.',
+      description: 'High-resolution cinematic image displayed at the top of this landing page.',
       type: 'image',
+      group: 'hero',
       options: { hotspot: true },
     }),
+
+    // ── CONTENT GROUP ─────────────────────────────────────────────────────
+    defineField({
+      name: 'content',
+      title: 'Page Body Content',
+      description: 'Rich text content explaining your services, story, and location highlights.',
+      type: 'array',
+      group: 'content',
+      of: [{ type: 'block' }],
+    }),
+
+    // ── GALLERY GROUP ─────────────────────────────────────────────────────
     defineField({
       name: 'editorialGallery',
-      title: 'Editorial Gallery',
-      description: 'Photos with custom aspect ratios (3:4, 4:3, 16:9, etc.) for a dynamic layout.',
+      title: 'Editorial Gallery Grid',
+      description: 'Hand-picked showcase photos with customizable aspect ratios (Portrait, Landscape, Square).',
       type: 'array',
+      group: 'gallery',
       of: [
         {
           type: 'object',
+          title: 'Gallery Image',
           fields: [
-            { 
-              name: 'image', 
-              type: 'image', 
-              options: { hotspot: true }, 
-              title: 'Image',
-              fields: [
-                {
-                  name: 'rotation',
-                  title: 'Rotation',
-                  type: 'number',
-                  options: {
-                    list: [
-                      { title: '0°', value: 0 },
-                      { title: '90° CW', value: 90 },
-                      { title: '180°', value: 180 },
-                      { title: '270° CW', value: 270 },
-                    ],
-                    layout: 'radio',
-                    direction: 'horizontal',
-                  },
-                  initialValue: 0,
-                },
-              ],
+            {
+              name: 'image',
+              type: 'image',
+              title: 'Image File',
+              options: { hotspot: true },
+              validation: (Rule) => Rule.required(),
             },
             {
               name: 'aspectRatio',
               type: 'string',
-              title: 'Aspect Ratio',
+              title: 'Display Aspect Ratio',
               options: {
                 list: [
-                  { title: '3:4 (Portrait)', value: '3/4' },
+                  { title: '3:4 (Classic Portrait)', value: '3/4' },
                   { title: '4:3 (Landscape)', value: '4/3' },
-                  { title: '16:9 (Wide)', value: '16/9' },
-                  { title: 'Square', value: '1/1' },
+                  { title: '16:9 (Cinematic Wide)', value: '16/9' },
+                  { title: '1:1 (Square)', value: '1/1' },
                 ],
               },
               initialValue: '4/3',
             },
-            { name: 'alt', type: 'string', title: 'Alt Text' },
+            {
+              name: 'alt',
+              type: 'string',
+              title: 'Image Alt Text',
+              description: 'Short description for accessibility and Google Image search.',
+            },
           ],
-        },
-      ],
-    }),
-    defineField({
-      name: 'ogImage',
-      title: 'Sharing Image',
-      type: 'image',
-      fields: [
-        {
-          name: 'rotation',
-          title: 'Rotation',
-          type: 'number',
-          options: {
-            list: [
-              { title: '0°', value: 0 },
-              { title: '90° CW', value: 90 },
-              { title: '180°', value: 180 },
-              { title: '270° CW', value: 270 },
-            ],
-            layout: 'radio',
-            direction: 'horizontal',
+          preview: {
+            select: {
+              media: 'image',
+              aspect: 'aspectRatio',
+              alt: 'alt',
+            },
+            prepare({ media, aspect, alt }) {
+              return {
+                title: alt || 'Showcase Photo',
+                subtitle: `Format: ${aspect || '4/3'}`,
+                media,
+              }
+            },
           },
-          initialValue: 0,
         },
       ],
-    }),
-    defineField({
-      name: 'content',
-      title: 'Page Content',
-      description: 'Rich text content for this landing page, optimized for keywords.',
-      type: 'array',
-      of: [{ type: 'block' }],
     }),
     defineField({
       name: 'associatedCategory',
-      title: 'Associated Photography Category',
-      description: 'Automatically pull in a gallery of images at the bottom of this text content page.',
+      title: 'Auto-Linked Photo Category',
+      description: 'Optionally link a Photography Category (e.g. Wedding) to automatically render all tagged photos at the bottom of this page.',
       type: 'reference',
+      group: 'gallery',
       to: [{ type: 'photographyCategory' }],
     }),
+
+    // ── SEO GROUP ─────────────────────────────────────────────────────────
+    defineField({
+      name: 'seoDescription',
+      title: 'Search Meta Description',
+      description: 'The text snippet shown in Google search results. Recommended length: 120–160 characters.',
+      type: 'text',
+      group: 'seo',
+      rows: 3,
+      validation: (Rule) =>
+        Rule.max(160).warning('Search engines truncate descriptions longer than 160 characters.'),
+    }),
+    defineField({
+      name: 'ogImage',
+      title: 'Social Share Image (Open Graph)',
+      description: 'Image shown when sharing this link on WhatsApp, Facebook, or Twitter. Recommended size: 1200×630.',
+      type: 'image',
+      group: 'seo',
+      options: { hotspot: true },
+    }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      slug: 'slug.current',
+      media: 'heroImage',
+      category: 'associatedCategory.title',
+    },
+    prepare({ title, slug, media, category }) {
+      return {
+        title: title || 'Untitled Landing Page',
+        subtitle: `/${slug || 'no-slug'} ${category ? `• Category: ${category}` : ''}`,
+        media,
+      }
+    },
+  },
 })

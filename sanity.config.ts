@@ -1,14 +1,13 @@
 'use client'
 
 /**
- * This configuration is used to for the Sanity Studio that's mounted on the `\src\app\studio\[[...tool]]\page.tsx` route
+ * Sanity Studio Configuration mounted on `/studio` route
  */
 
 import { visionTool } from '@sanity/vision'
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 
-// Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import { apiVersion, dataset, projectId } from './src/sanity/env'
 import { schema } from './src/sanity/schemaTypes'
 
@@ -16,38 +15,114 @@ export default defineConfig({
   basePath: '/studio',
   projectId,
   dataset,
-  // Add and edit the content types in this array
   schema,
   plugins: [
     structureTool({
       structure: (S) =>
         S.list()
-          .title('Content')
+          .title('KLICKZSTUDIO Content')
           .items([
-            // ── Singletons ──────────────────────────────
+            // ── 1. WEBSITE PAGES ──────────────────────────────────────────
             S.listItem()
-              .title('🏠 Home Page')
+              .title('🌐 Website Pages')
               .child(
-                S.document()
-                  .schemaType('homePage')
-                  .documentId('homePage')
+                S.list()
+                  .title('Website Pages')
+                  .items([
+                    S.listItem()
+                      .title('🏠 Home Page')
+                      .child(
+                        S.document()
+                          .schemaType('homePage')
+                          .documentId('homePage')
+                      ),
+                    S.listItem()
+                      .title('📄 Core Pages (About, Pricing, Services, etc.)')
+                      .child(
+                        S.documentTypeList('sitePage')
+                          .title('Core Pages')
+                      ),
+                  ])
               ),
+
+            // ── 2. LANDING PAGES (SERVICES & SEO) ─────────────────────────
             S.listItem()
-              .title('⚙️ Site Settings')
+              .title('🎯 Service & SEO Landing Pages')
+              .child(
+                S.documentTypeList('landingPage')
+                  .title('Landing Pages')
+              ),
+
+            S.divider(),
+
+            // ── 3. PORTFOLIO & PHOTO COLLECTIONS ──────────────────────────
+            S.listItem()
+              .title('🖼️ Portfolio & Photo Collections')
+              .child(
+                S.list()
+                  .title('Portfolio Content')
+                  .items([
+                    S.listItem()
+                      .title('📁 Category Galleries')
+                      .child(
+                        S.documentTypeList('photographyCategory')
+                          .title('Photography Categories')
+                      ),
+                    S.listItem()
+                      .title('📸 Uploaded Photos')
+                      .child(
+                        S.documentTypeList('photographyImage')
+                          .title('Individual Photos')
+                      ),
+                    S.listItem()
+                      .title('💼 Featured Case Studies')
+                      .child(
+                        S.documentTypeList('portfolioItem')
+                          .title('Case Studies')
+                      ),
+                  ])
+              ),
+
+            // ── 4. SOCIAL PROOF & MEDIA ──────────────────────────────────
+            S.listItem()
+              .title('💬 Social Proof & Media')
+              .child(
+                S.list()
+                  .title('Social & Media')
+                  .items([
+                    S.listItem()
+                      .title('💬 Client Testimonials')
+                      .child(
+                        S.documentTypeList('testimonial')
+                          .title('Testimonials')
+                      ),
+                    S.listItem()
+                      .title('📸 Instagram Feed')
+                      .child(
+                        S.documentTypeList('instagramPost')
+                          .title('Instagram Posts')
+                      ),
+                    S.listItem()
+                      .title('🎞️ Homepage Hero Slides')
+                      .child(
+                        S.documentTypeList('heroSlide')
+                          .title('Hero Slides')
+                      ),
+                  ])
+              ),
+
+            S.divider(),
+
+            // ── 5. SETTINGS ──────────────────────────────────────────────
+            S.listItem()
+              .title('⚙️ Global Site Settings')
               .child(
                 S.document()
                   .schemaType('siteSettings')
                   .documentId('siteSettings')
               ),
-            S.divider(),
-            // ── Collections ─────────────────────────────
-            ...S.documentTypeListItems().filter(
-              (listItem) => !['siteSettings', 'homePage'].includes(listItem.getId() ?? '')
-            ),
           ]),
     }),
-    // Vision is a tool that lets you query your content with GROQ in the studio
-    // https://www.sanity.io/docs/the-vision-plugin
     visionTool({ defaultApiVersion: apiVersion }),
   ],
 })

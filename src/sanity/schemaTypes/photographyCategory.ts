@@ -4,75 +4,70 @@ export const photographyCategory = defineType({
   name: 'photographyCategory',
   title: 'Photography Category',
   type: 'document',
+  groups: [
+    { name: 'general', title: '📁 Category Info', default: true },
+    { name: 'images', title: '🖼️ Banners & Editorial' },
+    { name: 'seo', title: '🔍 SEO Metadata' },
+  ],
   fields: [
+    // ── GENERAL GROUP ─────────────────────────────────────────────────────
     defineField({
       name: 'title',
-      title: 'Title',
-      description: 'The title of the photography category (e.g., Wedding Photography)',
+      title: 'Category Title',
+      description: 'Public title of the category (e.g. "Wedding Photography", "Outdoor Photography").',
       type: 'string',
+      group: 'general',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
-      description: 'The URL path for this category (e.g., "wedding", "pre-wedding-photography")',
+      title: 'URL Slug',
+      description: 'The URL path identifier (e.g., "wedding", "outdoor", "birthday").',
       type: 'slug',
-      options: { source: 'title' },
-      validation: (Rule) => Rule.required(),
+      group: 'general',
+      options: { source: 'title', maxLength: 96 },
+      validation: (Rule) =>
+        Rule.required().custom((slug) => {
+          if (!slug || !slug.current) return 'URL Slug is required.'
+          if (slug.current.startsWith('/')) return 'Do not include a leading slash "/"'
+          return true
+        }),
     }),
+
+    // ── IMAGES GROUP ──────────────────────────────────────────────────────
     defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      description: 'Meta description for SEO. Keep it under 160 characters.',
-      type: 'text',
-      validation: (Rule) => Rule.max(160).warning('Optimal SEO descriptions are 160 characters or less.'),
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Banner Hero Image',
-      description: 'The large cinematic image at the top of the category page.',
+      name: 'thumbnailImage',
+      title: 'Grid Thumbnail Image (3:4 Ratio)',
+      description: 'Cover photo shown on the main portfolio gallery grid.',
       type: 'image',
+      group: 'images',
       options: { hotspot: true },
     }),
     defineField({
-      name: 'thumbnailImage',
-      title: 'Grid Thumbnail Image',
-      description: 'The image shown on the main portfolio grid (aspect ratio 3:4). If left blank, it falls back to the Hero Image.',
+      name: 'heroImage',
+      title: 'Category Banner Hero',
+      description: 'Cinematic wide banner image displayed at the top of the category detail page.',
       type: 'image',
+      group: 'images',
       options: { hotspot: true },
     }),
     defineField({
       name: 'editorialGallery',
-      title: 'Editorial Gallery',
-      description: 'Photos with custom aspect ratios (3:4, 4:3, 16:9, etc.) for a dynamic layout.',
+      title: 'Editorial Photo Gallery',
+      description: 'Custom aspect ratio images for the category layout.',
       type: 'array',
+      group: 'images',
       of: [
         {
           type: 'object',
+          title: 'Gallery Image',
           fields: [
-            { 
-              name: 'image', 
-              type: 'image', 
-              options: { hotspot: true }, 
+            {
+              name: 'image',
+              type: 'image',
               title: 'Image',
-              fields: [
-                {
-                  name: 'rotation',
-                  title: 'Rotation',
-                  type: 'number',
-                  options: {
-                    list: [
-                      { title: '0°', value: 0 },
-                      { title: '90° CW', value: 90 },
-                      { title: '180°', value: 180 },
-                      { title: '270° CW', value: 270 },
-                    ],
-                    layout: 'radio',
-                    direction: 'horizontal',
-                  },
-                  initialValue: 0,
-                },
-              ],
+              options: { hotspot: true },
+              validation: (Rule) => Rule.required(),
             },
             {
               name: 'aspectRatio',
@@ -83,7 +78,7 @@ export const photographyCategory = defineType({
                   { title: '3:4 (Portrait)', value: '3/4' },
                   { title: '4:3 (Landscape)', value: '4/3' },
                   { title: '16:9 (Wide)', value: '16/9' },
-                  { title: 'Square', value: '1/1' },
+                  { title: '1:1 (Square)', value: '1/1' },
                 ],
               },
               initialValue: '4/3',
@@ -96,10 +91,10 @@ export const photographyCategory = defineType({
               media: 'image',
               aspect: 'aspectRatio',
             },
-            prepare(selection) {
-              const { title, media, aspect } = selection
+            prepare({ title, media, aspect }) {
               return {
-                title: `${aspect} - ${title || 'No Alt Text'}`,
+                title: title || 'Editorial Photo',
+                subtitle: `Aspect: ${aspect || '4/3'}`,
                 media,
               }
             },
@@ -107,30 +102,39 @@ export const photographyCategory = defineType({
         },
       ],
     }),
+
+    // ── SEO GROUP ─────────────────────────────────────────────────────────
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO Description',
+      description: 'Search engine meta description. Keep under 160 characters.',
+      type: 'text',
+      group: 'seo',
+      rows: 3,
+      validation: (Rule) => Rule.max(160).warning('Optimal SEO descriptions are 160 characters or less.'),
+    }),
     defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
-      description: 'Image displayed when sharing the link on social media.',
+      description: 'Image displayed when link is shared on social media.',
       type: 'image',
+      group: 'seo',
       options: { hotspot: true },
-      fields: [
-        {
-          name: 'rotation',
-          title: 'Rotation',
-          type: 'number',
-          options: {
-            list: [
-              { title: '0°', value: 0 },
-              { title: '90° CW', value: 90 },
-              { title: '180°', value: 180 },
-              { title: '270° CW', value: 270 },
-            ],
-            layout: 'radio',
-            direction: 'horizontal',
-          },
-          initialValue: 0,
-        },
-      ],
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      slug: 'slug.current',
+      thumb: 'thumbnailImage',
+      hero: 'heroImage',
+    },
+    prepare({ title, slug, thumb, hero }) {
+      return {
+        title: title || 'Untitled Category',
+        subtitle: `/${slug || 'no-slug'}`,
+        media: thumb || hero,
+      }
+    },
+  },
 })

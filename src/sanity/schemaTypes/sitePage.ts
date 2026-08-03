@@ -2,57 +2,72 @@ import { defineField, defineType } from 'sanity'
 
 export const sitePage = defineType({
   name: 'sitePage',
-  title: 'Site Page (SEO)',
+  title: 'Core Site Page',
   type: 'document',
+  groups: [
+    { name: 'general', title: '📄 Page Info', default: true },
+    { name: 'content', title: '📝 Body & Gallery' },
+    { name: 'seo', title: '🔍 SEO Metadata' },
+  ],
   fields: [
+    // ── GENERAL GROUP ─────────────────────────────────────────────────────
     defineField({
       name: 'title',
       title: 'Page Title',
+      description: 'The main heading title for this core page (e.g., "About Us", "Our Services").',
       type: 'string',
+      group: 'general',
       validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug',
-      description: 'The URL path (e.g., "home", "about-us"). Use "home" for the root page.',
+      title: 'URL Slug',
+      description: 'The web path identifier (e.g. "about", "services", "contact").',
       type: 'slug',
-      options: { source: 'title' },
-      validation: (Rule) => Rule.required(),
-    }),
-    defineField({
-      name: 'seoDescription',
-      title: 'SEO Description',
-      description: 'Meta description for SEO. Keep it under 160 characters.',
-      type: 'text',
-      validation: (Rule) => Rule.max(160).warning('Optimal SEO descriptions are 160 characters or less.'),
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Banner Hero Image',
-      type: 'image',
-      options: { hotspot: true },
+      group: 'general',
+      options: { source: 'title', maxLength: 96 },
+      validation: (Rule) =>
+        Rule.required().custom((slug) => {
+          if (!slug || !slug.current) return 'URL Slug is required.'
+          if (slug.current.startsWith('/')) return 'Do not include a leading slash "/"'
+          return true
+        }),
     }),
     defineField({
       name: 'subtitle',
       title: 'Page Subtitle',
-      description: 'Subheading text for the editorial hero banner.',
+      description: 'Subheading text displayed beneath the main page title.',
       type: 'string',
+      group: 'general',
     }),
+
+    // ── CONTENT GROUP ─────────────────────────────────────────────────────
     defineField({
       name: 'content',
       title: 'Page Body Content',
-      description: 'Rich text content for this page (e.g. About Us story).',
+      description: 'Rich text content for this core page.',
       type: 'array',
+      group: 'content',
       of: [{ type: 'block' }],
+    }),
+    defineField({
+      name: 'heroImage',
+      title: 'Banner Hero Image',
+      description: 'Large header image displayed at the top of the page.',
+      type: 'image',
+      group: 'content',
+      options: { hotspot: true },
     }),
     defineField({
       name: 'editorialGallery',
       title: 'Editorial Gallery',
-      description: 'Photos with custom aspect ratios (3:4, 4:3, 16:9, etc.) for a dynamic layout.',
+      description: 'Hand-picked photos with custom aspect ratios.',
       type: 'array',
+      group: 'content',
       of: [
         {
           type: 'object',
+          title: 'Gallery Image',
           fields: [
             { name: 'image', type: 'image', options: { hotspot: true }, title: 'Image' },
             {
@@ -74,12 +89,38 @@ export const sitePage = defineType({
         },
       ],
     }),
+
+    // ── SEO GROUP ─────────────────────────────────────────────────────────
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO Description',
+      description: 'Search engine description under 160 characters.',
+      type: 'text',
+      group: 'seo',
+      rows: 3,
+      validation: (Rule) => Rule.max(160).warning('Optimal SEO descriptions are 160 characters or less.'),
+    }),
     defineField({
       name: 'ogImage',
       title: 'Open Graph Image',
-      description: 'Image displayed when sharing the link on social media.',
+      description: 'Social sharing image.',
       type: 'image',
+      group: 'seo',
       options: { hotspot: true },
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      slug: 'slug.current',
+      media: 'heroImage',
+    },
+    prepare({ title, slug, media }) {
+      return {
+        title: title || 'Untitled Core Page',
+        subtitle: `/${slug || 'no-slug'}`,
+        media,
+      }
+    },
+  },
 })
