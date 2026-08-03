@@ -125,6 +125,31 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       { slug: categorySlug },
       { next: { revalidate: 60 } }
     )
+    
+    // Fallback to main wedding category images if sub-wedding category has no specific images uploaded yet
+    const weddingSubSlugs = new Set([
+      'hindu-wedding-photography',
+      'muslim-wedding-photography',
+      'christian-wedding-photography-chennai',
+      'brahmin-wedding-photography',
+      'telugu-wedding-photography',
+      'malayali-wedding-photography',
+      'punjabi-wedding-photography',
+      'sangeet-photography',
+      'haldi-ceremony-photography',
+      'wedding-rituals-photography',
+      'wedding-reception-photography',
+      'best-candid-wedding-photography-chennai',
+    ])
+
+    if ((!images || images.length === 0) && weddingSubSlugs.has(categorySlug)) {
+      images = await client.fetch(
+        photographyImagesQuery,
+        { slug: 'wedding' },
+        { next: { revalidate: 60 } }
+      )
+    }
+
     seoData = await client.fetch(
       photographyCategorySEOQuery,
       { slug: categorySlug },
