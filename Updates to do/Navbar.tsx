@@ -65,7 +65,7 @@ export function Navbar({ settings }: NavbarProps) {
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-[0.22, 1, 0.36, 1] ${scrolled ? 'bg-white/95 backdrop-blur-md' : 'bg-transparent'
           } ${isVisible ? 'translate-y-0' : '-translate-y-full'}`}
-        style={{ height: '80px' }}
+        style={{ height: '100px' }}
       >
         <div className="mx-auto h-full flex items-center px-6 lg:px-8 xl:px-12 max-w-[1700px] relative">
 
@@ -121,14 +121,7 @@ export function Navbar({ settings }: NavbarProps) {
           {/* Logo Section (Centered) */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:relative lg:left-auto lg:top-auto lg:translate-x-0 lg:translate-y-0 flex-none z-10">
             <Link href="/" className="inline-block group whitespace-nowrap text-center">
-              <Image
-                src={scrolled ? "/KlickzStudio_Logo_last_final_Black.png" : "/KlickzStudio_Logo_last_final_White.png"}
-                alt={siteTitle}
-                width={320}
-                height={100}
-                priority
-                className="h-[38px] sm:h-[46px] w-auto object-contain transition-all duration-300 group-hover:scale-[1.02]"
-              />
+              <Image src="/KlickzStudio_Logo_final2.png" alt={siteTitle} width={500} height={150} priority className="h-[80px] sm:h-[95px] w-auto object-contain transition-all duration-500 group-hover:scale-[1.02]" />
             </Link>
           </div>
 
@@ -244,7 +237,7 @@ export function Navbar({ settings }: NavbarProps) {
               <div className="space-y-10">
                 <div>
                   <h3 className="font-cormorant text-black text-3xl font-light tracking-[0.25em] mb-6">
-                    <Image src="/KlickzStudio_Logo_last_final.png" alt="KLICKZSTUDIO" width={400} height={100} className="w-auto h-20" />
+                    <Image src="/KlickzStudio_Logo_final2.png" alt="KLICKZSTUDIO" width={400} height={100} className="w-auto h-20" />
                   </h3>
                   <p className="font-lato text-[15px] text-black/60 leading-relaxed font-light tracking-wide italic">
                     &ldquo;Founded with a passion for soulful storytelling, KLICKZSTUDIO captures the essence of love and celebration across destinations.&rdquo;

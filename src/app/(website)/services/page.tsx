@@ -59,6 +59,7 @@ export default async function ServicesPage() {
                     alt={item.alt || `Service image ${idx + 1}`}
                     width={800}
                     height={1000}
+                    sizes="(max-width: 768px) 100vw, 50vw"
                     className="w-full h-auto object-cover"
                   />
               </div>

@@ -71,6 +71,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
             src={post.image || '/images/placeholder.jpg'}
             alt={post.title}
             fill
+            sizes="(max-width: 1200px) 100vw, 1200px"
             className="object-cover opacity-90"
             priority
           />

@@ -34,19 +34,19 @@ export function ScrollToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.8, y: 20 }}
           onClick={scrollToTop}
-          className="fixed bottom-28 right-7 z-[60] w-12 h-12 rounded-full bg-white border border-black/10 shadow-lg flex items-center justify-center group hover:bg-black transition-all duration-300"
+          className="fixed bottom-24 right-6 z-[60] w-11 h-11 rounded-full bg-[#EAB308] hover:bg-[#D97706] text-[#1A1A1A] hover:text-white shadow-md flex items-center justify-center transition-all duration-300 group"
           aria-label="Scroll to top"
         >
           <svg 
-            width="20" 
-            height="20" 
+            width="18" 
+            height="18" 
             viewBox="0 0 24 24" 
             fill="none" 
             stroke="currentColor" 
-            strokeWidth="1.5"
-            className="text-black group-hover:text-white transition-colors"
+            strokeWidth="2.5"
+            className="transition-transform group-hover:-translate-y-0.5"
           >
-            <path d="M12 19V5M5 12l7-7 7 7" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" />
           </svg>
         </motion.button>
       )}

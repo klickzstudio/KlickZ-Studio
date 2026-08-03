@@ -72,6 +72,7 @@ export function ServicesSection({ images = [], services = null }: ServicesSectio
                     src={service.image}
                     alt={service.title}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="object-cover opacity-60 group-hover:opacity-80 transition-all duration-700 group-hover:scale-105"
                   />
                 )}

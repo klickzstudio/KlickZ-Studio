@@ -11,41 +11,81 @@ interface Stat {
 }
 
 interface StatsCounterClientProps {
-  stats: Stat[]
+  stats?: Stat[]
 }
+
+const defaultTrustFeatures = [
+  {
+    title: 'Award-Winning Excellence',
+    description: 'Recognized for artistic excellence across multiple photography genres with a portfolio of stunning work.',
+  },
+  {
+    title: 'Diverse Expertise',
+    description: 'Specialized in candid weddings, pre-wedding films, lifestyle events, newborn portraits, and commercial projects.',
+  },
+  {
+    title: 'Professional Delivery',
+    description: 'High-resolution files delivered promptly, edited to perfection, ready for high-end print or digital display.',
+  },
+  {
+    title: 'Personalized Approach',
+    description: 'Custom packages tailored to your vision, with dedicated consultation and flexible booking options.',
+  },
+]
 
 export function StatsCounterClient({ stats }: StatsCounterClientProps) {
   const { ref, inView } = useInView({
     triggerOnce: true,
-    threshold: 0.3,
+    threshold: 0.2,
   })
 
-  const displayStats = stats.slice(0, 4)
-
-  if (displayStats.length === 0) return null
+  // 3 prominent counters like the reference screenshot
+  const displayStats = [
+    { number: 500, suffix: '+', label: 'Happy Clients' },
+    { number: 15, suffix: '+', label: 'Years Experience' },
+    { number: 99, suffix: '%', label: 'Client Satisfaction' },
+  ]
 
   return (
-    <section className="relative py-24 md:py-40 bg-[#0A0A0A] overflow-hidden" id="stats" ref={ref}>
-      {/* Background Texture/Accents */}
-      <div className="absolute inset-0 opacity-10 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#C1A472] to-transparent" />
-        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#C1A472] to-transparent" />
-      </div>
+    <section className="py-20 md:py-28 bg-[#FAFAFA] text-[#1A1A1A]" ref={ref}>
+      <div className="max-w-[1280px] mx-auto px-6">
+        
+        {/* Section Header */}
+        <ScrollReveal className="text-center mb-14">
+          <h2 className="font-cormorant text-3xl md:text-5xl font-bold text-[#1A1A1A] tracking-tight">
+            Why Clients Trust KLICKZSTUDIO
+          </h2>
+        </ScrollReveal>
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-16">
+        {/* 4 Feature Cards (2x2 Grid) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {defaultTrustFeatures.map((feature, idx) => (
+            <ScrollReveal key={idx} delay={idx * 0.1}>
+              <div className="bg-[#F5F4F0] hover:bg-[#FAF8F3] border border-[#E8E4D9] rounded-xl p-6 md:p-8 flex items-start gap-4 transition-all duration-300 shadow-2xs h-full">
+                <div className="w-8 h-8 rounded-full bg-[#FEF3C7] text-[#D97706] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 className="font-cormorant text-xl font-bold text-[#1A1A1A] mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="font-lato text-xs md:text-sm text-[#666666] leading-relaxed font-light">
+                    {feature.description}
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
+
+        {/* 3 Stats Counter Cards (1x3 Grid) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {displayStats.map((stat, idx) => (
-            <ScrollReveal 
-              key={idx} 
-              delay={idx * 0.1} 
-              className={`text-center relative ${
-                idx % 2 !== 0 ? '' : 'sm:border-r border-white/5'
-              } ${
-                idx < 3 ? 'lg:border-r border-white/5' : 'lg:border-r-0'
-              }`}
-            >
-              <div className="px-4">
-                <div className="font-cormorant text-5xl md:text-6xl lg:text-[84px] font-light text-[#C1A472] mb-4">
+            <ScrollReveal key={idx} delay={0.3 + idx * 0.1}>
+              <div className="bg-[#F5F4F0] border border-[#E8E4D9] rounded-xl p-6 text-center shadow-2xs">
+                <div className="font-cormorant text-3xl md:text-4xl lg:text-5xl font-bold text-[#D97706] mb-2">
                   {inView ? (
                     <CountUp
                       end={stat.number}
@@ -57,15 +97,16 @@ export function StatsCounterClient({ stats }: StatsCounterClientProps) {
                     '0'
                   )}
                 </div>
-                <div className="w-[40px] h-[1px] bg-white/20 mx-auto mb-6" />
-                <p className="font-lato text-[11px] uppercase tracking-[0.5em] text-white/50">
+                <p className="font-lato text-xs uppercase tracking-wider text-[#666666] font-medium">
                   {stat.label}
                 </p>
               </div>
             </ScrollReveal>
           ))}
         </div>
+
       </div>
     </section>
   )
 }
+

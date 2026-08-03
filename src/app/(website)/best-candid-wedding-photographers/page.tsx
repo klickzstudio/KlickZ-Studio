@@ -57,7 +57,7 @@ export default async function PortfolioPage() {
           {categories.map((cat: any, idx: number) => {
             const linkHref = categoryUrlMap[cat.slug] || `/${cat.slug}`
             const imageObj = cat.thumbnailImage || cat.heroImage || cat.preview;
-            const imageUrl = imageObj ? urlForImage(imageObj)?.url() : '/images/placeholder.jpg';
+            const imageUrl = imageObj ? urlForImage(imageObj, 600, 800)?.url() : '/images/placeholder.jpg';
 
             return (
               <Link 

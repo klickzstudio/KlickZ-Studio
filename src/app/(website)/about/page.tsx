@@ -47,6 +47,7 @@ export default async function AboutPage() {
                     src={founderImage}
                     alt={`${founderName} - Founder of KLICKZSTUDIO`}
                     fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                     className="object-cover"
                     priority
                   />

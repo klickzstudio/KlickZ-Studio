@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { ScrollReveal } from '@/components/ui/ScrollReveal'
@@ -43,7 +44,7 @@ export function PhotographyGrid({ images }: { images: PhotographyImage[] }) {
   }, [selectedIndex])
 
   const currentImage = selectedIndex !== null ? images[selectedIndex] : null
-  const currentImageUrl = currentImage?.imageObj ? urlForImage(currentImage.imageObj)?.url() : currentImage?.image
+  const currentImageUrl = currentImage?.imageObj ? urlForImage(currentImage.imageObj, 1920)?.url() : currentImage?.image
 
   const [columnCount, setColumnCount] = useState(3)
 
@@ -92,7 +93,7 @@ export function PhotographyGrid({ images }: { images: PhotographyImage[] }) {
                 className="flex-1 flex flex-col gap-8 md:gap-12 max-w-[500px]"
               >
                 {column.map(({ item, originalIdx }, itemIdx) => {
-                  const imageUrl = item.imageObj ? urlForImage(item.imageObj)?.url() : item.image;
+                  const imageUrl = item.imageObj ? urlForImage(item.imageObj, 800)?.url() : item.image;
                   
                   return (
                     <ScrollReveal key={itemIdx} delay={itemIdx * 0.1}>
@@ -133,12 +134,12 @@ export function PhotographyGrid({ images }: { images: PhotographyImage[] }) {
               <h3 className="font-cormorant text-3xl md:text-5xl text-black mb-10 leading-tight">
                 Ready to Capture Your <span className="italic">Legacy?</span>
               </h3>
-              <a 
-                href="/book-us"
-                className="px-12 py-5 bg-black text-white text-[10px] uppercase tracking-[0.3em] hover:bg-[#C9A96E] transition-all duration-500"
-              >
-                Book Your Session
-              </a>
+              <Link 
+              href="/book-us/"
+              className="inline-block font-lato text-[11px] uppercase tracking-[0.2em] bg-white text-black px-10 py-4 hover:bg-[#C9A96E] hover:text-white transition-colors duration-400"
+            >
+              Book Your Date
+            </Link>
               
               <div className="absolute top-8 left-8 w-12 h-12 border-t border-l border-[#C9A96E]/20" />
               <div className="absolute bottom-8 right-8 w-12 h-12 border-b border-r border-[#C9A96E]/20" />

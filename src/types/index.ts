@@ -37,9 +37,12 @@ export interface StatItem {
 }
 
 export interface Testimonial {
-  photo: string
+  id?: string
+  photo?: string
   name: string
   text: string
+  category?: string
+  location?: string
 }
 
 export interface BlogPost {

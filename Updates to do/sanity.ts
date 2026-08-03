@@ -25,16 +25,17 @@ export interface SiteSettings {
     facebook?: string
     instagram?: string
     youtube?: string
-    linkedin?: string
-    pinterest?: string
-    twitter?: string
-    vimeo?: string
   }
   founderName: string
   founderImage?: string
   introImage1?: string
   introImage2?: string
   ctaImage?: string
+  topBar?: {
+    email: string
+    workingHours: string
+    announcement: string
+  }
 }
 
 export interface StatItem {

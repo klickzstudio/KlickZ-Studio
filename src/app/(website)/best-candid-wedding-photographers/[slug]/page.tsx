@@ -75,6 +75,7 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
             src={caseStudy.image}
             alt={caseStudy.title}
             fill
+            sizes="(max-width: 1400px) 100vw, 1400px"
             className="object-cover"
             priority
           />
@@ -101,6 +102,7 @@ export default async function CaseStudyPage({ params }: { params: { slug: string
                   alt={`${caseStudy.title} Gallery Image ${idx + 1}`}
                   width={800}
                   height={1200}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="w-full h-auto object-cover"
                 />
               </div>

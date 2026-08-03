@@ -24,6 +24,7 @@ export function FounderSection({ settings, fallbackImage }: FounderSectionProps)
                   src={displayImage}
                   alt={`${founderName} - Founder of KLICKZSTUDIO`}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 border border-[#C9A96E]/30 translate-x-4 translate-y-4 -z-10" />
