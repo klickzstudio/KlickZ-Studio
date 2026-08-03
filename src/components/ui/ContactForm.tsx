@@ -112,18 +112,18 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="space-y-6"
+          className="space-y-4"
         >
           {status === 'error' && (
-            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
+            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
               <p className="text-red-700 text-xs font-lato font-bold mb-1">Failed to send inquiry:</p>
               <p className="text-red-600 text-xs font-lato">{errorMessage}</p>
             </div>
           )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="name" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Your Name *</label>
+          <label htmlFor="name" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Your Name *</label>
           <input
             type="text"
             id="name"
@@ -131,12 +131,12 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
             disabled={status === 'loading'}
             value={formData.name}
             onChange={handleChange}
-            className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
+            className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
             placeholder="John Doe"
           />
         </div>
         <div>
-          <label htmlFor="email" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Email Address *</label>
+          <label htmlFor="email" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Email Address *</label>
           <input
             type="email"
             id="email"
@@ -144,15 +144,15 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
             disabled={status === 'loading'}
             value={formData.email}
             onChange={handleChange}
-            className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
+            className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
             placeholder="john@example.com"
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="phone" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Phone Number *</label>
+          <label htmlFor="phone" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Phone Number *</label>
           <input
             type="tel"
             id="phone"
@@ -160,13 +160,13 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
             disabled={status === 'loading'}
             value={formData.phone}
             onChange={handleChange}
-            className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
+            className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
             placeholder="+91 00000 00000"
           />
         </div>
         {isBooking ? (
           <div>
-            <label htmlFor="date" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Event Date *</label>
+            <label htmlFor="date" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Event Date *</label>
             <input
               type="date"
               id="date"
@@ -174,18 +174,18 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
               disabled={status === 'loading'}
               value={formData.date}
               onChange={handleChange}
-              className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
+              className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
             />
           </div>
         ) : (
           <div>
-            <label htmlFor="subject" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Subject</label>
+            <label htmlFor="subject" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Subject</label>
             <select
               id="subject"
               disabled={status === 'loading'}
               value={formData.subject}
               onChange={handleChange}
-              className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
+              className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
             >
               <option value="Wedding Inquiry">Wedding Inquiry</option>
               <option value="Commercial Shoots">Commercial Shoots</option>
@@ -197,9 +197,9 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
       </div>
 
       {isBooking && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="venue" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Event Venue *</label>
+            <label htmlFor="venue" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Event Venue *</label>
             <input
               type="text"
               id="venue"
@@ -207,18 +207,18 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
               disabled={status === 'loading'}
               value={formData.venue}
               onChange={handleChange}
-              className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
+              className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
               placeholder="E.g. ITC Grand Chola, Chennai"
             />
           </div>
           <div>
-            <label htmlFor="service" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Required Service</label>
+            <label htmlFor="service" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Required Service</label>
             <select
               id="service"
               disabled={status === 'loading'}
               value={formData.service}
               onChange={handleChange}
-              className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
+              className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors disabled:opacity-50"
             >
               <option value="Candid Wedding Photography">Candid Wedding Photography</option>
               <option value="Cinematic Wedding Films">Cinematic Wedding Films</option>
@@ -230,14 +230,14 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
       )}
 
       <div>
-        <label htmlFor="message" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-2 font-semibold">Message</label>
+        <label htmlFor="message" className="block font-lato text-[10px] uppercase tracking-widest text-[#2B2420] mb-1.5 font-semibold">Message</label>
         <textarea
           id="message"
-          rows={5}
+          rows={3}
           disabled={status === 'loading'}
           value={formData.message}
           onChange={handleChange}
-          className="w-full bg-white border border-black/5 px-4 py-3 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors resize-none disabled:opacity-50"
+          className="w-full bg-white border border-black/10 px-3.5 py-2.5 font-lato text-sm focus:outline-none focus:border-[#C9A96E] transition-colors resize-none disabled:opacity-50"
           placeholder="Tell us about your story..."
         ></textarea>
       </div>
@@ -245,7 +245,7 @@ export function ContactForm({ buttonText = 'Send Message', isBooking = false }: 
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="w-full bg-[#2B2420] text-white font-lato text-[12px] uppercase tracking-[0.2em] py-5 hover:bg-[#C9A96E] hover:text-[#2B2420] transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-[#2B2420] text-white font-lato text-[11px] uppercase tracking-[0.25em] py-4 hover:bg-[#C9A96E] hover:text-[#2B2420] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {status === 'loading' ? (
           <span className="flex items-center justify-center gap-2">

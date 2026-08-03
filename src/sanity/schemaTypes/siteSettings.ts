@@ -118,9 +118,9 @@ export const siteSettings = defineType({
         { name: 'country', title: 'Country Code', type: 'string' },
       ],
       initialValue: {
-        street: 'No. 123, Sample Street',
+        street: '5th St, Raja Shanmuga Nagar, Tiruvottiyur',
         city: 'Chennai',
-        postalCode: '600001',
+        postalCode: '600019',
         region: 'Tamil Nadu',
         country: 'IN',
       },
