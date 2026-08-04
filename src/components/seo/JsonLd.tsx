@@ -26,7 +26,7 @@ export function JsonLd({ type = 'LocalBusiness', data, settings }: JsonLdProps) 
   // Default format: "address": { "street": "...", "city": "...", "postalCode": "...", "region": "...", "country": "..." }
   const addr = settings?.address || {
     street: "5th St, Raja Shanmuga Nagar, Tiruvottiyur",
-    city: "Chennai",
+    city: "Chennai, Greater Chennai",
     postalCode: "600019",
     region: "Tamil Nadu",
     country: "IN"

@@ -88,17 +88,8 @@ export default async function ContactPage() {
                   <div className="flex items-start gap-3 text-[#2B2420]">
                     <FaMapMarkerAlt className="text-[#C9A96E] text-base mt-1 shrink-0" />
                     <div className="font-cormorant text-lg sm:text-xl leading-snug">
-                      {address?.street ? (
-                        <>
-                          {address.street}<br />
-                          {address.city}, {address.region} — {address.postalCode}
-                        </>
-                      ) : (
-                        <>
-                          5th St, Raja Shanmuga Nagar, Tiruvottiyur<br />
-                          Chennai, Tamil Nadu — 600019
-                        </>
-                      )}
+                      5th St, Raja Shanmuga Nagar, Tiruvottiyur,<br />
+                      Chennai, Greater Chennai, Tamil Nadu 600019
                     </div>
                   </div>
                 </div>

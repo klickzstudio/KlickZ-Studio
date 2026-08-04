@@ -50,6 +50,7 @@ export default async function HomePage() {
   let settings: SiteSettings | null = null
   let homeData: HomePageData | null = null
   let testimonials: Testimonial[] = []
+  let aboutPageHeroImage: string | undefined = undefined
 
   try {
     // Fetch ALL data in a single parallel batch — no duplicate calls
@@ -59,18 +60,21 @@ export default async function HomePage() {
       fetchedWeddingImages,
       fetchedInstagram,
       fetchedTestimonials,
+      fetchedAboutPage,
     ] = await Promise.all([
-      client.fetch<SiteSettings>(siteSettingsQuery, {}, { next: { revalidate: 60 } }),
-      client.fetch<HomePageData>(homePageQuery, {}, { next: { revalidate: 60 } }),
+      client.fetch<SiteSettings>(siteSettingsQuery, {}, { next: { revalidate: 0 } }),
+      client.fetch<HomePageData>(homePageQuery, {}, { next: { revalidate: 0 } }),
       client.fetch<PhotographyImage[]>(photographyImagesQuery, { slug: 'wedding' }, { next: { revalidate: 60 } }),
       client.fetch<InstagramPostData[]>(instagramPostsQuery, {}, { next: { revalidate: 60 } }),
       client.fetch<Testimonial[]>(testimonialsQuery, {}, { next: { revalidate: 60 } }),
+      client.fetch(pageSEOQuery, { slug: 'about' }, { next: { revalidate: 0 } }),
     ])
 
     settings = fetchedSettings || null
     homeData = fetchedHomeData || null
     instagramPosts = fetchedInstagram || []
     testimonials = fetchedTestimonials || []
+    aboutPageHeroImage = fetchedAboutPage?.heroImageUrl
 
     const weddingFallbacks = (fetchedWeddingImages || []).map((img) => ({
       image: img.image,
@@ -106,7 +110,7 @@ export default async function HomePage() {
       <ServicesSection images={servicesImages} services={cmsServices} />
 
       <HorizontalGallery images={horizontalImages} />
-      <FounderSection settings={settings} fallbackImage={introImages[0]} />
+      <FounderSection settings={settings} overrideImage={aboutPageHeroImage || settings?.founderImage} fallbackImage={introImages[0]} />
       <StatsCounter stats={settings?.stats} />
       <TestimonialsSlider initialTestimonials={testimonials} />
       <InstagramFeed posts={instagramPosts} />
