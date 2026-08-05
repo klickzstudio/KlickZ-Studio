@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://klickzstudio.in'
+
 export const defaultSEO = {
   title: 'KLICKZSTUDIO | Professional Wedding Photography',
   description: 'Founded with a passion for soulful storytelling, KLICKZSTUDIO captures the essence of love and celebration across destinations.',
@@ -14,7 +16,7 @@ export function constructMetadata({
   title = defaultSEO.title,
   description = defaultSEO.description,
   image = defaultSEO.openGraph.images[0],
-  canonicalPath,
+  canonicalPath = '/',
   noIndex = false,
 }: {
   title?: string
@@ -23,6 +25,11 @@ export function constructMetadata({
   canonicalPath?: string
   noIndex?: boolean
 } = {}): Metadata {
+  const cleanPath = canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`
+  const canonicalUrl = canonicalPath.startsWith('http')
+    ? canonicalPath
+    : `${baseUrl}${cleanPath}`
+
   return {
     title,
     description,
@@ -35,11 +42,9 @@ export function constructMetadata({
         },
       ],
     },
-    ...(canonicalPath && {
-      alternates: {
-        canonical: canonicalPath,
-      },
-    }),
+    alternates: {
+      canonical: canonicalUrl,
+    },
     ...(noIndex && {
       robots: {
         index: false,

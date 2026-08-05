@@ -7,21 +7,22 @@ import { PortableText } from '@portabletext/react'
 import Link from 'next/link'
 import { JsonLd } from '@/components/seo/JsonLd'
 import { ROUTES } from '@/config/routes'
+import { constructMetadata } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const caseStudy = await client.fetch(portfolioCaseStudyQuery, { slug: params.slug })
+  const canonicalPath = `${ROUTES.GALLERY.ROOT}/${params.slug}`
   
   if (!caseStudy) {
-    return { title: 'Not Found' }
+    return constructMetadata({ title: 'Not Found', canonicalPath })
   }
 
-  return {
+  return constructMetadata({
     title: `${caseStudy.title} | KLICKZSTUDIO`,
     description: `View the beautiful moments from ${caseStudy.clientName || caseStudy.title}'s special day captured by KLICKZSTUDIO.`,
-    openGraph: {
-      images: [{ url: caseStudy.image }],
-    }
-  }
+    image: caseStudy.image,
+    canonicalPath,
+  })
 }
 
 export default async function CaseStudyPage({ params }: { params: { slug: string } }) {

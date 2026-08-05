@@ -4,14 +4,16 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { groq } from 'next-sanity'
 import { pageSEOQuery } from '@/sanity/lib/queries'
+import { constructMetadata } from '@/lib/seo'
 import { EditorialHero } from '@/components/ui/EditorialHero'
 import { urlForImage } from '@/sanity/lib/image'
 import { ROUTES } from '@/config/routes'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = constructMetadata({
   title: 'Portfolio | KLICKZSTUDIO',
   description: 'Explore our cinematic wedding photography portfolio categories. A collection of diverse love stories worldwide.',
-}
+  canonicalPath: ROUTES.GALLERY.ROOT,
+})
 
 // Map slugs to the correct SEO-friendly URLs from navigation menu
 const categoryUrlMap: Record<string, string> = {

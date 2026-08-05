@@ -24,12 +24,14 @@ export async function generateMetadata(): Promise<Metadata> {
       title: seoData.title,
       description: seoData.seoDescription,
       image: seoData.ogImage,
+      canonicalPath: '/best-wedding-photographers-in-chennai',
     })
   }
 
   return constructMetadata({
     title: 'Best Wedding Photographers in Chennai | KLICKZSTUDIO',
     description: 'Explore our complete wedding photography collections — Outdoor, Muslim, Christian, Brahmin, Telugu, Hindu, Engagement, Malayali, Punjabi, Sangeet & Haldi.',
+    canonicalPath: '/best-wedding-photographers-in-chennai',
   })
 }
 

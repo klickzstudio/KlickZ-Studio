@@ -1,10 +1,12 @@
 import { Metadata } from 'next'
+import { constructMetadata } from '@/lib/seo'
 import { FaqAccordion } from '@/components/ui/FaqAccordion'
 
-export const metadata: Metadata = {
+export const metadata: Metadata = constructMetadata({
   title: 'Frequently Asked Questions | KLICKZSTUDIO',
   description: 'Easily find solutions and answers to all your wedding photography, pricing, booking, and coverage queries.',
-}
+  canonicalPath: '/wedding-photography-faqs',
+})
 
 const faqData = [
   {

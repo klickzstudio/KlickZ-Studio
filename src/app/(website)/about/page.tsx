@@ -15,10 +15,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: seoData.title,
       description: seoData.seoDescription,
       image: seoData.ogImage,
+      canonicalPath: '/about',
     })
   }
 
-  return constructMetadata({ title: 'About the Founder' })
+  return constructMetadata({ title: 'About the Founder', canonicalPath: '/about' })
 }
 
 export default async function AboutPage() {

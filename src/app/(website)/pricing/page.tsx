@@ -8,6 +8,7 @@ export const metadata: Metadata = constructMetadata({
   title: 'Pricing & Packages | KLICKZSTUDIO Photography Chennai',
   description:
     'Explore pricing ranges for wedding, lifestyle, maternity, portrait, and corporate photography services by KLICKZSTUDIO Chennai.',
+  canonicalPath: '/pricing',
 })
 
 // 1. Price Range Cards (5 Categories)

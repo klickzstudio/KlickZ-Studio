@@ -4,7 +4,7 @@ import { groq } from 'next-sanity'
 import { getAllDefinedRoutes, ROUTES } from '@/config/routes'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ainz.space'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://klickzstudio.in'
 
   // Fetch all portfolio items
   const portfolioItems = await client.fetch(

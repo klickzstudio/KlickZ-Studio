@@ -35,10 +35,11 @@ export async function generateMetadata(): Promise<Metadata> {
       title: seoData.title,
       description: seoData.seoDescription,
       image: seoData.ogImage,
+      canonicalPath: '/',
     })
   }
 
-  return constructMetadata()
+  return constructMetadata({ canonicalPath: '/' })
 }
 
 export default async function HomePage() {

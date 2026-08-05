@@ -11,7 +11,7 @@ import '../globals.css'
 import { client } from '@/sanity/lib/client'
 import { siteSettingsQuery } from '@/sanity/lib/queries'
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ainz.space'
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://klickzstudio.in'
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } })
@@ -51,13 +51,16 @@ export async function generateMetadata(): Promise<Metadata> {
       ],
     },
     icons: {
-      icon: '/favicon.ico',
-      shortcut: '/favicon-16x16.png',
-      apple: '/apple-icon.png',
+      icon: [
+        { url: '/favicon.ico' },
+        { url: '/favicon.svg', type: 'image/svg+xml' },
+        { url: '/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
+      ],
+      apple: [
+        { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+      ],
     },
-    alternates: {
-      canonical: '/',
-    },
+    manifest: '/site.webmanifest',
   }
 }
 

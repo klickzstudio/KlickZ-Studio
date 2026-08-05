@@ -8,7 +8,8 @@ import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaClock } from 'react-
 
 export const metadata: Metadata = constructMetadata({ 
   title: 'Contact KLICKZSTUDIO | Wedding Photography Chennai',
-  description: 'Get in touch with Chennai\'s premier candid wedding photography studio. Let\'s discuss your special day and create cinematic memories together.'
+  description: 'Get in touch with Chennai\'s premier candid wedding photography studio. Let\'s discuss your special day and create cinematic memories together.',
+  canonicalPath: '/contact',
 })
 
 export default async function ContactPage() {

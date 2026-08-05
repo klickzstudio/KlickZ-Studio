@@ -18,7 +18,7 @@ interface JsonLdProps {
 }
 
 export function JsonLd({ type = 'LocalBusiness', data, settings }: JsonLdProps) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://ainz.space'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://klickzstudio.in'
   
   const siteName = settings?.title || "KLICKZSTUDIO"
   const phone = settings?.phone || "+919710298451"

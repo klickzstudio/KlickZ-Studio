@@ -8,7 +8,8 @@ import { FaCheckCircle, FaCalendarAlt, FaShieldAlt, FaCameraRetro } from 'react-
 
 export const metadata: Metadata = constructMetadata({ 
   title: 'Book Your Date | KLICKZSTUDIO Wedding Photography',
-  description: 'Reserve your wedding date with KLICKZSTUDIO. We focus on a limited number of weddings per year to ensure premium quality. Secure your cinematic wedding legacy today.'
+  description: 'Reserve your wedding date with KLICKZSTUDIO. We focus on a limited number of weddings per year to ensure premium quality. Secure your cinematic wedding legacy today.',
+  canonicalPath: '/book-us',
 })
 
 export default async function BookUsPage() {
